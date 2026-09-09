@@ -157,15 +157,15 @@ is doing what you've scripted — a person can wave a flashlight, or you can nar
 it aloud.
 
 **Are there things that seemed better on paper than when acted out?**
-Yes, for the acting out, we had to ensure that the pill bottle was in sight so we can open it and visually see the reminder. Made us realize that although its a great feature, maybe the phone call reminder is the more likely outcome.
+   - Yes, for the acting out, we had to ensure that the pill bottle was in sight so we can open it and visually see the reminder. Made us realize that although its a great feature, maybe the phone call reminder is the more likely outcome.
 
 **Did new ideas about the piece surface once you were on your feet?**
-Maybe if the GlowCap emitted some sort of noise, it could be hear from anywhere in the house, not just if they are in the same room and looking at the product.
+   - Maybe if the GlowCap emitted some sort of noise, it could be hear from anywhere in the house, not just if they are in the same room and looking at the product.
 
 **Are there key moments in the interaction where things could go in a different direction?**
 Iterate your storyboards to capture key non-sequential aspects of the interaction. 
 
-Yes. If the user is not in the same room, then they are not able to see the GlowCap's light shine. If they are away from the house, any reminder will not help, as they are not accessible to the pill bottle. Or even if they are accessible, but they do not have service to receive the phone call or email, then they will also not get reminded.
+   - Yes. If the user is not in the same room, then they are not able to see the GlowCap's light shine. If they are away from the house, any reminder will not help, as they are not accessible to the pill bottle. Or even if they are accessible, but they do not have service to receive the phone call or email, then they will also not get reminded.
 
 ## Part C. Prototype the Light (light first!)
 
@@ -268,6 +268,16 @@ your response engages with what your master was really doing.
 
 **Document everything here — especially the storyboard and video. Photos of the
 prototype are great too.**
+
+We wanted to update the design and add more features to the product. We saw some of the weaknesses that you have to consistently 'see' the light go off from the GlowCap to know that it is time to take your medication. We fixed this by adding a ringer to the device so the user can know it is time, even when they are not in the room. 
+
+Another feature we wanted to add was removing the need for buying individual GlowCaps, and instead allowing them to stock an automatic dispenser. The machine would dispense the correct amount of medication, the right type of medication, at the set times.
+
+<img width="2500" height="2019" alt="Lab1b_storyboard" src="https://github.com/user-attachments/assets/217fbc2c-f290-40dd-84ab-0a71ea739099" />
+
+### Video
+
+https://github.com/user-attachments/assets/2c5dc666-9daf-4782-8048-9f4ecda6ea65
 
 ---
 
