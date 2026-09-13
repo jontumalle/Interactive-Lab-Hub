@@ -64,7 +64,7 @@ while True:
     # Draw a black filled box to clear the image.
     draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
 
-    #TODO: Lab 2 part D work should be filled in here. You should be able to look in cli_clock.py and stats.py 
+    # Lab 2 Part D
     curr_time = time.strftime("%m/%d/%Y %H:%M:%S")
     draw.text((x, top), curr_time, font=font, fill="#FFFFFF")
 
