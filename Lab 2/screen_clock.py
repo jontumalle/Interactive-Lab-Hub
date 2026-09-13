@@ -66,7 +66,7 @@ while True:
 
     #TODO: Lab 2 part D work should be filled in here. You should be able to look in cli_clock.py and stats.py 
     curr_time = time.strftime("%m/%d/%Y %H:%M:%S")
-    draw.text((x, top), curr_time, font=font)
+    draw.text((x, top), curr_time, font=font, fill="#FFFFFF")
 
     # Display image.
     disp.image(image, rotation)
