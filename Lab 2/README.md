@@ -200,6 +200,14 @@ We strongly discourage literal digital or analog clock display: Be creative.
 
 My clock shows the next time the International Space Station will pass above my home. It shows countdown until the next sighting, then resets after the ISS passes. The ISS will be shown moving in an arc as it's passing. When the window is over, then it'll reset to show the countdown for the next sighting.
 
+#### Clock Display sketch
+
+![Sketch of clock display](part-e-clock-display.png)
+
+#### Storyboard
+
+![Storyboard showing the interaction](part-e-storyboard.png)
+
 
 **Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**
 
