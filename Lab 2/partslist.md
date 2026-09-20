@@ -13,28 +13,36 @@
 1 x [Adafruit Mini PiTFT](https://www.adafruit.com/product/4393)
 
 1 x [Adafruit I2C Stemma QT Rotary Encoder Breakout with Encoder - STEMMA QT / Qwiic](https://www.adafruit.com/product/5880)
+- ❌ Don't have this
 
 1 x [Adafruit APDS9960 QT Proximity, Light, RBG, Gesture Sensor](https://www.adafruit.com/product/3595)
 
 1 x [Adafruit 6-DoF Accel + Gyro IMU LSM6DS3TR-C](https://www.adafruit.com/product/4503)
 
 1 x [Adafruit PCF8574 I2C GPIO Expander Breakout - STEMMA QT / Qwiic](https://www.adafruit.com/product/5545)
+- ❌ Don't have this
 
 1 x [Adafruit MPR121 12-Key Capacitive Touch Sensor Gator Breakout - STEMMA QT / Qwiic](https://www.adafruit.com/product/4830)
 
 1 x [Breadboard](https://www.adafruit.com/product/4539)
+- ❌ Don't have this
 
 1 x [Copper Foil Tape](https://www.amazon.com/Conductive-Shielding-Repellent-Electrical-Grounding/dp/B0741ZRP4W/ref=sr_1_5?dchild=1&keywords=conductive+copper+tape&qid=1628142003&sr=8-5)
+- ❌ Don't have this
 
 1 x [Alligator Clips](https://www.amazon.com/WGGE-WG-026-Pieces-Colors-Alligator/dp/B06ZXSCLDH/ref=sr_1_3)
+- ❌ Don't have this
 
 1 x [9G Servo](https://www.digikey.com/en/products/detail/dfrobot/SER0048)
+- ❌ Don't have this
 
 1 x [SparkFun Servo pHAT for Raspberry Pi](https://www.sparkfun.com/sparkfun-servo-phat-for-raspberry-pi.html)
 
 1 x [Micro HDMI Cable - 3ft](https://www.sparkfun.com/micro-hdmi-cable-3ft.html)
+- ❌ Don't have this
 
 1 x [SparkFun Qwiic SHIM](https://www.sparkfun.com/products/15794)
+- ❌ Don't have this
 
 1 x [SparkFun Qwiic Button - Red LED](https://www.sparkfun.com/products/15932)
 
@@ -43,6 +51,7 @@
 1 x [SparkFun Qwiic Cable Kit](https://www.sparkfun.com/sparkfun-qwiic-cable-kit.html)
 
 1 x Bluetooth wireless speaker w/ microphone
+- ❌ Don't have this
 
 
 

@@ -1,5 +1,7 @@
 # Interactive Prototyping: The Clock of Pi
 **NAMES OF COLLABORATORS HERE**
+Jonathan Tumalle (jrt285)
+Youssef Hassan (yh2443)
 
 Does it feel like time is moving strangely during this semester?
 
@@ -158,6 +160,10 @@ You can look in `image.py` for an example of how to display an image on the scre
 
 \*\*\***Include a picture of your own Raspberry Pi displaying the piscreen.service with your unique MAC address. Additionally, please provide another picture showing the successful completion of the screen test.**\*\*\*
 
+![piscreen.service screen](part-c-boot-screen.jpg)
+
+![screen test output](part-c-screen-test.jpg)
+
 
 ## Part D. 
 ### Set up the Display Clock Demo
@@ -183,6 +189,11 @@ Option 3. A nowadays often preferred method is to use Microsoft [VS code to remo
 
 Pro Tip: Using tools like [code-server](https://coder.com/docs/code-server/latest) you can even setup a VS Code coding environment hosted on your raspberry pi and code through a web browser on your tablet or smartphone! 
 
+### Demo of part D
+
+https://github.com/user-attachments/assets/c9fd255d-581b-4b40-bc19-e2d0eabfaac3
+
+
 ## Part E. Read Part 2. Sketch and brainstorm further interactions and features you would like for your clock.
 
 One potential source of ideas might be thinking about other clocks and timekeeping devices for inspiration.
@@ -194,9 +205,21 @@ We strongly discourage literal digital or analog clock display: Be creative.
 
 ** Insert ideas, sketches, [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf)), storyboards for your ideas **
 
+### ISS Home Pass Check
+
+My clock shows the next time the International Space Station will pass above my home. It shows countdown until the next sighting, then resets after the ISS passes. The ISS will be shown moving in an arc as it's passing. When the window is over, then it'll reset to show the countdown for the next sighting.
+
+#### Clock Display sketch
+
+![Sketch of clock display](part-e-clock-display.png)
+
+#### Storyboard
+
+![Storyboard showing the interaction](part-e-storyboard.png)
 
 
 **Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**
+Ani (ah2495) - This is a real cool idea to track when the ISS is passing over, and calculate your day based on that. it happens to pass over 16 times a day, which is pretty often. i wonder what types of things people will use this as a measurement of time for. the implementation to show the arc or trajectory of the ISS, and where it is on the path is also a helpful visual. very unique idea
 
 # Lab 2 Part 2
 
@@ -246,5 +269,4 @@ Do take advantage of having done the previous iteration to refine and simplify y
 As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
 
 You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab.  Make sure the page for the group turn in is linked to your personal Interactive Lab Hub page. 
-
 
