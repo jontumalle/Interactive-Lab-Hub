@@ -276,11 +276,13 @@ Code is written in [iss_pass_clock.py](iss_pass_clock.py)
 **Scenario 1**
 
 Normal case for when you're waiting for the ISS to wait
+
 ![Clock shows when ISS will be visible next](iss-normal-wait-time.gif)
 
 **Scenario 2**
 
 ISS is now over head so the clock is counting down the time you have left
+
 ![Clock shows countdown for timeleft for ISS visibility](iss-is-overhead.gif)
 
 **Scenario 3**
