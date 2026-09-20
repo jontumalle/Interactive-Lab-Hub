@@ -266,6 +266,8 @@ Do take advantage of having done the previous iteration to refine and simplify y
 
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
+I used AI to help enhance the visualization to match my idea for it.
+Code is written in [iss_pass_clock.py](iss_pass_clock.py)
 
 \*\*\***Take a video of your PiClock.**\*\*\*
 
