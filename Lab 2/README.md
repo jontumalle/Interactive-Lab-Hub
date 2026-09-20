@@ -224,6 +224,8 @@ Youseff (yh2443) - I really like this idea for multiple reasons: first off, I le
 
 Abiola Bolaji - This is a really neat idea that is unique as well. I dont have much to add but what might be cool would be a visual addition to the clock like a message or warning added when the ISS is 15 away? It might also be nice to extend the warning to be incremental on the day it will come by like give a message every hour then every 30 min then 15 or 5 when it is closest.
 
+Pallavi Srinivas - This is such a niche idea and I would be super excited to see this in play! I know that apps that allow us to see constellations and other things exist, but this would be super cool to see because it would be contingent with real-time events.
+
 # Lab 2 Part 2
 
 ## Prep 
