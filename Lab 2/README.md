@@ -1,7 +1,6 @@
 # Interactive Prototyping: The Clock of Pi
 **NAMES OF COLLABORATORS HERE**
 Jonathan Tumalle (jrt285)
-Youssef Hassan (yh2443)
 
 Does it feel like time is moving strangely during this semester?
 
@@ -220,6 +219,8 @@ My clock shows the next time the International Space Station will pass above my 
 
 **Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**
 Ani (ah2495) - This is a real cool idea to track when the ISS is passing over, and calculate your day based on that. it happens to pass over 16 times a day, which is pretty often. i wonder what types of things people will use this as a measurement of time for. the implementation to show the arc or trajectory of the ISS, and where it is on the path is also a helpful visual. very unique idea
+
+Youseff (yh2443) - I really like this idea for multiple reasons: first off, I learned that the ISS actually passes over 16 times a day, which I didn't know, and more impressively, that someone built an API for tracking it. This is why I think your clock design is very impressive because it's based on a real-time phenomenon that you can check for yourself if you are a stargazer. My only critique is I would make more panels in the storyboard showing more stages of what it would like when the ISS is passing and when the user is waiting for it.
 
 # Lab 2 Part 2
 
