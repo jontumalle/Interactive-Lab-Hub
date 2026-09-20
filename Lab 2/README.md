@@ -222,6 +222,8 @@ Ani (ah2495) - This is a real cool idea to track when the ISS is passing over, a
 
 Youseff (yh2443) - I really like this idea for multiple reasons: first off, I learned that the ISS actually passes over 16 times a day, which I didn't know, and more impressively, that someone built an API for tracking it. This is why I think your clock design is very impressive because it's based on a real-time phenomenon that you can check for yourself if you are a stargazer. My only critique is I would make more panels in the storyboard showing more stages of what it would like when the ISS is passing and when the user is waiting for it.
 
+Abiola Bolaji - This is a really neat idea that is unique as well. I dont have much to add but what might be cool would be a visual addition to the clock like a message or warning added when the ISS is 15 away? It might also be nice to extend the warning to be incremental on the day it will come by like give a message every hour then every 30 min then 15 or 5 when it is closest.
+
 # Lab 2 Part 2
 
 ## Prep 
