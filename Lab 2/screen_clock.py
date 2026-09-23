@@ -5,6 +5,12 @@ import board
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_rgb_display.st7789 as st7789
 
+# For Lab 2b
+import json
+from datetime import datetime, timezone
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
 # Configuration for CS and DC pins (these are FeatherWing defaults on M0/M4):
 cs_pin = digitalio.DigitalInOut(board.D5) 
 dc_pin = digitalio.DigitalInOut(board.D25)
@@ -64,9 +70,47 @@ while True:
     # Draw a black filled box to clear the image.
     draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
 
-    # Lab 2 Part D
-    curr_time = time.strftime("%m/%d/%Y %H:%M:%S")
-    draw.text((x, top), curr_time, font=font, fill="#FFFFFF")
+    # Lab 2b - Modify to show next pass
+    def fetch_passes():
+        CORNELL_TECH_LAT = 40.75559
+        CORNELL_TECH_LONG = -73.95613
+        query = urlencode({"lat": CORNELL_TECH_LAT, "lon": CORNELL_TECH_LONG, "n":2, "days_ahead": 1})
+        # API Endpoint was found with research with AI
+        API = "https://iss-api.polluxlabs.io/iss-pass"
+        request = Request(f"{API}?{query}", headers={"User-Agent": "Lab2-ISSPassClock/1.0"})
+        with urlopen(request, timeout=10) as response:  # nosec B310 - fixed HTTPS URL
+            payload = json.load(response)
+        return payload.get("passes", [])
+
+    def iso_time(value):
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).timestamp()
+
+    def get_active_or_next_pass(passes, now):
+        for item in passes:
+            rise = iso_time(item["rise"]["time"])
+            set_time = iso_time(item["set"]["time"])
+            if rise <= now <= set_time:
+                return rise, set_time, True
+            if rise > now:
+                return rise, set_time, False
+        return None
+
+    now = time.time()
+    (rise, set_time, is_active) = get_active_or_next_pass(fetch_passes(), now)
+    if is_active:
+        label = 'OVERHEAD NOW'
+        remaining = set_time - now
+    else:
+        label = 'ISS WILL PASS IN'
+        remaining = rise - now
+
+    def format_duration(seconds):
+        return datetime.fromtimestamp(seconds, timezone.utc).strftime("%H:%M:%S")
+
+    y = top
+    draw.text((x, y), label, font=font, fill="#FFFFFF")
+    y += draw.textbbox((0,0), label, font=font)[3]
+    draw.text((x, y), format_duration(remaining), font=font, fill="#FFFFFF")
 
     # Display image.
     disp.image(image, rotation)

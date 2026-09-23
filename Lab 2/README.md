@@ -1,7 +1,6 @@
 # Interactive Prototyping: The Clock of Pi
 **NAMES OF COLLABORATORS HERE**
 Jonathan Tumalle (jrt285)
-Youssef Hassan (yh2443)
 
 Does it feel like time is moving strangely during this semester?
 
@@ -221,6 +220,8 @@ My clock shows the next time the International Space Station will pass above my 
 **Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**
 Ani (ah2495) - This is a real cool idea to track when the ISS is passing over, and calculate your day based on that. it happens to pass over 16 times a day, which is pretty often. i wonder what types of things people will use this as a measurement of time for. the implementation to show the arc or trajectory of the ISS, and where it is on the path is also a helpful visual. very unique idea
 
+Youseff (yh2443) - I really like this idea for multiple reasons: first off, I learned that the ISS actually passes over 16 times a day, which I didn't know, and more impressively, that someone built an API for tracking it. This is why I think your clock design is very impressive because it's based on a real-time phenomenon that you can check for yourself if you are a stargazer. My only critique is I would make more panels in the storyboard showing more stages of what it would like when the ISS is passing and when the user is waiting for it.
+
 # Lab 2 Part 2
 
 ## Prep 
@@ -240,9 +241,12 @@ Start small, pick just one element of your overall idea, just to show you have a
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
 
+Modified original screen code for this part: [screen_clock.py](screen_clock.py)
+
 ## Make a short video of your modified barebones PiClock
 
 \*\*\***Take a video of your barely modified PiClock.**\*\*\*
+![GIF of barely modified barebones clock](barely-modified-clock.gif)
 
 After you edit and work on the scripts for Lab 2, the files should be upload back to your own GitHub repo! You can push to your personal github repo by adding the files here, commiting and pushing.
 
@@ -262,8 +266,26 @@ Do take advantage of having done the previous iteration to refine and simplify y
 
 
 \*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
+I used AI to help enhance the visualization to match my idea for it.
+Code is written in [iss_pass_clock.py](iss_pass_clock.py)
 
 \*\*\***Take a video of your PiClock.**\*\*\*
+
+**Scenario 1**
+
+Normal case for when you're waiting for the ISS to wait
+![Clock shows when ISS will be visible next](iss-normal-wait-time.gif)
+
+**Scenario 2**
+
+ISS is now over head so the clock is counting down the time you have left
+![Clock shows countdown for timeleft for ISS visibility](iss-is-overhead.gif)
+
+**Scenario 3**
+
+You stargaze in multiple places so you want to be able to see which place will be convenient for you to set up your telescope in time for the ISS fly-by. Buttons are used to cycle through the options.
+
+![Buttons are pressed to illustrate multiple locations](iss-pressing-buttons.gif)
 
 
 As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.

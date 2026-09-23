@@ -1,0 +1,22 @@
+{
+  "locations": [
+    {
+      "name": "Cornell Tech",
+      "display_name": "CORNELL TECH",
+      "latitude": 40.755811,
+      "longitude": -73.956296
+    },
+    {
+      "name": "Cornell University",
+      "display_name": "CORNELL U.",
+      "latitude": 42.4522,
+      "longitude": -76.4804
+    },
+    {
+      "name": "Montauk Point State Park",
+      "display_name": "MONTAUK POINT",
+      "latitude": 41.059132,
+      "longitude": -71.895622
+    }
+  ]
+}
