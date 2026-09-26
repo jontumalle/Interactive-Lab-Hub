@@ -144,6 +144,8 @@ Accuracy improvements stop being worth the delay if the text already captures th
 
 \*\***Write your own script that verbally asks for a numerical input (a phone number, zipcode, number of pets) and records the answer the respondent provides.**\*\* Numbers are a good stress test — transcription systems make characteristic errors on digit strings, and you will want to know what they are before you design around them.
 
+Script is [here](speech-scripts/transcribe_numbers.py)
+
 ## C. Turn-taking: knowing when someone has stopped talking
 
 Everything so far has worked on fixed audio files. A real conversational device does not get told when to start and stop recording — it has to decide. This is the problem that makes speech interfaces hard, and it is mostly not a speech recognition problem.
