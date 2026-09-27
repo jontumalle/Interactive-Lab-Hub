@@ -183,7 +183,7 @@ There is no correct value. A system that takes drink orders and a system that li
 
 Storyboard and/or use a Verplank diagram to design a speech-enabled device. (Stuck? Make a device that talks for dogs. If that is too stupid, find an application that is better than that.)
 
-### IDEA: lab1-2 player Taboo (WordHound)
+### IDEA: 2 player Taboo (WordHound)
 
 \*\***Post your storyboard and diagram here.**\*\*
 
@@ -302,6 +302,9 @@ Find a partner, and *without sharing the script with your partner* try out the d
 
 \*\***Describe if the dialogue seemed different than what you imagined when it was acted out, and how.**\*\*
 
+*Answer:* We described our feedback as part of the video.
+
+[Watch the video here](https://drive.google.com/file/d/1XunK0EcWV18VXaPGtrj4vkQcQwvqhCNR/view?usp=share_link)
 
 ---
 
