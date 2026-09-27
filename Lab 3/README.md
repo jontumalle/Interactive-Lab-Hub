@@ -200,6 +200,101 @@ Write out what you imagine the dialogue to be. Use cards, post-its, or whatever 
 
 Your script should include the pauses. Where does your device wait, and for how long? You now know from Part C that this is a parameter you have to choose, not something that happens for free.
 
+#### WordHound dialogue script
+
+WordHound is a two-player Taboo game in which the device guesses the secret word from one player's spoken clues. The clue-giver sees the card; WordHound must not. Each player gets an 2 minute turn as the clue-giver. A correct guess earns the clue-giver one point and advances to the next card. A wrong guess keeps the same card active so the player can add a clue. The player with the most points after both turns wins.
+
+##### Example round [AI Assisted in setting up the script]
+
+**Word on card (Freddy only):** moth<br>
+**Taboo words:** insect, wings, butterfly, light
+
+**WordHound:** Freddy, your turn. Your 2 minutes start now. Describe the word without saying the word or the words printed on the card.
+
+*[Pause for Freddy to begin; allow up to 5 seconds. If no speech is detected, prompt once: "I'm listening for your clue."]*
+
+**Freddy:** It comes out at night and flies around a porch lamp.
+
+*[Wait for Freddy to finish. Treat 1.0 second of silence as the end of the clue; if speech resumes before then, keep listening.]*
+
+**WordHound:** Is it a butterfly?
+
+**Freddy:** No, similar, but it's attracted to light.
+
+*[Wait for the end of the reply using the same 1.0-second silence threshold.]*
+
+**WordHound:** Is it a moth?
+
+**Freddy:** Yes!
+
+**WordHound:** Correct! Freddy gets one point. Your score is one. Here's the next word.
+
+*[Brief 1-second pause while WordHound selects the next card, then continue listening.]*
+
+**WordHound:** Here's your next word.
+
+*[Brief 1-second pause for the next card. WordHound listens for Freddy's clue and waits for 1.0 second of silence before guessing.]*
+
+**Freddy:** It flies at night and hangs upside down in a cave.
+
+**WordHound:** Is it a bat?
+
+**Freddy:** No.
+
+*[WordHound waits for the reply to end, using 1.0 second of silence, then listens for another clue.]*
+
+**Freddy:** It has colorful feathers and can copy sounds people make.
+
+**WordHound:** Is it a parrot?
+
+**Freddy:** Yes!
+
+**WordHound:** Correct! That's two points for Freddy.
+
+*[Timer runs out]*
+
+**WordHound:** Your turn is over. *[Pause 2 seconds while the device switches players.]* Sam, your turn. Your 2 minutes start now. Describe the word on your card without saying the word or the words printed on it.
+
+*[Sam looks at the card. WordHound waits up to 5 seconds for Sam to begin; if no speech is detected, it prompts once: "I'm listening for your clue."]*
+
+**Sam:** You use it to unlock a door. It can be metal, and you might keep it on a ring.
+
+*[WordHound waits for the clue to end, using 1.0 second of silence.]*
+
+**WordHound:** Is it a key?
+
+**Sam:** Yes!
+
+**WordHound:** Correct! Sam gets one point. *[Pause 1 second to select the next card.]* Here's your next word.
+
+**Sam:** You wear it on your wrist and it tells you the time.
+
+*[WordHound waits for 1.0 second of silence.]*
+
+**WordHound:** Is it a watch?
+
+**Sam:** Yes!
+
+**WordHound:** Correct! That's two points. *[Pause 1 second to select the next card.]* Here's your next word.
+
+**Sam:** It is a place where you borrow books.
+
+*[WordHound waits for 1.0 second of silence.]*
+
+**WordHound:** Is it a library?
+
+**Sam:** Yes!
+
+**WordHound:** Correct! That's three points.
+
+*[The 2-minute timer ends.]*
+
+**WordHound:** Time! Sam scored three points this turn. This round ends with Freddy at two points and Sam at three.
+
+*[Skip ahead through the remaining rounds. WordHound keeps score and alternates turns.]*
+
+**WordHound:** Game over! Freddy finished with eight points, and Sam finished with ten. Sam wins!
+
 ## E. Acting out the dialogue
 
 Find a partner, and *without sharing the script with your partner* try out the dialogue you've designed, where you (as the device designer) act as the device you are designing. Please record this interaction (for example, using Zoom's record feature).
