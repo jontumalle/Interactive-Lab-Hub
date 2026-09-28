@@ -1,6 +1,8 @@
 # Chatterboxes
 
 **NAMES OF COLLABORATORS HERE**
+Jonathan Tumalle (jrt285)
+Ani Hadagali (ah2495)
 
 [![Watch the video](https://user-images.githubusercontent.com/1128669/135009222-111fe522-e6ba-46ad-b6dc-d1633d21129c.png)](https://www.youtube.com/embed/Q8FWzLMobx0?start=19)
 
@@ -108,8 +110,11 @@ The demo script also shows `--output-raw`, which streams audio to the speaker as
 
 \*\***Write your own shell file to use your favorite of these TTS engines to have your Pi greet you by name.**\*\*
 (This shell file should be saved to your own repo for this lab.)
+[link to script](speech-scripts/text_to_speech_a.sh)
 
 \*\***Then answer: Is the same greeting, in these different voices, the same greeting? Describe one concrete way the voice changed what the utterance seemed to mean or who seemed to be speaking.**\*\*
+
+*Answer:* I used three different voices for the script. The voices changed in how formal and inviting they sounded. `en_US-norman-medium` sounds more friendly like an actual greeting. `en_GB-vctk-medium` sounds very monotone and disinterested. `en_GB-southern_english_female-low` was just formal and direct.
 
 ## B. Speech to Text
 
@@ -131,7 +136,16 @@ Available sizes, smallest first: `tiny.en`, `base.en`, `small.en`, `medium.en`. 
 
 \*\***Record a few seconds of your own speech (`arecord -d 5 -f cd -c 1 -r 16000 test.wav`) and transcribe it with at least two model sizes. Report the real-time factor for each. At what point does the accuracy improvement stop being worth the delay, for a system that has to answer you?**\*\*
 
+The real time factor of the two models I chose:
+
+- small - 1.30x
+- tiny - 0.22x
+
+Accuracy improvements stop being worth the delay if the text already captures the words said with tolerance for some grammatical errors. In the example, the output of the `small` was "Hey, this is Jonathan. I hope you're having a great day." The `tiny` transcribed the same audio to "Hey this is Jonathan, I hope you're having a great day." This grammar inaccuracy is fine for me as the reader since I can understand the intention still. If this was to be sent to someone else in a more formal setting, then I may prefer the `small`'s output since I would have less tolerance for grammar mistakes.
+
 \*\***Write your own script that verbally asks for a numerical input (a phone number, zipcode, number of pets) and records the answer the respondent provides.**\*\* Numbers are a good stress test — transcription systems make characteristic errors on digit strings, and you will want to know what they are before you design around them.
+
+Script is [here](speech-scripts/transcribe_numbers.py)
 
 ## C. Turn-taking: knowing when someone has stopped talking
 
@@ -153,6 +167,8 @@ Speak, pause, and watch it transcribe. Now change the endpointing threshold — 
 
 \*\***Try both extremes, and something in between. Describe what each one feels like to talk to. Note specifically: at 0.2s, what kinds of normal speech get cut off? At 1.5s, what does the delay make the system seem like?**\*\*
 
+*Answer:* A larger delay makes the system feel like it's trying to actually log what was said and comprehend it, while the smaller delay feels rushed. The smaller delay makes it feel like the model is not understanding, and the text output also showed this behavior. It was as if it was cutting me off like a rude person.
+
 There is no correct value. A system that takes drink orders and a system that listens to someone think out loud want very different thresholds, and the right one depends on what your users are doing with their pauses.
 
 ### The complete loop
@@ -167,7 +183,17 @@ There is no correct value. A system that takes drink orders and a system that li
 
 Storyboard and/or use a Verplank diagram to design a speech-enabled device. (Stuck? Make a device that talks for dogs. If that is too stupid, find an application that is better than that.)
 
+### IDEA: 2 player Taboo (WordHound)
+
 \*\***Post your storyboard and diagram here.**\*\*
+
+Storyboard:
+
+![storyboard for WordHound](./lab3a-storyboard.jpeg)
+
+Verplank diagram:
+
+![verplank diagram for WordHound](./lab3a-verplank.jpeg)
 
 Write out what you imagine the dialogue to be. Use cards, post-its, or whatever method helps you develop alternatives or group responses.
 
@@ -175,12 +201,102 @@ Write out what you imagine the dialogue to be. Use cards, post-its, or whatever 
 
 Your script should include the pauses. Where does your device wait, and for how long? You now know from Part C that this is a parameter you have to choose, not something that happens for free.
 
+#### WordHound dialogue script
+
+WordHound is a two-player Taboo game in which the device guesses the secret word from one player's spoken clues. The clue-giver sees the card; WordHound must not. Each player gets an 2 minute turn as the clue-giver. A correct guess earns the clue-giver one point and advances to the next card. A wrong guess keeps the same card active so the player can add a clue. The player with the most points after both turns wins.
+
+##### Example round [AI Assisted in setting up the script]
+
+**Word on card (Freddy only):** moth<br>
+**Taboo words:** insect, wings, butterfly, light
+
+**WordHound:** Freddy, your turn. Your 2 minutes start now. Describe the word without saying the word or the words printed on the card.
+
+*[Pause for Freddy to begin; allow up to 5 seconds. If no speech is detected, prompt once: "I'm listening for your clue."]*
+
+**Freddy:** It comes out at night and flies around a porch lamp.
+
+*[Wait for Freddy to finish. Treat 1.0 second of silence as the end of the clue; if speech resumes before then, keep listening.]*
+
+**WordHound:** Is it a butterfly?
+
+**Freddy:** No, similar, but it's attracted to light.
+
+*[Wait for the end of the reply using the same 1.0-second silence threshold.]*
+
+**WordHound:** Is it a moth?
+
+**Freddy:** Yes!
+
+**WordHound:** Correct! Freddy gets one point. Your score is one. Here's the next word.
+
+*[Brief 1-second pause while WordHound selects the next card, then continue listening.]*
+
+**WordHound:** Here's your next word.
+
+*[Brief 1-second pause for the next card. WordHound listens for Freddy's clue and waits for 1.0 second of silence before guessing.]*
+
+**Freddy:** It flies at night and hangs upside down in a cave.
+
+**WordHound:** Is it a bat?
+
+**Freddy:** Yes!
+
+**WordHound:** Correct! That's two points for Freddy.
+
+*[Timer runs out]*
+
+**WordHound:** Your turn is over. *[Pause 2 seconds while the device switches players.]* Sam, your turn. Your 2 minutes start now. Describe the word on your card without saying the word or the words printed on it.
+
+*[Sam looks at the card. WordHound waits up to 5 seconds for Sam to begin; if no speech is detected, it prompts once: "I'm listening for your clue."]*
+
+**Sam:** You use it to unlock a door. It can be metal, and you might keep it on a ring.
+
+*[WordHound waits for the clue to end, using 1.0 second of silence.]*
+
+**WordHound:** Is it a key?
+
+**Sam:** Yes!
+
+**WordHound:** Correct! Sam gets one point. *[Pause 1 second to select the next card.]* Here's your next word.
+
+**Sam:** You wear it on your wrist and it tells you the time.
+
+*[WordHound waits for 1.0 second of silence.]*
+
+**WordHound:** Is it a watch?
+
+**Sam:** Yes!
+
+**WordHound:** Correct! That's two points. *[Pause 1 second to select the next card.]* Here's your next word.
+
+**Sam:** It is a place where you borrow books.
+
+*[WordHound waits for 1.0 second of silence.]*
+
+**WordHound:** Is it a library?
+
+**Sam:** Yes!
+
+**WordHound:** Correct! That's three points.
+
+*[The 2-minute timer ends.]*
+
+**WordHound:** Time! Sam scored three points this turn. This round ends with Freddy at two points and Sam at three.
+
+*[Skip ahead through the remaining rounds. WordHound keeps score and alternates turns.]*
+
+**WordHound:** Game over! Freddy finished with eight points, and Sam finished with ten. Sam wins!
+
 ## E. Acting out the dialogue
 
 Find a partner, and *without sharing the script with your partner* try out the dialogue you've designed, where you (as the device designer) act as the device you are designing. Please record this interaction (for example, using Zoom's record feature).
 
 \*\***Describe if the dialogue seemed different than what you imagined when it was acted out, and how.**\*\*
 
+*Answer:* We described our feedback as part of the video.
+
+[Watch the video here](https://drive.google.com/file/d/1XunK0EcWV18VXaPGtrj4vkQcQwvqhCNR/view?usp=share_link)
 
 ---
 
