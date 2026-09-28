@@ -240,14 +240,6 @@ WordHound is a two-player Taboo game in which the device guesses the secret word
 
 **WordHound:** Is it a bat?
 
-**Freddy:** No.
-
-*[WordHound waits for the reply to end, using 1.0 second of silence, then listens for another clue.]*
-
-**Freddy:** It has colorful feathers and can copy sounds people make.
-
-**WordHound:** Is it a parrot?
-
 **Freddy:** Yes!
 
 **WordHound:** Correct! That's two points for Freddy.
