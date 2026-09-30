@@ -322,6 +322,41 @@ The system should:
 
 *Include videos or screencaptures of both the system and the controller.*
 
+### WordHound POC: 2-Player Taboo
+
+The first version is a single-round prototype running on a Raspberry Pi. Both
+players see the target word. The clue giver describes it aloud, and the AI
+tries to guess the word from the transcript. There are no forbidden words,
+scoring, or correctness feedback in this POC.
+
+```mermaid
+flowchart TD
+    A[Show target word to both players] --> B[Wait for physical Start button]
+    B --> C[Listen through USB microphone]
+    C --> D{About 2 seconds of silence?}
+    D -- No --> C
+    D -- Yes --> E[Stop recording]
+    E --> F[Show Processing]
+    F --> G[Send audio to cloud speech recognition]
+    G --> H[Send transcript to cloud AI guesser]
+    H --> I[Display AI's guessed word]
+    I --> J[Speak guess through speaker using local speech engine]
+```
+
+#### First-version components
+
+- **Raspberry Pi app and display:** shows the target word to both players, a
+  listening/processing status, and the AI's guess.
+- **Physical Start button:** begins capturing the clue.
+- **USB microphone:** captures the clue giver's speech.
+- **Pause detection:** stops recording after about two seconds of silence.
+- **Cloud speech recognition:** transcribes the recorded audio.
+- **Cloud AI guesser:** receives only the transcript and returns a guessed
+  word; it is not given the target word.
+- **Speaker and local speech engine:** say the AI's guess aloud.
+- **Round controller:** coordinates the prompt, recording, processing, and
+  result steps.
+
 ## Test the system
 
 Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
