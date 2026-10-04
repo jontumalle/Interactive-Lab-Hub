@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import re
 import subprocess
 import sys
@@ -27,7 +28,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import numpy as np
 import sherpa_onnx
@@ -40,6 +41,7 @@ APP_DIR = Path(__file__).resolve().parent
 LAB_DIR = APP_DIR.parent
 SAMPLE_RATE = 16_000
 PIPER_VOICE = "en_US-ryan-medium"
+LOG = logging.getLogger("wordhound")
 
 
 class WordHoundError(RuntimeError):
@@ -419,8 +421,13 @@ class ClueRecorder:
         return path
 
 
-def say_guess(guess: str) -> None:
-    """Stream a local Piper voice to the default speaker, as in piper_demo.sh."""
+def say_guess(guess: str, on_first_audio: Callable[[], None] | None = None) -> None:
+    """Stream Piper audio and notify the caller when playback can begin.
+
+    Piper needs a moment to load and synthesize its first buffer.  Delaying the
+    result screen until that buffer is handed to ``aplay`` keeps the visual and
+    spoken guesses in sync.
+    """
     voice_path = LAB_DIR / "voices" / f"{PIPER_VOICE}.onnx"
     if not voice_path.is_file():
         raise WordHoundError(
@@ -439,21 +446,41 @@ def say_guess(guess: str) -> None:
         "--",
         f"My guess is {guess}.",
     ]
+    started_at = time.perf_counter()
+    first_audio_at: float | None = None
+    LOG.info("TTS generation started")
     try:
         with subprocess.Popen(piper_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as piper:
             with subprocess.Popen(
-                ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw", "-"], stdin=piper.stdout
+                ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw", "-"], stdin=subprocess.PIPE
             ) as player:
-                if piper.stdout is not None:
-                    piper.stdout.close()
+                if piper.stdout is None or player.stdin is None:
+                    raise WordHoundError("Could not connect Piper to the speaker.")
+                # ``read1`` returns as soon as Piper has a small buffer, rather
+                # than waiting to fill a larger Python buffer before we can
+                # reveal the guess.
+                while audio := piper.stdout.read1(512):
+                    player.stdin.write(audio)
+                    player.stdin.flush()
+                    if first_audio_at is None:
+                        first_audio_at = time.perf_counter() - started_at
+                        LOG.info("TTS first audio generated in %.2fs", first_audio_at)
+                        if on_first_audio is not None:
+                            on_first_audio()
+                player.stdin.close()
                 player.wait(timeout=30)
             piper.wait(timeout=5)
             error = piper.stderr.read() if piper.stderr is not None else b""
         if piper.returncode or player.returncode:
             detail = error.decode("utf-8", "replace").strip()
             raise WordHoundError(f"Piper playback failed{f': {detail}' if detail else ''}")
+        if first_audio_at is None:
+            raise WordHoundError("Piper did not generate audio.")
+        LOG.info("TTS playback completed in %.2fs", time.perf_counter() - started_at)
     except FileNotFoundError as exc:
         raise WordHoundError("Piper or aplay is unavailable. Run speech-scripts/setup.sh first.") from exc
+    except (BrokenPipeError, OSError) as exc:
+        raise WordHoundError("Speaker playback failed. Check the USB speaker and default output.") from exc
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
         raise WordHoundError("Speaker playback failed. Check the USB speaker and default output.") from exc
 
@@ -476,6 +503,11 @@ def wait_for_action(screen: Screen) -> str:
 
 
 def main() -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s.%(msecs)03d %(levelname)s %(name)s: %(message)s",
+        datefmt="%Y-%m-%dT%H:%M:%S",
+    )
     config = parse_args()
     cards = load_cards(config.cards_file)
     try:
@@ -487,13 +519,13 @@ def main() -> None:
         screen = ConsoleScreen()
 
     recorder = ClueRecorder(config.vad_model, config.silence_seconds, config.max_clue_seconds)
-    print(f"Loading local speech model: {config.asr_model}", flush=True)
+    LOG.info("Loading local speech model: %s", config.asr_model)
     transcriber = LocalTranscriber(config.asr_model)
     guesser = CodexGuesser()
     card_index = 0
     clue_history: list[tuple[str, str]] = []
     record_again = False
-    print(f"WordHound ready. Input: {sd.query_devices(sd.default.device[0])['name']}", flush=True)
+    LOG.info("WordHound ready. Input: %s", sd.query_devices(sd.default.device[0])["name"])
     try:
         while True:
             if not record_again:
@@ -510,14 +542,22 @@ def main() -> None:
                     continue
                 recording = recorder.save(utterance, config.save_dir)
                 screen.processing("Transcribing your clue...")
+                transcribe_started_at = time.perf_counter()
+                LOG.info("Transcription started")
                 transcript = transcriber.transcribe(recording)
+                LOG.info("Transcription completed in %.2fs", time.perf_counter() - transcribe_started_at)
                 screen.processing("Choosing a word...")
+                guess_started_at = time.perf_counter()
+                LOG.info("Model guess started")
                 guess = guesser.guess(transcript, clue_history)
+                LOG.info("Model guess completed in %.2fs", time.perf_counter() - guess_started_at)
                 clue_history.append((transcript, guess))
-                print(f"Transcript: {transcript}\nGuess: {guess}\nRecording: {recording}", flush=True)
-                screen.result(guess, transcript)
+                LOG.info("Transcript: %s | Guess: %s | Recording: %s", transcript, guess, recording)
                 if not config.no_speech:
-                    say_guess(guess)
+                    screen.processing("Preparing your guess...")
+                    say_guess(guess, on_first_audio=lambda: screen.result(guess, transcript))
+                else:
+                    screen.result(guess, transcript)
                 action = wait_for_action(screen)
                 if action == "B":
                     card_index = (card_index + 1) % len(cards)
@@ -527,7 +567,7 @@ def main() -> None:
                     # The history remains attached to this card until B advances it.
                     record_again = True
             except WordHoundError as exc:
-                print(f"WordHound: {exc}", file=sys.stderr, flush=True)
+                LOG.error("WordHound: %s", exc)
                 screen.error(str(exc))
                 wait_for_action(screen)
     finally:
