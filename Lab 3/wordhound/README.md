@@ -2,15 +2,18 @@
 
 This is the Part 2, single-round WordHound prototype. Both players can read a target word on the Adafruit Mini PiTFT. The clue giver presses the left Mini PiTFT button, describes the word, and stops speaking. After two seconds of silence, WordHound saves the VAD-bounded clue, transcribes it locally on the Pi, asks Codex CLI to infer one word from the transcript, displays that guess, and says it through the USB speaker.
 
-The target word remains on the Pi throughout the round. It is never supplied to the transcription or guess request.
+After announcing a guess, WordHound listens for one natural reply: either "yes" or "no" followed immediately by the next clue (for example, "No, similar, but it's attracted to light"). A yes marks the card complete and unlocks the Next button. A no-with-clue keeps the same target word and immediately uses that included clue, together with the earlier clue/guess, to make a new guess. The target word remains on the Pi throughout the round. It is never supplied to the transcription or guess request.
 
 ## Controls and feedback
 
 | State | Screen feedback | Button A / left (GPIO 23) | Button B / right (GPIO 24) |
 | --- | --- | --- | --- |
-| Card | target word and ready state | start recording | select the next target card |
+| Card | target word and ready state | start recording | — |
 | Listening | green `LISTENING` state | — | cancel the current clue |
-| Result | guess and the transcript | replay the same card | select the next target card |
+| Guess | guess and the transcript | — | — |
+| Feedback | asks for “yes” or “no + new clue” | — | cancel that answer and listen again |
+| Correct | confirmation that the card is complete | — | select the next target card |
+| No without a clue | asks for a new clue for the same word | start recording | — |
 
 The changes from the Part 1 script make turn-taking visible: the display names the current state, the physical button explicitly gives the system permission to listen, and the two-second endpoint is printed on screen. The target word is visible to both players because this is the requested POC rather than the full two-player Taboo game.
 
@@ -58,6 +61,6 @@ python wordhound/app.py --no-speech
 
 ## Speech and guessing
 
-`app.py` runs Lab 3's local faster-whisper `tiny.en` model on the completed WAV. It then runs `codex exec` with only the returned transcript. Codex runs in an ephemeral, read-only temporary directory containing only the JSON output schema, so it cannot read `cards.json` or the target word. Codex uses its own saved CLI sign-in; use `codex login` if this Pi has not been connected to a ChatGPT account. No `OPENAI_API_KEY` is required.
+`app.py` runs Lab 3's local faster-whisper `tiny.en` model on each completed clue and on the spoken reply. It interprets common affirmative and negative phrases locally. For a response beginning with a negative phrase, it removes that phrase and sends the remainder (the new clue) straight into the next guess—there is no separate prompt or recording turn. If the answer is unclear, it asks the player to repeat the response. It then runs `codex exec` with only clue transcripts. Codex runs in an ephemeral, read-only temporary directory containing only the JSON output schema, so it cannot read `cards.json` or the target word. Codex uses its own saved CLI sign-in; use `codex login` if this Pi has not been connected to a ChatGPT account. No `OPENAI_API_KEY` is required.
 
 [Codex non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode) documents `codex exec` for scripted use.

@@ -327,7 +327,8 @@ The system should:
 The first version is a single-round prototype running on a Raspberry Pi. Both
 players see the target word. The clue giver describes it aloud, and the AI
 tries to guess the word from the transcript. There are no forbidden words,
-scoring, or correctness feedback in this POC.
+or scoring in this POC. After a guess, the player can confirm it or say
+"No" followed by their next clue in the same response.
 
 ```mermaid
 flowchart TD
@@ -341,6 +342,10 @@ flowchart TD
     G --> H[Send transcript to cloud AI guesser]
     H --> I[Display AI's guessed word]
     I --> J[Speak guess through speaker using local speech engine]
+    J --> K[Listen for Yes or No plus a new clue]
+    K -- Yes --> L[Show correct and wait for Next button]
+    L --> A
+    K -- No plus clue --> H
 ```
 
 #### First-version components
@@ -354,6 +359,8 @@ flowchart TD
 - **Cloud AI guesser:** receives only the transcript and returns a guessed
   word; it is not given the target word.
 - **Speaker and local speech engine:** say the AI's guess aloud.
+- **Feedback listener:** treats a spoken "yes" as completion, or uses the
+  clue after a spoken "no" for the next guess without an extra turn.
 - **Round controller:** coordinates the prompt, recording, processing, and
   result steps.
 

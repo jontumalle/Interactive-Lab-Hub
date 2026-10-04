@@ -117,6 +117,18 @@ class Screen:
     def result(self, guess: str, transcript: str) -> None:
         raise NotImplementedError
 
+    def feedback(self) -> None:
+        raise NotImplementedError
+
+    def correct(self, guess: str) -> None:
+        raise NotImplementedError
+
+    def try_again(self, message: str) -> None:
+        raise NotImplementedError
+
+    def feedback_unclear(self, transcript: str) -> None:
+        raise NotImplementedError
+
     def error(self, message: str) -> None:
         raise NotImplementedError
 
@@ -125,7 +137,7 @@ class ConsoleScreen(Screen):
     """Allows the app and cloud flow to be developed away from the PiTFT."""
 
     def card(self, word: str, card_number: int, card_count: int) -> None:
-        print(f"\nWORDHOUND  card {card_number}/{card_count}\n\nTARGET: {word.upper()}\n\n[Enter] start clue   [n + Enter] next card", flush=True)
+        print(f"\nWORDHOUND  card {card_number}/{card_count}\n\nTARGET: {word.upper()}\n\n[Enter] start clue", flush=True)
 
     def listening(self) -> None:
         print("Listening. Speak your clue; two seconds of silence ends it.", flush=True)
@@ -135,6 +147,18 @@ class ConsoleScreen(Screen):
 
     def result(self, guess: str, transcript: str) -> None:
         print(f"\nI GUESS: {guess}\nHeard: {transcript}\n", flush=True)
+
+    def feedback(self) -> None:
+        print("Did I get it? Say yes, or say no followed by your next clue.", flush=True)
+
+    def correct(self, guess: str) -> None:
+        print(f"Correct — {guess}! Type n and press Enter for the next word.", flush=True)
+
+    def try_again(self, message: str) -> None:
+        print(f"{message}\nPress Enter to give another clue.", flush=True)
+
+    def feedback_unclear(self, transcript: str) -> None:
+        print(f'I heard "{transcript}". Please say yes, or say no followed by a new clue, then press Enter to try again.', flush=True)
 
     def error(self, message: str) -> None:
         print(f"\nWORDHOUND ERROR: {message}\n", file=sys.stderr, flush=True)
@@ -234,7 +258,7 @@ class PiTFTScreen(Screen):
         font = self.fonts["word"] if draw.textlength(word.upper(), font=self.fonts["word"]) < 220 else self.fonts["guess"]
         self._center(draw, word.upper(), 59, font, "#ffffff")
         self._center(draw, f"card {card_number} of {card_count}", 94, self.fonts["small"], "#a9c7e8")
-        self._center(draw, "A: START     B: NEXT", 113, self.fonts["body"], "#f8d76e")
+        self._center(draw, "A: START", 113, self.fonts["body"], "#f8d76e")
         self._show(image)
 
     def listening(self) -> None:
@@ -259,7 +283,38 @@ class PiTFTScreen(Screen):
         self._center(draw, guess.upper(), 57, font, "#79edb7")
         for index, line in enumerate(self._wrap(draw, f'Heard: "{transcript}"', self.fonts["small"], 218)[:2]):
             self._center(draw, line, 88 + index * 11, self.fonts["small"], "#ffffff")
-        self._center(draw, "A: AGAIN     B: NEXT", 114, self.fonts["body"], "#f8d76e")
+        self._center(draw, "Checking your answer...", 114, self.fonts["body"], "#f8d76e")
+        self._show(image)
+
+    def feedback(self) -> None:
+        image, draw = self._frame()
+        self._center(draw, "DID I GET IT?", 42, self.fonts["title"], "#79edb7")
+        self._center(draw, "Say YES, or NO + new clue", 70, self.fonts["body"], "#ffffff")
+        self._center(draw, "B: CANCEL", 113, self.fonts["body"], "#f8d76e")
+        self._show(image)
+
+    def correct(self, guess: str) -> None:
+        image, draw = self._frame()
+        self._center(draw, "GOT IT!", 42, self.fonts["title"], "#79edb7")
+        font = self.fonts["guess"] if draw.textlength(guess, font=self.fonts["guess"]) < 220 else self.fonts["title"]
+        self._center(draw, guess.upper(), 65, font, "#ffffff")
+        self._center(draw, "B: NEXT WORD", 113, self.fonts["body"], "#f8d76e")
+        self._show(image)
+
+    def try_again(self, message: str) -> None:
+        image, draw = self._frame()
+        self._center(draw, "NOT YET", 42, self.fonts["title"], "#f8d76e")
+        for index, line in enumerate(self._wrap(draw, message, self.fonts["body"], 210)[:2]):
+            self._center(draw, line, 68 + index * 14, self.fonts["body"], "#ffffff")
+        self._center(draw, "A: NEW CLUE", 113, self.fonts["body"], "#f8d76e")
+        self._show(image)
+
+    def feedback_unclear(self, transcript: str) -> None:
+        image, draw = self._frame()
+        self._center(draw, "PLEASE TRY AGAIN", 42, self.fonts["title"], "#f8d76e")
+        for index, line in enumerate(self._wrap(draw, f'Heard: "{transcript}"', self.fonts["small"], 210)[:2]):
+            self._center(draw, line, 68 + index * 12, self.fonts["small"], "#ffffff")
+        self._center(draw, "A: SAY YES OR NO", 113, self.fonts["body"], "#f8d76e")
         self._show(image)
 
     def error(self, message: str) -> None:
@@ -487,7 +542,42 @@ def say_guess(guess: str, on_first_audio: Callable[[], None] | None = None) -> N
         raise WordHoundError("Speaker playback failed. Check the USB speaker and default output.") from exc
 
 
-def wait_for_action(screen: Screen) -> str:
+def parse_feedback(transcript: str) -> tuple[bool, str | None] | None:
+    """Interpret a confirmation or a ``No, <new clue>`` response locally.
+
+    A negative prefix is deliberately removed before its remainder is passed
+    back to the guesser. This keeps the natural one-turn response (for
+    example, "No, similar, but it's attracted to light") from being mistaken
+    for a separate feedback exchange and clue-recording turn.
+    """
+    words = " ".join(re.findall(r"[a-z0-9']+", transcript.lower()))
+    negative_phrases = (
+        "no", "nope", "nah", "not quite", "not correct", "not right",
+        "incorrect", "wrong", "try again", "another guess", "new guess", "guess again",
+    )
+    affirmative_phrases = (
+        "yes", "yeah", "yep", "yup", "correct", "that's correct",
+        "that is correct", "that's right", "that is right", "right", "exactly",
+        "you got it", "got it", "affirmative",
+    )
+    padded_words = f" {words} "
+    negative_prefix = re.match(
+        r"^\s*(?:nope|no|nah|not quite|not correct|not right|incorrect|wrong|"
+        r"try again|another guess|new guess|guess again)\b[\s,;:.-]*(.*)$",
+        transcript,
+        flags=re.IGNORECASE,
+    )
+    if negative_prefix:
+        new_clue = negative_prefix.group(1).strip(" ,;:.-")
+        return False, new_clue or None
+    if any(f" {phrase} " in padded_words for phrase in negative_phrases):
+        return False, None
+    if any(f" {phrase} " in padded_words for phrase in affirmative_phrases):
+        return True, None
+    return None
+
+
+def wait_for_action(screen: Screen, prompt: str = "Press Enter to start, n for next card, or q to quit: ") -> str:
     if isinstance(screen, PiTFTScreen):
         while True:
             event = screen.read_button_event()
@@ -495,13 +585,20 @@ def wait_for_action(screen: Screen) -> str:
                 return event
             time.sleep(0.02)
     while True:
-        action = input("Press Enter to start, n for next card, or q to quit: ").strip().lower()
+        action = input(prompt).strip().lower()
         if action == "q":
             raise KeyboardInterrupt
         if action in ("", "a", "start"):
             return "A"
         if action in ("b", "n", "next"):
             return "B"
+
+
+def wait_for_button(screen: Screen, expected: str, prompt: str) -> None:
+    """Wait for one allowed button, ignoring the other physical control."""
+    while wait_for_action(screen, prompt) != expected:
+        if isinstance(screen, ConsoleScreen):
+            print("That button is not available yet.", flush=True)
 
 
 def main() -> None:
@@ -527,27 +624,30 @@ def main() -> None:
     card_index = 0
     clue_history: list[tuple[str, str]] = []
     record_again = False
+    pending_clue: str | None = None
     LOG.info("WordHound ready. Input: %s", sd.query_devices(sd.default.device[0])["name"])
     try:
         while True:
             if not record_again:
                 screen.card(cards[card_index], card_index + 1, len(cards))
-                if wait_for_action(screen) == "B":
-                    card_index = (card_index + 1) % len(cards)
-                    clue_history.clear()
-                    continue
+                wait_for_button(screen, "A", "Press Enter to start the clue, or q to quit: ")
             record_again = False
             try:
-                screen.listening()
-                utterance = recorder.record(screen)
-                if utterance is None:
-                    continue
-                recording = recorder.save(utterance, config.save_dir)
-                screen.processing("Transcribing your clue...")
-                transcribe_started_at = time.perf_counter()
-                LOG.info("Transcription started")
-                transcript = transcriber.transcribe(recording)
-                LOG.info("Transcription completed in %.2fs", time.perf_counter() - transcribe_started_at)
+                recording: Path | None = None
+                if pending_clue is None:
+                    screen.listening()
+                    utterance = recorder.record(screen)
+                    if utterance is None:
+                        continue
+                    recording = recorder.save(utterance, config.save_dir)
+                    screen.processing("Transcribing your clue...")
+                    transcribe_started_at = time.perf_counter()
+                    LOG.info("Transcription started")
+                    transcript = transcriber.transcribe(recording)
+                    LOG.info("Transcription completed in %.2fs", time.perf_counter() - transcribe_started_at)
+                else:
+                    transcript, pending_clue = pending_clue, None
+                    screen.processing("Using your new clue...")
                 screen.processing("Choosing a word...")
                 guess_started_at = time.perf_counter()
                 LOG.info("Model guess started")
@@ -560,13 +660,49 @@ def main() -> None:
                     say_guess(guess, on_first_audio=lambda: screen.result(guess, transcript))
                 else:
                     screen.result(guess, transcript)
-                action = wait_for_action(screen)
-                if action == "B":
+
+                # The player, rather than the target word or the guesser,
+                # decides whether this guess completed the card.
+                while True:
+                    screen.feedback()
+                    feedback_utterance = recorder.record(screen)
+                    if feedback_utterance is None:
+                        # B cancelled the microphone. Keep the same guess on
+                        # screen and give the player another chance to answer.
+                        continue
+                    feedback_recording = recorder.save(feedback_utterance, config.save_dir)
+                    screen.processing("Listening for yes or no and a new clue...")
+                    feedback_transcript = transcriber.transcribe(feedback_recording)
+                    feedback = parse_feedback(feedback_transcript)
+                    LOG.info(
+                        "Feedback: %s | Interpreted: %s | Recording: %s",
+                        feedback_transcript,
+                        feedback,
+                        feedback_recording,
+                    )
+                    if feedback is not None:
+                        break
+                    screen.feedback_unclear(feedback_transcript)
+                    wait_for_button(screen, "A", "Press Enter to say yes, or no with a new clue, again; q to quit: ")
+
+                is_correct, new_clue = feedback
+                if is_correct:
+                    screen.correct(guess)
+                    wait_for_button(screen, "B", "Type n and press Enter for the next word, or q to quit: ")
                     card_index = (card_index + 1) % len(cards)
                     clue_history.clear()
+                elif new_clue:
+                    # A response such as "No, similar, but it's attracted to
+                    # light" becomes the next clue immediately—no button
+                    # press or second recording turn is needed.
+                    LOG.info("Continuing with clue included in feedback: %s", new_clue)
+                    pending_clue = new_clue
+                    record_again = True
                 else:
-                    # A on the result screen begins the next clue immediately.
-                    # The history remains attached to this card until B advances it.
+                    screen.try_again("Please give another clue.")
+                    wait_for_button(screen, "A", "Press Enter to give another clue, or q to quit: ")
+                    # The history remains attached to this card so the next
+                    # guess can use both clues as a continuing description.
                     record_again = True
             except WordHoundError as exc:
                 LOG.error("WordHound: %s", exc)
