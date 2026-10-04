@@ -195,9 +195,19 @@ flowchart TD
 [Video of the WordHound test](https://drive.google.com/file/d/1_pz2qFzLvdmUcKt7rhRDiMKAIYdDDjXC/view?usp=share_link)
 
 ### What worked well about the system and what didn't?
+- The system was very good at loading the game, which involved showing the main word, the guessed word, and confirmation screens. It was nice for the player to see that the speech was processed and the system was guessing the word, which gave the player feedback of knowing what is happening. This was something that we had trouble with in Lab 3a, where we weren’t sure if the system had heard or, if the system was working on its response. 
+- One thing that didn’t work well was the wait time between the player speaking the word and the system displaying the guessed word. This was due to the transcript being sent to Code CLI to guess the word. The waiting for player’s speech to end plus then sending it via API to Codex and waiting for the response,  then displaying the guessed word and also speaking the word is the flow that causes the slow response.
 
 ### What worked well about the controller and what didn't?
 
+- The microphone controller generally worked well at capturing the player's speech. It allowed players to describe the target word verbally, making the game more interactive and eliminating the need for a keyboard or other text-based input method. The microphone was able to pick up the player's voice during most of our testing, allowing the system to process the spoken input and generate a response.
+- The controller also provided a relatively straightforward way for players to interact with the system. Since the primary input was speech, players could focus on describing the target word rather than learning a complicated set of controls.
+- However, there was one instance in which the system failed to pick up the player's speech. This showed that microphone input is not always reliable and that the system needs to account for situations in which speech is missed or cannot be transcribed correctly. Possible contributing factors include microphone sensitivity, background noise, the player's distance from the microphone, or the timing of the recording process.
+
 ### What lessons can you take away from the WoZ interactions for designing a more autonomous version of the system?
 
+- One of the main lessons from the WoZ interactions is that the system should minimize the amount of manual intervention required from the player. During testing, we have to press the physical button on the screen to progress to the next round. We also had to press another button to start recording listening. We also sometimes we had to press the physical button to reset the game, if the system could not understand the player’s speech input. One thing we can do to make it automatic is to get rid of the need for using buttons. The system can progress to the next round once the word has been guessed correctly. We can have an input screen which allows users to correct the system and tell it that it needs reset or player needs to speak its input again.
+
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
+
+- We could use the system to collect a dataset of player interactions by logging each round of the WordHunt game. For each interaction, we could record the target word, the player's spoken description, the speech-to-text transcript, the word guessed by the AI, the player's confirmation of whether the guess was correct, and the final outcome of the round. We could also record timestamps for important events, such as when recording begins, when the player finishes speaking, when the transcript is generated, when the AI returns its guess, and when the player confirms the result. This would allow us to measure response latency and identify which parts of the processing pipeline contribute most to delays.
