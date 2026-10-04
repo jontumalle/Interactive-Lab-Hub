@@ -150,6 +150,9 @@ by another clue. A no-with-clue is immediately combined with the earlier clue
 and guess to make another guess. Once the player confirms a guess, there's a button
 to advance to the next card.
 
+Go [here](./wordhound/README.md) to see how to run it. All source code is in the 
+[wordhound](./wordhound/) directory.
+
 ```mermaid
 flowchart TD
     A[Show target word to player] --> B[Wait for physical Start button]
