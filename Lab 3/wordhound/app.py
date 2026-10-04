@@ -20,10 +20,12 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import random
 import re
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 from dataclasses import dataclass
 from datetime import datetime
@@ -41,6 +43,10 @@ APP_DIR = Path(__file__).resolve().parent
 LAB_DIR = APP_DIR.parent
 SAMPLE_RATE = 16_000
 PIPER_VOICE = "en_US-ryan-medium"
+SPY_LOOP = APP_DIR / "assets" / "music" / "spy-loop.wav"
+LISTENING_START = APP_DIR / "assets" / "sfx" / "listening-start.wav"
+LISTENING_STOP = APP_DIR / "assets" / "sfx" / "listening-stop.wav"
+CORRECT_SOUND = APP_DIR / "assets" / "sfx" / "correct.wav"
 LOG = logging.getLogger("wordhound")
 
 
@@ -58,6 +64,7 @@ class AppConfig:
     asr_model: str
     headless: bool
     no_speech: bool
+    no_music: bool
 
 
 def parse_args() -> AppConfig:
@@ -73,6 +80,7 @@ def parse_args() -> AppConfig:
                         help="local faster-whisper model (default: tiny.en)")
     parser.add_argument("--headless", action="store_true", help="use terminal controls instead of the PiTFT")
     parser.add_argument("--no-speech", action="store_true", help="do not say the final guess aloud")
+    parser.add_argument("--no-music", action="store_true", help="do not play ready-screen music")
     args = parser.parse_args()
 
     if args.silence_seconds <= 0 or args.max_clue_seconds <= 0:
@@ -88,6 +96,7 @@ def parse_args() -> AppConfig:
         asr_model=args.asr_model,
         headless=args.headless,
         no_speech=args.no_speech,
+        no_music=args.no_music,
     )
 
 
@@ -99,7 +108,10 @@ def load_cards(path: Path) -> list[str]:
         raise WordHoundError(f"Could not read cards from {path.name}") from exc
     if not isinstance(cards, list) or not cards or not all(isinstance(card, str) and card.strip() for card in cards):
         raise WordHoundError("cards.json needs a non-empty list of words")
-    return [card.strip() for card in cards]
+    cleaned_cards = [card.strip() for card in cards]
+    if len({card.casefold() for card in cleaned_cards}) != len(cleaned_cards):
+        raise WordHoundError("cards.json cannot contain duplicate words")
+    return cleaned_cards
 
 
 class Screen:
@@ -420,6 +432,128 @@ class CodexGuesser:
         return re.sub(r"^[^A-Za-z0-9]+|[^A-Za-z0-9]+$", "", guess.strip())[:60] or "I don't know"
 
 
+class ReadyMusic:
+    """Own the quiet, looping music played only while a fresh card is ready."""
+
+    def __init__(self, track: Path, enabled: bool) -> None:
+        self.track = track
+        self.enabled = enabled
+        self.player: subprocess.Popen[bytes] | None = None
+        self._stop_event = threading.Event()
+        self._thread: threading.Thread | None = None
+        self._player_lock = threading.Lock()
+
+    def start(self) -> None:
+        if not self.enabled or (self._thread is not None and self._thread.is_alive()):
+            return
+        if not self.track.is_file():
+            LOG.warning("Ready music is missing: %s", self.track)
+            return
+        self._stop_event.clear()
+        self._thread = threading.Thread(target=self._play_loop, name="wordhound-ready-music", daemon=True)
+        self._thread.start()
+        LOG.info("Ready music started: %s", self.track.name)
+
+    def _play_loop(self) -> None:
+        """Replay the WAV via aplay, the same reliable route as Piper speech."""
+        while not self._stop_event.is_set():
+            try:
+                player = subprocess.Popen(
+                    ["aplay", "-q", str(self.track)],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.PIPE,
+                )
+            except OSError as exc:
+                LOG.warning("Ready music could not start: %s", exc)
+                return
+            with self._player_lock:
+                self.player = player
+            while player.poll() is None:
+                if self._stop_event.wait(0.05):
+                    player.terminate()
+                    break
+            try:
+                player.wait(timeout=1)
+            except subprocess.TimeoutExpired:
+                player.kill()
+                player.wait(timeout=1)
+            if player.returncode and not self._stop_event.is_set():
+                detail = player.stderr.read().decode("utf-8", "replace").strip() if player.stderr else ""
+                LOG.warning("Ready music playback failed%s", f": {detail}" if detail else "")
+                return
+            with self._player_lock:
+                if self.player is player:
+                    self.player = None
+
+    def stop(self) -> None:
+        if self._thread is None:
+            return
+        self._stop_event.set()
+        with self._player_lock:
+            player = self.player
+        if player is not None and player.poll() is None:
+            player.terminate()
+        self._thread.join(timeout=2)
+        self._thread = None
+        with self._player_lock:
+            self.player = None
+        LOG.info("Ready music stopped")
+
+
+def _finish_effect(player: subprocess.Popen[bytes], effect: Path) -> None:
+    """Reap an asynchronous effect player without blocking the game turn."""
+    try:
+        player.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        player.kill()
+        player.wait(timeout=1)
+    if player.returncode:
+        detail = player.stderr.read().decode("utf-8", "replace").strip() if player.stderr else ""
+        LOG.warning("Sound effect failed%s", f" ({effect.name}): {detail}" if detail else f" ({effect.name})")
+
+
+def play_effect(effect: Path, *, wait: bool = True) -> None:
+    """Play one UI cue, optionally without delaying the next game action.
+
+    The start-listening cue is asynchronous so a player who says "No" straight
+    away is captured. The end-listening and correct-answer cues still finish
+    before their next turn state. A missing or unavailable output device does
+    not stop the game.
+    """
+    if not effect.is_file():
+        LOG.warning("Sound effect is missing: %s", effect)
+        return
+    try:
+        if not wait:
+            player = subprocess.Popen(
+                ["aplay", "-q", str(effect)],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.PIPE,
+            )
+            threading.Thread(target=_finish_effect, args=(player, effect), daemon=True).start()
+            return
+        completed = subprocess.run(
+            ["aplay", "-q", str(effect)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            timeout=5,
+            check=False,
+        )
+        if completed.returncode:
+            LOG.warning("Sound effect failed: %s", completed.stderr.decode("utf-8", "replace").strip())
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        LOG.warning("Sound effect could not play: %s", exc)
+
+
+def record_with_cues(recorder: "ClueRecorder", screen: Screen) -> np.ndarray | None:
+    """Record one turn, marking the start and successful end with UI sounds."""
+    play_effect(LISTENING_START, wait=False)
+    utterance = recorder.record(screen)
+    if utterance is not None:
+        play_effect(LISTENING_STOP)
+    return utterance
+
+
 class ClueRecorder:
     """Captures exactly one VAD-bounded utterance from the default microphone."""
 
@@ -609,6 +743,7 @@ def main() -> None:
     )
     config = parse_args()
     cards = load_cards(config.cards_file)
+    random.shuffle(cards)
     try:
         screen: Screen = ConsoleScreen() if config.headless else PiTFTScreen()
     except WordHoundError as exc:
@@ -618,6 +753,7 @@ def main() -> None:
         screen = ConsoleScreen()
 
     recorder = ClueRecorder(config.vad_model, config.silence_seconds, config.max_clue_seconds)
+    ready_music = ReadyMusic(SPY_LOOP, enabled=not config.no_music)
     LOG.info("Loading local speech model: %s", config.asr_model)
     transcriber = LocalTranscriber(config.asr_model)
     guesser = CodexGuesser()
@@ -630,13 +766,19 @@ def main() -> None:
         while True:
             if not record_again:
                 screen.card(cards[card_index], card_index + 1, len(cards))
-                wait_for_button(screen, "A", "Press Enter to start the clue, or q to quit: ")
+                ready_music.start()
+                try:
+                    wait_for_button(screen, "A", "Press Enter to start the clue, or q to quit: ")
+                finally:
+                    # Speech and its recorded clue must never compete with the
+                    # music bed, even when the user quits from the ready card.
+                    ready_music.stop()
             record_again = False
             try:
                 recording: Path | None = None
                 if pending_clue is None:
                     screen.listening()
-                    utterance = recorder.record(screen)
+                    utterance = record_with_cues(recorder, screen)
                     if utterance is None:
                         continue
                     recording = recorder.save(utterance, config.save_dir)
@@ -665,7 +807,7 @@ def main() -> None:
                 # decides whether this guess completed the card.
                 while True:
                     screen.feedback()
-                    feedback_utterance = recorder.record(screen)
+                    feedback_utterance = record_with_cues(recorder, screen)
                     if feedback_utterance is None:
                         # B cancelled the microphone. Keep the same guess on
                         # screen and give the player another chance to answer.
@@ -688,8 +830,17 @@ def main() -> None:
                 is_correct, new_clue = feedback
                 if is_correct:
                     screen.correct(guess)
+                    play_effect(CORRECT_SOUND)
                     wait_for_button(screen, "B", "Type n and press Enter for the next word, or q to quit: ")
-                    card_index = (card_index + 1) % len(cards)
+                    previous_card = cards[card_index]
+                    card_index += 1
+                    if card_index == len(cards):
+                        random.shuffle(cards)
+                        # A deck contains no repeats. Avoid an immediate repeat
+                        # at the boundary before the next shuffled deck begins.
+                        if len(cards) > 1 and cards[0] == previous_card:
+                            cards[0], cards[1] = cards[1], cards[0]
+                        card_index = 0
                     clue_history.clear()
                 elif new_clue:
                     # A response such as "No, similar, but it's attracted to
@@ -709,6 +860,7 @@ def main() -> None:
                 screen.error(str(exc))
                 wait_for_action(screen)
     finally:
+        ready_music.stop()
         if isinstance(screen, PiTFTScreen):
             screen.close()
 

@@ -43,7 +43,15 @@ If direct use of `python wordhound/app.py` reports that it cannot open `gpiochip
 
 The app writes the speech-only WAV from each completed clue to `wordhound/recordings/` so a later iteration can inspect or label interaction data. Those recordings are ignored by Git. Add or change target words in [cards.json](cards.json).
 
+Cards are shuffled into a non-repeating deck at startup. After every card has been completed, WordHound reshuffles the deck and prevents the first new card from matching the card just completed.
+
 WordHound announces each result through the local Piper `en_US-ryan-medium` voice, giving the guesses a confident, game-show-style delivery. This voice is hardcoded for the POC. Piper streams raw audio to `aplay`, just as [piper_demo.sh](../speech-scripts/piper_demo.sh) does.
+
+## Ready-screen music
+
+While a new target card waits for Button A, WordHound loops `assets/music/spy-loop.wav`. It stops before the microphone opens, so it cannot interfere with a clue or answer. The track is ["Spy Loop" by wipics](https://opengameart.org/content/spy-loop), released CC0/public domain. Use `--no-music` to silence it for development or accessibility testing.
+
+WordHound marks the start of every spoken turn with a three-tone cue and its VAD-detected end with a two-tone cue. A Kenney CC0 confirmation sound marks a correct answer. There is no processing sound, leaving the spoken clue and result as the focus.
 
 For a display-free development session, use terminal controls:
 
