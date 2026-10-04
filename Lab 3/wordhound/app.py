@@ -340,6 +340,8 @@ class CodexGuesser:
             command = [
                 "codex", "exec", "--ephemeral", "--sandbox", "read-only",
                 "--skip-git-repo-check", "--ignore-user-config", "--ignore-rules",
+                "--model", "gpt-6-luna",
+                "--config", 'model_reasoning_effort="none"',
                 "--cd", directory, "--output-schema", str(schema_path), prompt,
             ]
             try:
