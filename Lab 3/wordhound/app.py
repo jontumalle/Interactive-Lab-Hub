@@ -444,7 +444,7 @@ def say_guess(guess: str, on_first_audio: Callable[[], None] | None = None) -> N
         str(LAB_DIR / "voices"),
         "--output-raw",
         "--",
-        f"My guess is {guess}.",
+        f"Is it {guess}?",
     ]
     started_at = time.perf_counter()
     first_audio_at: float | None = None
