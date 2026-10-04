@@ -322,47 +322,63 @@ The system should:
 
 *Include videos or screencaptures of both the system and the controller.*
 
-### WordHound POC: 2-Player Taboo
+### WordHound POC: One-Player Word Guessing Game
 
-The first version is a single-round prototype running on a Raspberry Pi. Both
-players see the target word. The clue giver describes it aloud, and the AI
-tries to guess the word from the transcript. There are no forbidden words,
-or scoring in this POC. After a guess, the player can confirm it or say
-"No" followed by their next clue in the same response.
+WordHound is a one-player Raspberry Pi prototype. The player sees a target
+word on the Mini PiTFT and describes it aloud while WordHound tries to infer
+the word. This POC is not a competitive two-player Taboo game: it has no
+forbidden words, turn-taking between players, timer, or score. The target
+word remains visible to the player, but it is never sent to the transcription
+or guessing systems.
+
+The player presses the left button to start a clue. After roughly two seconds
+of silence, WordHound saves the voice activity detection (VAD)-bounded audio,
+transcribes it locally on the Pi, and asks Codex CLI to make a guess from the
+transcript. It shows and speaks the guess. The player then says "yes" to
+complete the card, or says "no" followed by another clue. A no-with-clue is
+immediately combined with the earlier clue and guess to make another guess;
+there is no separate recording turn. Once the player confirms a guess, the
+right button advances to the next card.
 
 ```mermaid
 flowchart TD
-    A[Show target word to both players] --> B[Wait for physical Start button]
+    A[Show target word to player] --> B[Wait for physical Start button]
     B --> C[Listen through USB microphone]
     C --> D{About 2 seconds of silence?}
     D -- No --> C
     D -- Yes --> E[Stop recording]
     E --> F[Show Processing]
-    F --> G[Send audio to cloud speech recognition]
-    G --> H[Send transcript to cloud AI guesser]
+    F --> G[Transcribe audio locally on the Pi]
+    G --> H[Send transcript to Codex CLI guesser]
     H --> I[Display AI's guessed word]
     I --> J[Speak guess through speaker using local speech engine]
-    J --> K[Listen for Yes or No plus a new clue]
+    J --> K[Listen for yes or no plus a new clue]
     K -- Yes --> L[Show correct and wait for Next button]
     L --> A
     K -- No plus clue --> H
+    K -- No only --> M[Wait for Start button to record another clue]
+    M --> C
 ```
 
-#### First-version components
+#### POC components
 
-- **Raspberry Pi app and display:** shows the target word to both players, a
-  listening/processing status, and the AI's guess.
-- **Physical Start button:** begins capturing the clue.
+- **Raspberry Pi app and Mini PiTFT:** shows the target word to the player,
+  the current listening/processing state, the transcript, and the AI's guess.
+- **Physical controls:** the left button starts a clue (or a replacement clue)
+  and the right button advances after a correct guess.
 - **USB microphone:** captures the clue giver's speech.
-- **Pause detection:** stops recording after about two seconds of silence.
-- **Cloud speech recognition:** transcribes the recorded audio.
-- **Cloud AI guesser:** receives only the transcript and returns a guessed
-  word; it is not given the target word.
-- **Speaker and local speech engine:** say the AI's guess aloud.
+- **Voice activity detection:** stops recording after about two seconds of
+  silence and provides audible start/end cues.
+- **Local speech recognition:** faster-whisper transcribes each recorded clue
+  and feedback response on the Pi.
+- **Codex CLI guesser:** receives only clue transcripts and returns a guessed
+  word; it cannot access the target word or card list.
+- **USB speaker and local speech engine:** announce the AI's guess aloud.
 - **Feedback listener:** treats a spoken "yes" as completion, or uses the
-  clue after a spoken "no" for the next guess without an extra turn.
-- **Round controller:** coordinates the prompt, recording, processing, and
-  result steps.
+  clue after a spoken "no" for the next guess without another recording turn.
+- **Card controller:** shuffles a non-repeating deck of target words and
+  coordinates the prompt, recording, processing, feedback, and next-card
+  steps.
 
 ## Test the system
 
