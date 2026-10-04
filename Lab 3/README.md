@@ -384,6 +384,8 @@ flowchart TD
 
 Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
 
+[Video of the WordHound test](https://drive.google.com/file/d/1_pz2qFzLvdmUcKt7rhRDiMKAIYdDDjXC/view?usp=share_link)
+
 Answer the following:
 
 ### What worked well about the system and what didn't?
