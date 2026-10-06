@@ -1,0 +1,8 @@
+# Install from Lab 3 with: pip install -r wordhound/requirements.txt
+-r ../requirements.txt
+
+# Mini PiTFT display and buttons. These match the working Pi 5 Lab 2 stack.
+Adafruit-Blinka==9.2.0
+Adafruit-Blinka-Raspberry-Pi5-Neopixel==1.0.0rc2
+adafruit-circuitpython-rgb-display==3.14.6
+Pillow==11.3.0
