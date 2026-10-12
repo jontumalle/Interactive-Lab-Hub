@@ -285,6 +285,15 @@ Your kit includes these [SparkFun Qwiic OLED screens](https://www.sparkfun.com/p
 As you develop your Feast Automata concept, consider where the sensor and actuator need to be placed, what parts move, how electronics are housed, and how the overall form and aesthetics support the interaction.
 
 **\*\*\*Draw 5 sketches that explore different physical arrangements for your sensing and actuation.\*\*\***
+![Sketch 1](sketch1.png)
+
+![Sketch 2](sketch2.png)
+
+![Sketch 3](sketch3.png)
+
+![Sketch 4](sketch4.png)
+
+![Sketch 5](sketch5.png)
 
 **\*\*\*What questions do these sketches raise? What do you need to physically prototype to answer them?\*\*\***
 
