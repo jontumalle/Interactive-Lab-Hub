@@ -297,6 +297,17 @@ As you develop your Feast Automata concept, consider where the sensor and actuat
 
 **\*\*\*What questions do these sketches raise? What do you need to physically prototype to answer them?\*\*\***
 
+Some questions came up include:
+
+- If we went with the automatic dispenser idea, how would it dispense the utensils? How would we know it's strong enough to lift them up in a safe way?
+	- For this we would need to simulate the dispensing. We could add weights to a platform the motor can push up and experiment to see what the limit is and compare it to the average weight of the most heavy utensil.
+- For sketch 5, how would we know the motor can move to an angle that actually points to the correct object? Would we need a more precise motor than what we have available?
+	- For this we could set up two utensils next to each other (a fork and a spoon) as they would in a regular table setting and see if we can utelize computer vision to determine there are 2 utensils.
+- For using the sensors, how would we hide the connection to the sensors so that it isn't distracting from how it should be used?
+	- We could prototype the system with just one fake paper utensil to see if we can hide the wiring.
+- When we fix the number of utensils we allow the user to use, how do we know that we cover all the cases seen in the "fine dining" world?
+	- This is not something physical prototyping can address since this is more of a hypothetical.
+
 **\*\*\*Pick one design to prototype and explain why.\*\*\***
 
 Build a cardboard or other low-fidelity physical prototype of your design.
