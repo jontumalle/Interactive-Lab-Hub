@@ -8,6 +8,7 @@ adafruit-circuitpython-pca9685
 adafruit-circuitpython-servokit
 adafruit-circuitpython-apds9960
 adafruit-circuitpython-seesaw
+adafruit-lgpio
 sparkfun-qwiic
 sparkfun-qwiic-joystick
 sparkfun-qwiic-vl53l1x
