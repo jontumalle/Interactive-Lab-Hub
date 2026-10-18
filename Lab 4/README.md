@@ -370,6 +370,12 @@ For Part 2, build the Feast Automata interaction you developed in Part D by conn
 
 Iterate on the sensing, movement, and physical form, and document what you discover.
 
+#### Working prototype: At the Table
+
+The [phone viewer prototype](fine_dining/README.md) reads our capacitive cutlery sensor and gives live dining feedback. See its guide for starting/stopping the app, mapping utensils to channels, and editing scenarios.
+
+From the repository root, run `"Lab 4/fine_dining/start.sh"` and open the printed URL on a phone on the same network. Stop with Ctrl+C.
+
 See encoder_accel_servo_dashboard.py in the Lab 4 folder for an optional example of chaining together three devices.
 
 **`Lab 4/encoder_accel_servo_dashboard.py`**

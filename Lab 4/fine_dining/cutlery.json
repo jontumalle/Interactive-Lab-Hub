@@ -1,0 +1,8 @@
+{
+  "debounce_ms": 100,
+  "cutlery": [
+    {"id": "fork", "name": "Fork", "channel": 0, "enabled": true},
+    {"id": "knife", "name": "Knife", "channel": 1, "enabled": true},
+    {"id": "spoon", "name": "Spoon", "channel": 2, "enabled": true}
+  ]
+}
