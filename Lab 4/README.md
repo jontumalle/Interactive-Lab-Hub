@@ -68,3 +68,58 @@ From the repository root, run `"Lab 4/fine_dining/start.sh"` and open the printe
 [First prototype with fork video](https://drive.google.com/file/d/1KweES5yMQHb_wpn-slzBBrMNjegRI4kd/view?usp=share_link)
 [Using phone for visuals](https://drive.google.com/file/d/1zc7f8b6v1P_vZ7R6gkTLNZFUfj7gj0DY/view?usp=share_link)
 [Adding pictures and sound](https://drive.google.com/file/d/1Vb70O3qMolQDKml19VvHgUlTDk6Bypk4/view?usp=share_link)
+
+
+### Final prototype
+
+The updated [prototype code and setup guide](fine_dining/README.md) includes calibration for copper-tape pads, utensil lift detection, and answers that combine multiple utensils.
+
+[Working prototype video](https://drive.google.com/file/d/1w5CJkUc3LJbKacPssRfXj9YGkljTIEM5/view?usp=drive_link)
+
+### Sensing and interaction diagram
+
+![How sensing is connected](sensing_diagram.svg)
+
+Ani created this diagram with AI using his system design and explanation of the connections.
+
+### Ani’s reflection
+
+I learned a lot about physical prototyping through this lab. Even creating the paper prototype was difficult and needed time and effort to get it right. I am used to software, and how easy it is to manipulate and change as I need, but physical resources are much harder. One thing I needed to seek out was a way to demonstrate wire, which caused me to ask my mom if she had any yarn laying around. It forced me to be creative, which was a different skill I had to learn. It was really fun to see a physical end product which I could easily show friends and family, but I would say it was really challenging to work with the copper tape and making sure to get the connection just right.
+
+### Sensing and physical design observations
+
+- Sensor behavior
+  - The MPR121 senses capacitance, so it reacts to a conductive object touching a copper pad, not to someone's intention. A utensil resting on its pad lowers that pad's reading by about 30 counts. The dining answer is the moment a utensil leaves the pad, and the table's idle state is all three utensils resting in place. The sensor also can't tell which utensil is which, only which pad it sees, and a plastic utensil is invisible to it. It needed a calibration step in the experience: measure each empty pad, then learn each utensil.
+- Physical arrangement
+  - Pad contact matters. Pad size and how flatly a utensil rests decide how strong the signal is. My thresholds at first missed a utensil put back too lightly, and the quiz got stuck thinking it was still up.
+  - This prompted me to raise the copper pad up so it would act as a spring for the utensil to sit on, thus getting ample signal
+  - The display moved off the table. The MiniPiTFT didn't fit with the Servo pHAT, so feedback goes to a phone instead. Your hands and attention stay on the utensils while you glance at the phone for the result
+- Thresholds, timing, and feedback
+  - Lifting and putting back: on and off thresholds at 40% and 20% of the learned drop. This was the most challenging piece. My utensils were not making good contact with the pads, so I tweaked it by adding an easier contact point.
+  - Multi-utensil answers: the Pi waits up to 2 seconds only while your hand could still grow into a correct answer. Fork then knife on the steak works, but the fork alone counts as wrong after 2 seconds. A spoon for soup is judged instantly.
+  - Feedback: a green or red glow, the waiter's voice, and an "In hand: Fork" line so you can see the Pi noticed you. A reminder to put a utensil back appears 2 to 5 seconds late, depending on the situation, so it nudges without nagging
+  - Playfulness: wrong answers stay on screen until you retry, so you can keep guessing without penalty.
+- Sensor placement iterations
+  - Initially I built the copper tape to be flush with the cardboard box so it would look seamless. This posed a problem as my utensils didn't sit well on the surface to make good contact. I had to mess with the copper wires a lot to get them to work. At one point, the capacitative sensor pad itself didn't work, so I had to switch to a different pad.
+
+## Part 3: Final Documentation
+
+### Looks like
+
+- A cardboard place setting. Three copper-tape pads sit on the card, with a real spoon, knife and fork resting one per pad. The Pi, the MPR121 breakout and the Servo pHAT are tucked out of sight, and a phone stands beside the setting as the "menu."
+
+### Works like
+
+- A utensil resting on a pad changes that pad's reading, and the MPR121 reports it over I²C to the Pi.
+- The Pi runs a short table setup to learn each pad. Then it works out which utensils are lifted and judges the answer, including multi-utensil ones like fork and knife for the steak.
+- It serves a four-course dinner (lobster bisque, burrata, filet mignon, torte) to the phone over local Wi-Fi, with photos, the waiter's voice, and green or red feedback.
+- Limits: it senses pads, not utensils, so a plastic utensil is invisible
+
+### Acts like
+
+- Open the page on your phone and set the table: clear it, tap measure, then place each utensil when prompted.
+- Tap Start dinner and listen to the waiter introduce the course.
+- Pick up the utensil or utensils you'd use. The phone shows "In hand: …" while it waits.
+- See the result, green for correct or red for wrong with a hint, and hear the waiter respond.
+- Put the utensils back to continue. If you forget, a banner reminds you after a couple of seconds.
+- After the last course, see how many you got right on the first try.

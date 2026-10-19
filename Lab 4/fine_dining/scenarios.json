@@ -41,12 +41,12 @@
     },
     {
       "dish": "Filet mignon",
-      "prompt": "Your steak needs cutting. Touch only the utensil you would use to cut a bite.",
+      "prompt": "Your steak needs cutting. Pick up the utensils you would use to cut and eat a bite.",
       "accepted": [
-        "knife"
+        ["fork", "knife"]
       ],
-      "hint": "You need a cutting edge for this step. Select just that utensil.",
-      "explanation": "Cut a bite with your knife while steadying the steak with your fork.",
+      "hint": "Cutting a steak takes two utensils: one to steady the meat and one with a cutting edge.",
+      "explanation": "Steady the steak with your fork while you cut a bite with your knife.",
       "course_label": "Main course",
       "subtitle": "The centerpiece",
       "description": "Filet mignon with a red wine reduction and potato pur\u00e9e.",

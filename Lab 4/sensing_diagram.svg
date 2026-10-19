@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 630" width="1040" height="630" font-family="Helvetica, Arial, sans-serif">
+  <title>How sensing is connected in the utensil quiz</title>
+  <desc>Utensils rest on copper-tape pads wired to an MPR121 capacitive touch sensor, which the Raspberry Pi reads over I2C. The Pi decides which utensils are lifted, judges the answer, and sends feedback to a phone over Wi-Fi. A chart shows how one pad's reading changes when a utensil is lifted.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a5568"/>
+    </marker>
+  </defs>
+
+  <rect width="1040" height="630" fill="#ffffff"/>
+
+  <text x="20" y="34" font-size="20" font-weight="bold" fill="#1a202c">Utensil quiz: how sensing is connected</text>
+  <text x="20" y="56" font-size="13" fill="#4a5568">Lifting a utensil off its copper pad changes a capacitive reading. The Pi turns that into an answer and the phone responds.</text>
+
+  <!-- 1  The table -->
+  <rect x="20" y="80" width="190" height="170" rx="10" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1.5"/>
+  <text x="34" y="104" font-size="14" font-weight="bold" fill="#1a202c">1  The table</text>
+  <text x="34" y="122" font-size="12" fill="#4a5568">cardboard + copper tape</text>
+  <g font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">
+    <rect x="30" y="138" width="52" height="46" rx="4" fill="#b8692f"/><text x="56" y="166">spoon</text>
+    <rect x="92" y="138" width="52" height="46" rx="4" fill="#b8692f"/><text x="118" y="166">knife</text>
+    <rect x="154" y="138" width="52" height="46" rx="4" fill="#b8692f"/><text x="180" y="166">fork</text>
+  </g>
+  <g font-size="12" fill="#4a5568" text-anchor="middle">
+    <text x="56" y="201">pad 0</text><text x="118" y="201">pad 5</text><text x="180" y="201">pad 10</text>
+  </g>
+  <text x="34" y="228" font-size="11.5" fill="#4a5568">each metal utensil rests on its pad</text>
+
+  <!-- 2  Sensing -->
+  <rect x="300" y="80" width="160" height="170" rx="10" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1.5"/>
+  <text x="314" y="104" font-size="14" font-weight="bold" fill="#1a202c">2  Sensing</text>
+  <text x="314" y="122" font-size="12" fill="#4a5568">MPR121 touch sensor</text>
+  <g font-size="10" text-anchor="middle">
+    <rect x="311" y="136" width="18" height="18" rx="3" fill="#b8692f"/><text x="320" y="149" fill="#ffffff" font-weight="bold">0</text>
+    <rect x="335" y="136" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="344" y="149" fill="#718096">1</text>
+    <rect x="359" y="136" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="368" y="149" fill="#718096">2</text>
+    <rect x="383" y="136" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="392" y="149" fill="#718096">3</text>
+    <rect x="407" y="136" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="416" y="149" fill="#718096">4</text>
+    <rect x="431" y="136" width="18" height="18" rx="3" fill="#b8692f"/><text x="440" y="149" fill="#ffffff" font-weight="bold">5</text>
+    <rect x="311" y="160" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="320" y="173" fill="#718096">6</text>
+    <rect x="335" y="160" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="344" y="173" fill="#718096">7</text>
+    <rect x="359" y="160" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="368" y="173" fill="#718096">8</text>
+    <rect x="383" y="160" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="392" y="173" fill="#718096">9</text>
+    <rect x="407" y="160" width="18" height="18" rx="3" fill="#b8692f"/><text x="416" y="173" fill="#ffffff" font-weight="bold">10</text>
+    <rect x="431" y="160" width="18" height="18" rx="3" fill="#e2e8f0"/><text x="440" y="173" fill="#718096">11</text>
+  </g>
+  <text x="314" y="204" font-size="12" fill="#1a202c">12 channels, 3 in use</text>
+  <text x="314" y="222" font-size="11.5" fill="#4a5568">reads each pad's capacitance</text>
+
+  <!-- 3  The Pi -->
+  <rect x="550" y="80" width="250" height="170" rx="10" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1.5"/>
+  <text x="564" y="104" font-size="14" font-weight="bold" fill="#1a202c">3  The Pi</text>
+  <text x="564" y="122" font-size="12" fill="#4a5568">Raspberry Pi 5</text>
+  <g font-size="12" fill="#1a202c">
+    <rect x="564" y="130" width="222" height="30" rx="5" fill="#ebf4ff" stroke="#90cdf4"/><text x="574" y="150">Pad detector: on pad / lifted</text>
+    <rect x="564" y="168" width="222" height="30" rx="5" fill="#ebf4ff" stroke="#90cdf4"/><text x="574" y="188">Quiz logic: answer = utensils lifted</text>
+    <rect x="564" y="206" width="222" height="30" rx="5" fill="#ebf4ff" stroke="#90cdf4"/><text x="574" y="226">Web server: page + voice clips</text>
+  </g>
+  <g stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="675" y1="160" x2="675" y2="167"/>
+    <line x1="675" y1="198" x2="675" y2="205"/>
+  </g>
+  <text x="550" y="270" font-size="11.5" fill="#4a5568">SparkFun Servo pHAT is stacked on top.</text>
+  <text x="550" y="285" font-size="11.5" fill="#4a5568">Same I²C bus (0x40); reserved for a servo later.</text>
+
+  <!-- 4  Feedback -->
+  <rect x="890" y="80" width="130" height="170" rx="10" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1.5"/>
+  <text x="902" y="104" font-size="14" font-weight="bold" fill="#1a202c">4  Feedback</text>
+  <text x="902" y="122" font-size="12" fill="#4a5568">phone browser</text>
+  <rect x="910" y="132" width="90" height="54" rx="6" fill="#e2e8f0" stroke="#38a169" stroke-width="4"/>
+  <text x="955" y="163" font-size="11" fill="#4a5568" text-anchor="middle">dish photo</text>
+  <g font-size="11.5" fill="#1a202c">
+    <text x="902" y="208">green / red glow</text>
+    <text x="902" y="223">waiter voice</text>
+    <text x="902" y="238">reminders</text>
+  </g>
+
+  <!-- arrows between boxes -->
+  <g stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)">
+    <line x1="210" y1="175" x2="298" y2="175"/>
+    <line x1="460" y1="175" x2="548" y2="175"/>
+    <line x1="800" y1="175" x2="888" y2="175"/>
+  </g>
+  <g font-size="11.5" fill="#1a202c" text-anchor="middle">
+    <text x="255" y="148">copper tape</text><text x="255" y="162">+ wire</text>
+    <text x="505" y="148">I²C</text><text x="505" y="162">address 0x5A</text>
+    <text x="845" y="148">Wi-Fi</text><text x="845" y="162">local HTTP</text>
+  </g>
+
+  <!-- human loop -->
+  <path d="M955,250 V318 H115 V252" fill="none" stroke="#4a5568" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <rect x="300" y="306" width="470" height="24" fill="#ffffff"/>
+  <text x="535" y="323" font-size="12.5" font-style="italic" fill="#1a202c" text-anchor="middle">You see and hear the result, then pick up or put back a utensil</text>
+
+  <!-- signal chart -->
+  <text x="20" y="372" font-size="15" font-weight="bold" fill="#1a202c">What the Pi reads from one pad</text>
+  <rect x="200" y="388" width="190" height="202" fill="#fff5eb"/>
+  <text x="295" y="408" font-size="12" font-weight="bold" fill="#b8692f" text-anchor="middle">picked up</text>
+  <text x="295" y="424" font-size="11.5" fill="#b8692f" text-anchor="middle">counts toward the answer</text>
+
+  <line x1="60" y1="388" x2="60" y2="590" stroke="#4a5568" stroke-width="1.5"/>
+  <line x1="60" y1="590" x2="540" y2="590" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="36" y="490" font-size="12" fill="#4a5568" text-anchor="middle" transform="rotate(-90 36 490)">pad reading</text>
+  <text x="540" y="608" font-size="12" fill="#4a5568" text-anchor="end">time</text>
+
+  <line x1="60" y1="440" x2="542" y2="440" stroke="#2b6cb0" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="66" y="434" font-size="11" fill="#2b6cb0">empty level (set at setup)</text>
+  <line x1="60" y1="456" x2="542" y2="456" stroke="#718096" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="60" y1="472" x2="542" y2="472" stroke="#718096" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="546" y="460" font-size="11" fill="#4a5568">off</text>
+  <text x="546" y="476" font-size="11" fill="#4a5568">on</text>
+
+  <polyline fill="none" stroke="#1a202c" stroke-width="2.5" stroke-linejoin="round"
+    points="62,520 72,522 82,519 92,521 102,520 112,522 122,519 132,521 142,520 152,522 162,519 172,521 182,520 190,521 197,490 203,448 208,441 218,439 228,442 238,439 248,441 258,438 268,441 278,439 288,442 298,439 308,441 318,438 328,441 338,439 348,442 358,439 368,441 378,440 384,458 390,500 396,519 406,521 416,519 426,521 436,520 446,522 456,519 466,521 476,520 486,522 496,519 506,521 516,520 526,522 538,520"/>
+  <g font-size="12" font-weight="bold" fill="#2f855a" text-anchor="middle">
+    <text x="130" y="548">utensil on pad</text>
+    <text x="466" y="548">put back</text>
+  </g>
+
+  <!-- explanation -->
+  <text x="600" y="372" font-size="15" font-weight="bold" fill="#1a202c">Reading the signal</text>
+  <g font-size="13" fill="#1a202c">
+    <text x="600" y="402">A metal utensil on a pad adds capacitance, so that</text>
+    <text x="600" y="420">pad's reading drops by about 30 counts.</text>
+    <text x="600" y="450">Lifting it brings the reading back to the empty level:</text>
+    <text x="600" y="468">the utensil is "picked up". Putting it back drops it again.</text>
+    <text x="600" y="498">The on / off thresholds are learned for each utensil in</text>
+    <text x="600" y="516">the phone's table setup, and re-measured on every run.</text>
+    <text x="600" y="546">Answer = the set of utensils lifted. It is judged at once,</text>
+    <text x="600" y="564">or after up to 2 s when more could follow (fork, then knife).</text>
+  </g>
+</svg>
