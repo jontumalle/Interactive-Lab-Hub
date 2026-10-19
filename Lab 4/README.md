@@ -49,7 +49,7 @@ Some questions came up include:
 The user sits down at a simulated dining table. A screen displays a dish, such as soup, and asks the user to select the correct utensil. The user picks up a paper fork, knife, or spoon from the table setting. The system tells them whether their choice is correct and explains the appropriate etiquette.
 
 
-I'd choose this design because it combines physical interaction, sensing, and feedback in a simple experience. It also lets you test the core idea before investing time in building the dispenser or integrating real sensors.
+We chose this design because it combines physical interaction, sensing, and feedback in a simple experience. It also lets you test the core idea before investing time in building the dispenser or integrating real sensors.
 
 ### Rough prototype
 
@@ -80,27 +80,27 @@ The updated [prototype code and setup guide](fine_dining/README.md) includes cal
 
 ![How sensing is connected](sensing_diagram.svg)
 
-Ani created this diagram with AI using his system design and explanation of the connections.
+We created this diagram with AI using our system design and explanation of the connections.
 
-### Ani’s reflection
+### Reflection
 
-I learned a lot about physical prototyping through this lab. Even creating the paper prototype was difficult and needed time and effort to get it right. I am used to software, and how easy it is to manipulate and change as I need, but physical resources are much harder. One thing I needed to seek out was a way to demonstrate wire, which caused me to ask my mom if she had any yarn laying around. It forced me to be creative, which was a different skill I had to learn. It was really fun to see a physical end product which I could easily show friends and family, but I would say it was really challenging to work with the copper tape and making sure to get the connection just right.
+We learned a lot about physical prototyping through this lab. Even creating the paper prototype was difficult and needed time and effort to get it right. We are used to software, and how easy it is to manipulate and change as we need, but physical resources are much harder. One thing we needed to seek out was a way to demonstrate wire, which led us to ask family members if they had any spare yarn. It forced us to be creative, which was a different skill we had to learn. It was really fun to see a physical end product which we could easily show friends and family, but we would say it was really challenging to work with the copper tape and making sure to get the connection just right.
 
 ### Sensing and physical design observations
 
 - Sensor behavior
   - The MPR121 senses capacitance, so it reacts to a conductive object touching a copper pad, not to someone's intention. A utensil resting on its pad lowers that pad's reading by about 30 counts. The dining answer is the moment a utensil leaves the pad, and the table's idle state is all three utensils resting in place. The sensor also can't tell which utensil is which, only which pad it sees, and a plastic utensil is invisible to it. It needed a calibration step in the experience: measure each empty pad, then learn each utensil.
 - Physical arrangement
-  - Pad contact matters. Pad size and how flatly a utensil rests decide how strong the signal is. My thresholds at first missed a utensil put back too lightly, and the quiz got stuck thinking it was still up.
-  - This prompted me to raise the copper pad up so it would act as a spring for the utensil to sit on, thus getting ample signal
+  - Pad contact matters. Pad size and how flatly a utensil rests decide how strong the signal is. Our thresholds at first missed a utensil put back too lightly, and the quiz got stuck thinking it was still up.
+  - This prompted us to raise the copper pad up so it would act as a spring for the utensil to sit on, thus getting ample signal
   - The display moved off the table. The MiniPiTFT didn't fit with the Servo pHAT, so feedback goes to a phone instead. Your hands and attention stay on the utensils while you glance at the phone for the result
 - Thresholds, timing, and feedback
-  - Lifting and putting back: on and off thresholds at 40% and 20% of the learned drop. This was the most challenging piece. My utensils were not making good contact with the pads, so I tweaked it by adding an easier contact point.
+  - Lifting and putting back: on and off thresholds at 40% and 20% of the learned drop. This was the most challenging piece. Our utensils were not making good contact with the pads, so we tweaked it by adding an easier contact point.
   - Multi-utensil answers: the Pi waits up to 2 seconds only while your hand could still grow into a correct answer. Fork then knife on the steak works, but the fork alone counts as wrong after 2 seconds. A spoon for soup is judged instantly.
   - Feedback: a green or red glow, the waiter's voice, and an "In hand: Fork" line so you can see the Pi noticed you. A reminder to put a utensil back appears 2 to 5 seconds late, depending on the situation, so it nudges without nagging
   - Playfulness: wrong answers stay on screen until you retry, so you can keep guessing without penalty.
 - Sensor placement iterations
-  - Initially I built the copper tape to be flush with the cardboard box so it would look seamless. This posed a problem as my utensils didn't sit well on the surface to make good contact. I had to mess with the copper wires a lot to get them to work. At one point, the capacitative sensor pad itself didn't work, so I had to switch to a different pad.
+  - Initially we built the copper tape to be flush with the cardboard box so it would look seamless. This posed a problem as our utensils didn't sit well on the surface to make good contact. We had to mess with the copper wires a lot to get them to work. At one point, the capacitative sensor pad itself didn't work, so we had to switch to a different pad.
 
 ## Part 3: Final Documentation
 
