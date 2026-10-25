@@ -215,6 +215,10 @@ Consider how you might use this position based approach to create an interaction
 
 \*\*\***Include a screenshot or short video of the hand pose demo, and write how you might use face, hand or body pose tracking in your observant system.**\*\*\*
 
+![Quiet coyote demo](screenshots/part-c-quiet-coyote.png)
+
+Face and hand gestures can be an interesting way of more naturally send signals of feeling. Some people, like myself, tend to use hand gestures so it may be interesting to compose Speech-to-Text with hand gesture recognition to really convey meaning.
+
 
 ## Part D. 
 ### Reason: run Qwen on the Pi with Ollama
