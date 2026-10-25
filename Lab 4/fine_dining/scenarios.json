@@ -1,0 +1,87 @@
+{
+  "feedback_seconds": 4,
+  "courses": [
+    {
+      "dish": "Lobster bisque",
+      "prompt": "Your soup is served. Which utensil will you reach for?",
+      "accepted": [
+        "spoon"
+      ],
+      "hint": "Choose a utensil that can hold the broth.",
+      "explanation": "Use the spoon for soup. Sip quietly from its side.",
+      "course_label": "Soup course",
+      "subtitle": "A warm beginning",
+      "description": "Lobster bisque, finished with cr\u00e8me fra\u00eeche and chives.",
+      "image": "bisque.jpg",
+      "image_alt": "A bowl of lobster bisque with an herb garnish",
+      "image_credit": "Stu Spivack",
+      "image_source": "https://commons.wikimedia.org/wiki/File:Lobster_bisque.jpg",
+      "image_license": "CC BY-SA 2.0 \u00b7 display cropped",
+      "image_license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "sound": "lobsterbique.wav"
+    },
+    {
+      "dish": "Burrata with heirloom tomatoes",
+      "prompt": "Which utensil will you use to bring a bite of burrata to your mouth?",
+      "accepted": [
+        "fork"
+      ],
+      "hint": "Use the utensil with tines to lift a bite.",
+      "explanation": "Use your fork to bring the burrata and tomatoes to your mouth.",
+      "course_label": "Starter",
+      "subtitle": "From the garden",
+      "description": "Burrata with heirloom tomatoes, fresh basil, and aged balsamic.",
+      "image": "burrata.jpg",
+      "image_alt": "Burrata served over tomatoes with herbs",
+      "image_credit": "Valeria Boltneva",
+      "image_source": "https://www.pexels.com/photo/delicious-burrata-cheese-with-fresh-tomatoes-29380176/",
+      "sound": "burrata.wav",
+      "image_license": "Pexels license",
+      "image_license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "dish": "Filet mignon",
+      "prompt": "Your steak needs cutting. Pick up the utensils you would use to cut and eat a bite.",
+      "accepted": [
+        ["fork", "knife"]
+      ],
+      "hint": "Cutting a steak takes two utensils: one to steady the meat and one with a cutting edge.",
+      "explanation": "Steady the steak with your fork while you cut a bite with your knife.",
+      "course_label": "Main course",
+      "subtitle": "The centerpiece",
+      "description": "Filet mignon with a red wine reduction and potato pur\u00e9e.",
+      "image": "filet.jpg",
+      "image_alt": "Grilled filet steak on a white plate with sauce",
+      "image_credit": "Pexels",
+      "image_source": "https://www.pexels.com/fr-fr/photo/34433608/",
+      "sound": "filletmignon.wav",
+      "image_license": "Pexels license",
+      "image_license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "dish": "Dark chocolate torte",
+      "course_label": "Dessert",
+      "subtitle": "Something sweet",
+      "description": "Dark chocolate torte with raspberry coulis, to close the evening.",
+      "prompt": "Which utensil will you use for a bite of torte?",
+      "accepted": [
+        "fork"
+      ],
+      "hint": "Use the utensil with tines to separate and lift a small bite.",
+      "explanation": "Use a fork to separate and lift a small bite of torte.",
+      "image": "torte.jpg",
+      "image_alt": "A slice of chocolate torte with cream on a white plate",
+      "image_credit": "Zeze",
+      "image_source": "https://www.pexels.com/photo/delicious-slice-of-sacher-torte-with-cream-36294406/",
+      "image_license": "Pexels license",
+      "image_license_url": "https://www.pexels.com/license/",
+      "sound": "torte.wav"
+    }
+  ],
+  "sounds": {
+    "welcome": "welcome.wav",
+    "correct": "correct.wav",
+    "incorrect": "incorrect.wav",
+    "end": "end.wav"
+  }
+}

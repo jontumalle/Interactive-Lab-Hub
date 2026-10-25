@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>At the Table</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#f5eddc;background:#171e1b;line-height:1.5}*{box-sizing:border-box}body{margin:0}main{max-width:620px;margin:auto;padding:20px 22px 40px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid #485044;padding-bottom:16px}.brand{font:26px Georgia,serif;color:#ead3a0}.connection{font-size:11px;color:#c5cebd;text-align:right}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:#d6bc82;margin:22px 0 10px}h1{font:clamp(32px,8vw,46px)/1.1 Georgia,serif;margin:24px 0;text-align:center}.description{color:#d1d4c6;font-size:16px;margin:0 0 20px}.hero{margin:24px 0 0;border:5px solid #485044;border-radius:16px;overflow:hidden;background:#28332c;aspect-ratio:1/1;transition:border-color .18s,box-shadow .18s}.hero img{width:100%;height:100%;object-fit:cover;display:block}.hero[data-phase="correct"]{border-color:#74f59d;box-shadow:0 0 12px #74f59dbb,0 0 32px #35d36b66}.hero[data-phase="wrong"]{border-color:#ff716a;box-shadow:0 0 12px #ff716abb,0 0 32px #ee433d66}.credits{font-size:11px;color:#bdc6b7;margin-top:20px}.credits summary{cursor:pointer}.credits a{color:inherit}.notice{background:#fff0d8;border:2px solid #875b19;border-radius:12px;padding:16px;margin-top:20px;color:#65400d}.summary{text-align:center;color:#d1d4c6}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}.arrival{animation:arrive .65s ease-out}@keyframes arrive{from{opacity:.3;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){.arrival{animation:none}.hero{transition:none}}@media(max-height:750px){.hero{aspect-ratio:4/3}}[hidden]{display:none!important}
+button{font:inherit;border:1px solid #d6bc82;background:#ead3a0;color:#171e1b;padding:10px 16px;border-radius:8px;cursor:pointer}.audio-controls{margin:20px 0;text-align:center}.audio-controls p{font-size:13px;color:#bdc6b7;margin:7px 0}
+.setup-items{list-style:none;padding:0;margin:16px 0}.setup-items li{padding:10px 14px;border:1px solid #485044;border-radius:8px;margin:8px 0;color:#bdc6b7}.setup-items li[data-status="current"]{border-color:#d6bc82;color:#ead3a0}.setup-items li[data-status="done"]{border-color:#74f59d;color:#74f59d}#setup-message{font-size:17px}.ready-note{border-left:4px solid #74f59d;background:#28332c;padding:12px 14px;border-radius:0 8px 8px 0;margin:20px 0 4px;font-size:16px}.in-hand{text-align:center;color:#d6bc82;font-size:15px;margin:-8px 0 0}.reminder{background:#ead3a0;color:#171e1b;border:2px solid #d6bc82;border-radius:12px;padding:14px 16px;margin:20px 0 0;font-size:18px;text-align:center}button.secondary{background:transparent;color:#d6bc82}
+.welcome{padding:36px 0 48px}.welcome h1{font-size:48px;text-align:left}.welcome button{margin-top:14px;min-height:52px;width:100%}button:disabled{opacity:.5;cursor:wait}#start-status{font-size:14px;color:#bdc6b7}
+</style></head><body><main>
+<header><span class="brand">At the Table</span><span class="connection" id="connection" role="status">Connecting…</span></header>
+<div class="notice" id="notice" role="alert">Connecting to the Pi. Please wait before selecting a utensil.</div>
+<section id="welcome" class="welcome">
+<p class="eyebrow">A seat at our table</p><h1>Your evening<br>starts here.</h1>
+<p>Settle in for a tasting menu, guided by your waiter.</p>
+<p class="description">Turn up your phone’s volume. After starting, listen to each course and choose with the utensils on the table.</p>
+<div id="setup" hidden>
+<p class="eyebrow">Setting your table</p>
+<p id="setup-message" role="status"></p>
+<ul class="setup-items" id="setup-items"></ul>
+<p id="setup-detail" class="description"></p>
+<button id="measure" type="button" hidden>The table is clear — measure</button>
+</div>
+<p id="ready-note" class="ready-note" hidden><strong>Your table is set.</strong> Leave your spoon, knife and fork resting on their pads. You will pick one up only when it is time to choose.</p>
+<button id="start" type="button" disabled>Start dinner</button>
+<p id="start-status" role="status">Connecting to your table…</p>
+<button id="redo" class="secondary" type="button" hidden>Redo table setup</button>
+</section>
+<div id="session" hidden>
+<p id="reminder" class="reminder" role="status" hidden></p>
+<div id="course-content"><figure class="hero" id="hero" hidden><img id="photo" alt=""></figure><h1 id="dish"></h1></div>
+<p id="in-hand" class="in-hand" hidden></p>
+<p id="feedback" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+<p class="summary" id="summary" hidden></p>
+</div>
+<div class="audio-controls" id="audio-controls" hidden><button id="replay" type="button">Replay voice</button><p id="sound-status" class="sr-only" role="status"></p><audio id="voice" preload="auto" playsinline></audio></div>
+<details class="credits" id="credits" hidden><summary>Photo credit</summary><p><a id="credit" target="_blank" rel="noopener noreferrer"></a> &middot; <a id="license" target="_blank" rel="noopener noreferrer"></a></p></details>
+</main><script>
+const el = id => document.getElementById(id);
+const setText = (id, text) => { if(el(id).textContent !== text) el(id).textContent = text; };
+let lastFeedback = '', lastCourse = '';
+function soundStatus(text, error = false) {
+ setText('sound-status', text);
+ el('sound-status').classList.toggle('sr-only', !error);
+}
+el('photo').addEventListener('error', () => { el('hero').hidden = true; });
+// Playback only: the Pi chooses cue IDs and ordered clip filenames.
+// A single media element keeps playback on the phone's normal media channel.
+const voice = el('voice');
+voice.volume = 1;
+voice.muted = false;
+let latestState, lastAudio = '', generation = 0, entered = false, enteredAt = 0, starting = false;
+function stopVoice() {
+ generation++;
+ voice.onended = null;
+ voice.onerror = null;
+ voice.pause();
+}
+function playCue(cue) {
+ stopVoice();
+ const token = generation;
+ lastAudio = cue.id;
+ const clips = [...cue.clips];
+ let index = 0;
+ function playNext() {
+  if(token !== generation) return;
+  if(index >= clips.length) {
+   soundStatus(clips.length ? 'Voice is on. Replay whenever you like.' : 'No recording for this course yet.');
+   return;
+  }
+  const name = clips[index++];
+  voice.src = '/sounds/' + encodeURIComponent(name);
+  voice.onended = playNext;
+  voice.onerror = () => {
+   if(token === generation) soundStatus(`Could not load ${name}. Check the Pi connection, then tap Replay voice.`, true);
+  };
+  soundStatus('Loading your waiter’s voice…');
+  // Called directly during Replay's click so mobile browsers see the gesture.
+  voice.play().then(() => {
+   if(token === generation) soundStatus('Your waiter is speaking. Check your phone’s media volume if you cannot hear it.');
+  }).catch(error => {
+   if(token !== generation) return;
+   soundStatus(error.name === 'NotAllowedError'
+    ? 'Your phone requires a tap for sound. Tap Replay voice once; later cues play automatically.'
+    : `Audio could not play (${name}). Tap Replay voice to retry.`, true);
+  });
+ }
+ playNext();
+}
+el('start').addEventListener('click', async () => {
+ if(starting || latestState?.sensor !== 'connected') return;
+ starting = true;
+ el('start').disabled = true;
+ setText('start-status', 'Welcoming you to the table…');
+ // Begin actual audio inside the tap, before awaiting the start request.
+ // Reuse this media element for every later cue on the phone.
+ playCue(latestState.audio);
+ try {
+  const response = await fetch('/api/start', {method:'POST', signal:AbortSignal.timeout(5000)});
+  if(!response.ok) throw new Error('Start failed');
+  entered = true;
+  enteredAt = performance.now();
+  el('welcome').hidden = true;
+  el('audio-controls').hidden = false;
+  el('session').hidden = false;
+ } catch (_) {
+  stopVoice(); lastAudio = '';
+  setText('start-status', 'Could not start dinner. Check the Pi connection and tap Start dinner again.');
+ } finally { starting = false; el('start').disabled = latestState?.sensor !== 'connected'; }
+});
+// Table setup is driven entirely by the Pi; these only send the phone's two requests.
+const post = path => fetch(path, {method:'POST', signal:AbortSignal.timeout(5000)}).catch(() => {});
+el('measure').addEventListener('click', () => post('/api/setup/measure'));
+el('redo').addEventListener('click', () => post('/api/setup/restart'));
+function renderSetup(setup) {
+ setText('setup-message', setup.message);
+ setText('setup-detail', setup.detail || '');
+ const list = el('setup-items'), key = JSON.stringify(setup.items);
+ if(list.dataset.key !== key) {
+  list.dataset.key = key;
+  const marks = {done:'✓', current:'…', pending:'○'};
+  list.replaceChildren(...setup.items.map(item => {
+   const li = document.createElement('li');
+   li.dataset.status = item.status;
+   li.textContent = `${marks[item.status]} ${item.name}`;
+   return li;
+  }));
+ }
+ el('measure').hidden = setup.step !== 'clear';
+}
+el('replay').addEventListener('click', () => {
+ if(latestState?.sensor === 'connected') playCue(latestState.audio);
+ else soundStatus('Waiting for the Pi and sensor to connect.', true);
+});
+document.addEventListener('visibilitychange', () => {
+ if(document.hidden) { stopVoice(); lastAudio = ''; }
+});
+async function refresh() {
+ try {
+  const requestedAt = performance.now();
+  const response = await fetch('/api/state', {cache:'no-store', signal:AbortSignal.timeout(2500)});
+  if(!response.ok) throw new Error('Connection failed');
+  const state = await response.json();
+  latestState = state;
+  if(state.sensor !== 'connected') { stopVoice(); lastAudio = ''; }
+  else if(entered && !starting && state.phase !== 'waiting' && !document.hidden && state.audio.id !== lastAudio) playCue(state.audio);
+  setText('connection', state.sensor === 'connected' ? '● Live at your table' : '● Sensor unavailable');
+  el('notice').hidden = state.sensor === 'connected';
+  if(state.sensor !== 'connected') setText('notice', state.sensor === 'starting' ? 'Starting the sensor. Keep your hands off the utensils.' : 'Sensor unavailable. Check the wiring and restart the app on the Pi. Your selection cannot be read right now.');
+  // A restarted Pi returns to the welcome screen on every phone.
+  // Ignore a reply that was requested before this phone started the dinner: it can still say "waiting".
+  if(['waiting', 'calibrating'].includes(state.phase) && entered && !starting && requestedAt > enteredAt) {
+   entered = false; stopVoice(); lastAudio = '';
+  }
+  const calibrating = state.phase === 'calibrating' && state.sensor === 'connected';
+  el('welcome').hidden = entered;
+  el('audio-controls').hidden = !entered;
+  el('session').hidden = !entered;
+  el('setup').hidden = !calibrating || entered;
+  if(!el('setup').hidden) renderSetup(state.setup);
+  el('start').hidden = calibrating;
+  el('ready-note').hidden = entered || state.sensor !== 'connected' || state.phase !== 'waiting';
+  setText('reminder', state.reminder || '');
+  el('reminder').hidden = !entered || !state.reminder;
+  // While an answer is being put together, show what the Pi sees in the diner's hand.
+  const inHand = entered && !state.reminder && ['ready', 'wrong'].includes(state.phase) ? state.touched : [];
+  setText('in-hand', inHand.length ? `In hand: ${inHand.join(', ')}` : '');
+  el('in-hand').hidden = !inHand.length;
+  el('redo').hidden = entered || state.sensor !== 'connected' || !['waiting', 'calibrating'].includes(state.phase) || state.setup.step === 'measuring';
+  el('start').disabled = starting || state.sensor !== 'connected' || state.phase === 'calibrating';
+  el('start').textContent = state.phase === 'waiting' ? 'Start dinner' : 'Join dinner';
+  if(!entered && !starting) setText('start-status', state.sensor !== 'connected' ? 'Waiting for the Pi and sensor…' : calibrating ? 'Let’s set your table first.' : 'Your table is ready.');
+  const presentation = state.presentation;
+  setText('dish', state.dish);
+  el('hero').dataset.phase = state.sensor === 'connected' ? state.phase : '';
+  el('credits').hidden = !entered || !presentation.image;
+  const courseKey = JSON.stringify([state.course_number, state.phase === 'complete', presentation]);
+  if(courseKey !== lastCourse) {
+   el('credits').open = false;
+   el('hero').hidden = !presentation.image;
+   if(presentation.image) {
+    el('photo').alt = presentation.image_alt;
+    el('photo').src = '/images/' + encodeURIComponent(presentation.image);
+    setText('credit', presentation.image_credit || 'Photo source');
+    setText('license', presentation.image_license || 'Source');
+    if(presentation.image_license_url) el('license').href = presentation.image_license_url;
+    else el('license').removeAttribute('href');
+    if(presentation.image_source) el('credit').href = presentation.image_source;
+    else el('credit').removeAttribute('href');
+   } else el('photo').removeAttribute('src');
+   el('course-content').classList.remove('arrival');
+   void el('course-content').offsetWidth;
+   el('course-content').classList.add('arrival');
+   lastCourse = courseKey;
+  }
+  const feedback = JSON.stringify([state.phase,state.title,state.message]);
+  if(feedback !== lastFeedback) {
+   setText('feedback', ['correct', 'wrong', 'complete'].includes(state.phase) ? `${state.title}. ${state.message}` : '');
+   lastFeedback = feedback;
+  }
+  el('summary').hidden = state.phase !== 'complete';
+  setText('summary', `${state.first_try} of ${state.total} courses correct on the first try · ${state.retries} retries`);
+ } catch (_) {
+  if(!starting) { stopVoice(); lastAudio = ''; }
+  latestState = null; el('start').disabled = true;
+  el('hero').dataset.phase = '';
+  setText('connection','○ Disconnected'); el('notice').hidden = false;
+  setText('notice','Connection lost. Feedback below may be out of date. Check that the Pi app is running and your phone is on the same network. Reconnecting automatically…');
+ } finally { setTimeout(refresh,250); }
+}
+refresh();
+</script></body></html>
