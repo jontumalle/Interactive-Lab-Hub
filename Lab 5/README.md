@@ -2,7 +2,7 @@
 
 **Team:**
 
-**Members:** Full Name (netid, github-handle), ...
+**Members:** Jonathan Tumalle (jrt285, @jontumalle)
 
 **Project name:**
 
