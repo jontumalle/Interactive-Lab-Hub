@@ -136,6 +136,8 @@ pi@raspberrypi:~ $ ollama list
 
 \*\*\***Include a screenshot of `ollama list` showing your models.**\*\*\*
 
+![Ollama list on the Pi showing qwen3:0.6b and qwen3.5:0.8b installed](screenshots/part-a-ollama-list.png)
+
 
 ## Part B. 
 ### See: recognize people in real time with YOLO

@@ -1,5 +1,6 @@
-mediapipe==0.10.18
+mediapipe
 opencv-python==4.11.0.86
 ultralytics
 ncnn
+pnnx==20260526
 requests
