@@ -164,6 +164,30 @@ Then press q to quit and run it again with a flag. Each one changes a single thi
 \*\*\***Include a short video or screenshots of your experiments with the person detection. Write down three situations where it did not see you, or saw a person who was not there, and what you think the cause was.**\*\*\*
 
 
+**Experiments recorded:** The same live webcam frame was evaluated using YOLO26n NCNN at `imgsz=320`, people only. One person was detected at **0.7803 confidence** at each threshold below. Raising the threshold to 0.7 did not remove this detection.
+
+| Confidence threshold | People detected | Webcam capture |
+|---|---|---|
+| 0.2 | 1 | [Screenshot](screenshots/part-b-baseline-0.2.jpg) |
+| 0.4 (default) | 1 | [Screenshot](screenshots/part-b-baseline-0.4.jpg) |
+| 0.7 | 1 | [Screenshot](screenshots/part-b-baseline-0.7.jpg) |
+
+**Three situations that lose the person detection at `--conf 0.7`:** These frames were captured during a live run at the default 0.4 threshold. Their recorded scores are all below 0.7, so the higher threshold would filter them out.
+
+1. **Moving quickly across the camera:** The person scored **0.6777**, below 0.7. The face and body are visibly blurred. This motion blur removed some of the edges and details the detector uses, lowering its confidence.
+
+   ![Moving quickly, person confidence 0.68](screenshots/part-b-live-04.jpg)
+
+2. **Leaning sideways into the left edge:** The person scored **0.5024**, below 0.7. Much of the body is outside the image. I think that the unusual pose and incomplete body outline made recognition less certain.
+
+   ![Sideways and partly outside the left edge, person confidence 0.50](screenshots/part-b-live-06.jpg)
+
+3. **Passing close to the right edge:** The person scored **0.5537**, below 0.7. The head and much of the body are cropped. My interpretation is that the close distance, cropping, and movement left too little clear body structure for a high-confidence detection.
+
+   ![Close to the right edge, person confidence 0.55](screenshots/part-b-live-10.jpg)
+
+At the default threshold these three frames were successful detections. The live run also produced zero-person frames, but the saved examples show an empty room or only a small fragment at the edge, so they are not counted as clear misses. No false person detection was seen. I imagine that there may be more false detections if the environment was more complex or if there were an object that had the shape of a human.
+
 
 ## Part C. 
 ### See more: hands and pose with MediaPipe
