@@ -172,7 +172,7 @@ Then press q to quit and run it again with a flag. Each one changes a single thi
 | 0.4 (default) | 1 | [Screenshot](screenshots/part-b-baseline-0.4.jpg) |
 | 0.7 | 1 | [Screenshot](screenshots/part-b-baseline-0.7.jpg) |
 
-**Three situations that lose the person detection at `--conf 0.7`:** These frames were captured during a live run at the default 0.4 threshold. Their recorded scores are all below 0.7, so the higher threshold would filter them out.
+**Three situations where person detection can fail:**
 
 1. **Moving quickly across the camera:** The person scored **0.6777**, below 0.7. The face and body are visibly blurred. This motion blur removed some of the edges and details the detector uses, lowering its confidence.
 
@@ -182,11 +182,11 @@ Then press q to quit and run it again with a flag. Each one changes a single thi
 
    ![Sideways and partly outside the left edge, person confidence 0.50](screenshots/part-b-live-06.jpg)
 
-3. **Passing close to the right edge:** The person scored **0.5537**, below 0.7. The head and much of the body are cropped. My interpretation is that the close distance, cropping, and movement left too little clear body structure for a high-confidence detection.
+3. **Holding up a toy figure while hiding my face:** YOLO drew a separate person box around the Spider-Man figure with **0.6548 confidence**. I think the figure's human-shaped body checked off most of the boxes the detector associates with people.
 
-   ![Close to the right edge, person confidence 0.55](screenshots/part-b-live-10.jpg)
+   ![Spider-Man toy incorrectly labeled as a person with confidence 0.65](screenshots/part-b-toy-hidden-06.jpg)
 
-At the default threshold these three frames were successful detections. The live run also produced zero-person frames, but the saved examples show an empty room or only a small fragment at the edge, so they are not counted as clear misses. No false person detection was seen. I imagine that there may be more false detections if the environment was more complex or if there were an object that had the shape of a human.
+The first two situations were successful detections at the default threshold, but would be missed at 0.7. The toy experiment produced an actual false person detection: YOLO recognized a human-like shape without distinguishing a toy from a real person. Raising the threshold to 0.7 would remove this particular toy detection, but would also lose the real-person detections in the first two examples.
 
 
 ## Part C. 
