@@ -252,9 +252,41 @@ A 0.8B model is slow and sometimes wrong. It will invent events that are not in 
 
 \*\*\***Ask Qwen three questions to answer. Paste the questions, the answers and how long each took. Try one of them with `qwen3:0.6b` and compare.**\*\*\*
 
-<details>
-  Q&A here
-</details>
+Question 1: The spurs part was right but the second part is wrong (it's the knicks)
+
+```txt
+$ uv run ask_qwen.py --image snap.jpg "What teams are playing in this photo?"
+The image shows an NBA game between the San Antonio Spurs (wearing black jerseys with white numbers) and the Houston Rockets (wearing white jerseys with orange numbers).
+
+[qwen3.5:0.8b, 62.7 s]
+```
+
+Question 2:
+
+```txt
+$ uv run ask_qwen.py "Who is batman's greatest enemy?"
+Batman's greatest enemy is the Joker, who uses chaos and madness to destroy Gotham City.
+
+[qwen3.5:0.8b, 3.3 s]
+```
+
+Question 3: This one really overestimates the average human and gets the marathon distance wrong
+
+```txt
+$ uv run ask_qwen.py "How long does it take to run a marathon?"
+It takes about 2 hours for an average person to complete a standard 42-mile race.
+
+[qwen3.5:0.8b, 4.4 s]
+```
+
+Question 3 w/ `qwen3:0.6b`: I guess it can be right if you took a casual marathon walk.
+
+```txt
+$ uv run ask_qwen.py --model qwen3:0.6b "How long does it take to run a marathon?"
+It takes approximately 16 hours to run a marathon, depending on your pace and training level.
+
+[qwen3:0.6b, 1.2 s]
+```
 
 
 ## Part E. 
