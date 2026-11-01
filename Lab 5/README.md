@@ -4,7 +4,7 @@
 
 **Members:** Jonathan Tumalle (jrt285, @jontumalle)
 
-**Project name:**
+**Project name:** Local Vacation Story
 
 <details>
 	<summary><strong>Instructions for Students (Click to Expand)</strong></summary>
@@ -325,98 +325,51 @@ One person came in from the right, moved close to the camera, and left after abo
 
 # Lab 5 Part 2: Overnight Sensation
 
-For Part 2, you will use the observant system from Part 1 to design a night-time interaction. On-device AI is slow, so let it work while you sleep. The person meets the device twice: **before bed**, when they hand the night over, and **when awake**, when the device gives something back. In between, the pipeline from Part E runs on its own.
+**Local Vacation Story** uses the **process-all-night** approach: submit vacation photos before bed and return to a connected, narrated itinerary.
 
-Two flavors, pick one or mix them:
+[Source and setup](vacation_story/README.md) · [Interaction design](vacation_story/docs/day-journey.md) · [Verification](vacation_story/docs/verification.md)
 
-* **Sense all night.** The Pi watches, listens or measures from bedtime until morning and keeps a log.
-* **Process all night.** You already have the data (a day of phone photos, a long recording) and the Pi needs hours to get through it.
+## Part F.
+### Interaction concept
 
-Two house rules. Sample rather than stream: one look every 5 to 30 seconds is plenty, and it keeps the Pi cool. And keep everything on the Pi: tell the people you live with, point the camera at things rather than at beds, and delete the snapshots after the demo.
-
-## Part F. 
-### Read Part 2 and storyboard your night-time interaction
-
-Storyboard a night-time interaction built on your observant system, in three panels:
-
-1. **Before bed.** How does the person hand the night over, and how does the device acknowledge it?
-2. **While asleep.** What does the device watch or work through?
-3. **When awake.** What is the one thing the person learns, and in what medium?
-
-Stuck? A kitchen that tells you who raided the fridge. A desk that reports whether you actually went to bed. A window that names the quietest hour. A plant that describes its night. Find something better.
-
-Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf).
-
-\*\*\***Insert ideas, sketches, Verplank diagrams and storyboards for your night-time interaction here.**\*\*\*
+- **Before bed:** Upload photos and optional context; receive save confirmation and processing acknowledgement.
+- **While asleep:** The Pi interprets the collection, writes connected stories, and generates narration, saving progress along the way.
+- **When awake:** Explore the journey map, listen to each day's story, and select individual photo **moments**.
 
 ## Prep for Part 2
+### Feedback and iterations
 
-1. Look at and give feedback on the Part F storyboards.
-   **Put the feedback for your ideas here.**
-2. [Update your Lab Hub](prep.md#get-the-latest-content) to get the latest content for Part 2.
-3. Decide where the device will spend the night and who else lives there. Get their OK before the first run.
-4. Revise your storyboard with the feedback and with what you learned in Part E about where the pipeline breaks.
+1. **Reduce repetitive input:** Replaced individual uploads with bulk selection, while retaining optional per-photo details.
+2. **Make memories feel connected:** Isolated captions became an I/we travel journal using shared trip context. After trying the rewrite, I preferred it, so connected storytelling became the only final output.
+3. **Offer overview before detail:** Added a route map and one narration per day, with clickable moments for deeper exploration.
+4. **Reduce visual clutter:** Nearby thumbnails now group together and separate as the owner zooms in; identical locations have a photo chooser.
+5. **Make failure recoverable:** Clearer phone-upload errors, local voice setup checks, saved progress, and audio-only retry improve confidence in leaving work with the Pi.
 
-\*\*\***Post your revised storyboard here.**\*\*\*
-
-## Part G. 
+## Part G.
 ### Design the interaction before
 
-The hand-off: the person tells the device what to watch tonight, and the device acknowledges it. Keep it to a thirty-second ritual. A button or a touch (Lab 4), a spoken sentence (Lab 3), a wave or a Quiet Coyote at the camera (Part C). The acknowledgement can be a line on the display, a tone, or an LED that dims rather than lights up. At its simplest, the hand-off just sets the question that the morning will answer.
+The owner names a trip and uploads photos from their phone. Capture time and GPS are read before resizing; missing details, context, and vibes are editable or skippable. Saves receive visible confirmation.
 
-\*\*\***Describe the interaction before.**\*\*\*
+**Finish and create my story** begins processing; inference waits until this action. Progress tells the owner they can close the browser and return. The Pi server remains running, using `tmux` for an SSH launch.
 
-## Part H. 
+## Part H.
 ### Incorporate the observant system
 
-The Part E pipeline becomes the night shift. `overnight.py` runs your `interpret()` from `yolo_to_qwen.py` every few seconds, people only unless you pass `--all`, and writes the readings to `night_log.jsonl`; the reasoning waits for the morning. Start it inside `tmux` so it keeps running after you close your laptop, and stop it with Ctrl-C in the morning:
+The Part 1 observation -> interpretation -> reasoning pattern now processes selected photos. Local Qwen observations are combined with human notes and corrected metadata. A shared outline connects moments; daily stories receive local Piper narration.
 
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ tmux new -s night
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python overnight.py
-```
+One worker saves completed stages for retry. Photos, inference, and speech stay on the Pi; map tiles require internet. Missing narration leaves readable text. Route arrows connect photo positions, not a recorded walking/driving path.
 
-Fake a night first: run it for thirty seconds while you walk around, stop it, and run `morning.py` from Part I. When that looks right, run a real night. If your storyboard needs a sensor rather than the camera, swap in the Lab 4 example code and log its reading the same way.
-
-\*\*\***Screenshots or videos of the running system.**\*\*\*
-
-## Part I. 
+## Part I.
 ### Design the interaction after
 
-The reveal. The night produced a log; the morning turns it into something a half-awake person can take in. `morning.py` is the smallest version: it asks Qwen for a three-sentence report.
-
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python morning.py
-```
-
-Make it yours: show the report on the Mini PiTFT, read it aloud with Piper from Lab 3, plot the night as a timeline, or ask for JSON (`--json`, Part D) and move a servo. Whatever you pick, make sure it is honest about a night in which nothing happened.
+The map shows the whole journey first. **Listen to the whole journey** plays day stories in order. Selecting a photo opens and plays its moment; returning allows deliberate day-level resume. Pause and navigation keep the owner in control.
 
 ## Final documentation
 
-Document all the prototypes and iterations you have designed and worked on. The deliverables for this lab are writings, sketches, photos, and videos that show what your system:
+- **Looks like:** A journey map, grouped thumbnails, day stories, and moment details.
+- **Works like:** A local, resumable pipeline turning photos and human context into narrated stories.
+- **Acts like:** A before-bed handoff, background work, and an overview-first return.
+- **Main learning:** Slow on-device AI needs a clear handoff, acknowledgement, and return. Human context provides meaning that visual recognition alone cannot establish; uncertainty and recovery must remain visible.
+- **Validation:** 23 automated checks pass; Chromium is skipped. Full overnight/device verification remains manual.
 
-* "Looks like": how the device sits in the room at night, and what it looks like at bedtime and in the morning.
-* "Works like": the pipeline from detector to interpreter to log to reasoner, with a real night's data.
-* "Acts like": how a person hands the night over and what they get back.
-
-\*\*\***Include a short video of the whole system**\*\*\*
-
-As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
-
-You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab. Make sure the page for the group turn in is linked to your personal Interactive Lab Hub page.
-
-## Deliverables & Submission for Lab 5
-
-For submission, the readme.md page for this lab should be edited to include the work you have done:
-* Upload any materials that explain what you did, including your code and night log, into your Lab 5 repository, and link them in your Lab 5 readme.md.
-* Labs are due on Sundays, make sure to submit your Lab 5 readme.md to Canvas.
-
-<details>
-  <summary><strong>Submission Cleanup Reminder (Click to Expand)</strong></summary>
-
-  **Before submitting your README.md:**
-  - This readme.md file has a lot of extra text for guidance.
-  - Remove all instructional text and example prompts from this file.
-  - You may either delete these sections or use the toggle/hide feature in VS Code to collapse them for a cleaner look.
-  - Your final submission should be neat, focused on your own work, and easy to read for grading.
-</details>
+**Contributions:** Jonathan Tumalle provided project direction, real-photo trials, and interaction feedback. Codex and delegated agents assisted with implementation, debugging, testing, research, and documentation. Relive and FindPenguins informed the map interactions; references are in the [design notes](vacation_story/docs/day-journey.md).
