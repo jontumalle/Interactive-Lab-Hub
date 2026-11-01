@@ -366,6 +366,8 @@ The map shows the whole journey first. **Listen to the whole journey** plays day
 
 ## Final documentation
 
+**Final demo:** [Watch the Zermatt Arrival demo](https://drive.google.com/file/d/1Cy7Wm30sdsGMV8debpgiEohwO9tLlVH3/view?usp=drivesdk) — bulk photo upload, photo questions, a shortened processing sequence, and the narrated journey map with moments.
+
 - **Looks like:** A journey map, grouped thumbnails, day stories, and moment details.
 - **Works like:** A local, resumable pipeline turning photos and human context into narrated stories.
 - **Acts like:** A before-bed handoff, background work, and an overview-first return.
