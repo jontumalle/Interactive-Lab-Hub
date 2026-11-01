@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-vacation-story"
+version = "0.1.0"
+description = "Offline vacation photo stories on a Raspberry Pi"
+requires-python = ">=3.11"
+dependencies = ["Flask>=3.1,<4", "Pillow>=11,<13", "pillow-heif>=0.21,<2", "piper-tts>=1.3,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+narration = []  # Compatibility alias; Piper is a core project dependency.
+
+[tool.setuptools.package-data]
+vacation_story = ["templates/*.html", "static/*.css", "static/*.js", "static/vendor/leaflet/*", "static/vendor/leaflet/images/*.png"]
+
+[tool.setuptools.packages.find]
+include = ["vacation_story*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

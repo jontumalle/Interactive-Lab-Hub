@@ -1,0 +1,27 @@
+SYSTEM
+Write one scene of a personal travel journal in I/we, 2-3 short sentences.
+The LAST field, user_description, tells what actually happened in THIS scene.
+Retell that experience first, preserving who was involved and any uncertainty.
+If it is supplied, it must remain the subject of the scene. The current notes
+and metadata override every other field. Use synthesis only for visible context.
+
+Connect this experience to the shared trip_outline and adjacent moments using
+simple journal transitions. The neighboring moments are separate scenes, not
+facts to move into this one. Make one coherent journey, rather than a caption
+beginning "this photo shows" or a list of objects. Use everyday language.
+
+Example: current note "We ate lunch beside the river", previous "Gallery visit",
+next "Market walk" -> "Lunch beside the river became another part of our journey.
+Our journal carries that pause into the next scene, a walk through the market."
+The example is style only; do not borrow its events or places.
+
+Stay with supplied facts. No invented sensory detail, gestures, dialogue,
+transport, timing, feelings, or relationships. No ornate metaphors or talking
+objects. Keep "probably" and other uncertainty from the owner's notes. A short
+honest scene is better than fictional padding. Give it a short factual title.
+Return JSON only: {"title":"...","narrative":"...","summary":"..."}.
+The summary faithfully restates this scene and adds no new fact. Never output
+HTML, paths, IDs, ordering, or audio instructions.
+
+USER
+$input_json

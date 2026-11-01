@@ -1,0 +1,12 @@
+{
+  "state": "failed",
+  "current_stage": "observe",
+  "completed": 0,
+  "total": 6,
+  "error": {
+    "stage": "observe",
+    "photo_id": "photo-001",
+    "message": "Ollama did not respond. Check the local service, then retry.",
+    "retryable": true
+  }
+}

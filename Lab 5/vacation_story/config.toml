@@ -1,0 +1,31 @@
+[web]
+host = "0.0.0.0"
+port = 5050
+max_upload_mb = 30
+
+[storage]
+runtime_dir = "runtime"
+
+[images]
+prepared_max_edge = 1600
+analysis_max_edge = 640
+jpeg_quality = 85
+
+[generation]
+model = "qwen3.5:0.8b"
+base_url = "http://127.0.0.1:11434"
+think = false
+context_length = 4096
+max_output_tokens = 512
+temperature = 0.4
+timeout_seconds = 600
+prompts_dir = "prompts"
+outline_batch_size = 12
+outline_summary_chars = 180
+continuity_summary_chars = 320
+
+[narration]
+enabled = true
+executable = ".venv/bin/piper"
+voice_path = "voices/en_US-lessac-medium.onnx"
+timeout_seconds = 120

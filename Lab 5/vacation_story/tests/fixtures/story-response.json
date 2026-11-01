@@ -1,0 +1,23 @@
+{
+  "title": "A weekend away",
+  "opening": {
+    "text": "A weekend away, remembered in photos.",
+    "audio_url": null
+  },
+  "chapters": [
+    {
+      "photo_id": "photo-001",
+      "title": "By the coast",
+      "narrative": "We stopped by the coast after lunch.",
+      "location": "Coast",
+      "time": null,
+      "photo_url": "/api/trips/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/media/photos/photo-001.jpg",
+      "audio_url": null
+    }
+  ],
+  "closing": {
+    "text": "A moment to revisit.",
+    "audio_url": null
+  },
+  "narration": "unavailable"
+}
