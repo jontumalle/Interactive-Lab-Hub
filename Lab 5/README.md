@@ -4,7 +4,7 @@
 
 **Members:** Jonathan Tumalle (jrt285, @jontumalle)
 
-**Project name:** Local Vacation Story
+**Project name:** Automated Vacation Blogger
 
 <details>
 	<summary><strong>Instructions for Students (Click to Expand)</strong></summary>
@@ -325,32 +325,59 @@ One person came in from the right, moved close to the camera, and left after abo
 
 # Lab 5 Part 2: Overnight Sensation
 
-**Local Vacation Story** uses the **process-all-night** approach: submit vacation photos before bed and return to a connected, narrated itinerary.
+**Automated Vacation Blogger** uses the **process-all-night** approach: submit vacation photos before bed and return to a connected, narrated itinerary.
 
 [Source and setup](vacation_story/README.md) · [Interaction design](vacation_story/docs/day-journey.md) · [Verification](vacation_story/docs/verification.md)
 
 ## Part F.
 ### Interaction concept
 
-- **Before bed:** Upload photos and optional context; receive save confirmation and processing acknowledgement.
-- **While asleep:** The Pi interprets the collection, writes connected stories, and generates narration, saving progress along the way.
-- **When awake:** Explore the journey map, listen to each day's story, and select individual photo **moments**.
+Originally, the idea was supposed to be to output an AI generated video:
+
+![Initial Storyboard w/ Video](./lab5storyboard.JPG)
+
+Then, I realized all I really want is a story to be generated:
+
+![Verplank diagram w/ Story Abstraction](./lab5verplank.JPG)
 
 ## Prep for Part 2
 ### Feedback and iterations
 
-1. **Reduce repetitive input:** Replaced individual uploads with bulk selection, while retaining optional per-photo details.
-2. **Make memories feel connected:** Isolated captions became an I/we travel journal using shared trip context. After trying the rewrite, I preferred it, so connected storytelling became the only final output.
-3. **Offer overview before detail:** Added a route map and one narration per day, with clickable moments for deeper exploration.
-4. **Reduce visual clutter:** Nearby thumbnails now group together and separate as the owner zooms in; identical locations have a photo chooser.
-5. **Make failure recoverable:** Clearer phone-upload errors, local voice setup checks, saved progress, and audio-only retry improve confidence in leaving work with the Pi.
+Normally people do not just take pictures throughout the day. This is more likely during vacation, so the idea shifted to generating interactive stories from your vacations.
+I also got feedback that a picture needs additional context about what happened and how people felt. Adding pointed questions to decribe what the user felt in those moments
+enhances the understanding of the moment.
+
+Here are some screenshots and videos from the initial prototype:
+
+![User enters description](./prototypeUserDescription.png)
+User enters description.
+
+![Prototype is processing pictures](./prototypeQwenProcessing.png)
+User leaves the pi to process overnight.
+
+![Prototype's AI Summary](./prototypeQwenOutput.png)
+User gets a story per photo. The initial version making a story for every picture was overkill. It was too much content and the content was just pointing out things in the picture
+which the user can already do.
+
+Here is other feedback gathered:
+-  **Reduce repetitive input:** Replaced individual uploads with bulk selection, while retaining optional per-photo details.
+-  **Make memories feel connected:** Isolated captions became an I/we travel journal using shared trip context. After trying the rewrite, I preferred it, so connected storytelling became the only final output.
+-  **Offer overview before detail:** Added a route map and one narration per day, with clickable moments for deeper exploration.
+-  **Reduce visual clutter:** Nearby thumbnails now group together and separate as the owner zooms in; identical locations have a photo chooser.
+-  **Make failure recoverable:** Clearer phone-upload errors, local voice setup checks, saved progress, and audio-only retry improve confidence in leaving work with the Pi.
+
+{Insert new storyboard here}
+
+From the feedback and new storyboard, I made the following iteration:
+
+{Insert video here}
 
 ## Part G.
 ### Design the interaction before
 
-The owner names a trip and uploads photos from their phone. Capture time and GPS are read before resizing; missing details, context, and vibes are editable or skippable. Saves receive visible confirmation.
-
-**Finish and create my story** begins processing; inference waits until this action. Progress tells the owner they can close the browser and return. The Pi server remains running, using `tmux` for an SSH launch.
+- **Before bed:** Upload photos and optional context; receive save confirmation and processing acknowledgement.
+- **While asleep:** The Pi interprets the collection, writes connected stories, and generates narration, saving progress along the way.
+- **When awake:** Explore the journey map, listen to each day's story, and select individual photo **moments**.
 
 ## Part H.
 ### Incorporate the observant system
@@ -359,6 +386,9 @@ The Part 1 observation -> interpretation -> reasoning pattern now processes sele
 
 One worker saves completed stages for retry. Photos, inference, and speech stay on the Pi; map tiles require internet. Missing narration leaves readable text. Route arrows connect photo positions, not a recorded walking/driving path.
 
+Screenshot of running system:
+![Screenshot of running system](./lab5processing.PNG)
+
 ## Part I.
 ### Design the interaction after
 
@@ -366,7 +396,7 @@ The map shows the whole journey first. **Listen to the whole journey** plays day
 
 ## Final documentation
 
-**Final demo:** [Watch the Local Vacation Story demo](https://drive.google.com/file/d/1Cy7Wm30sdsGMV8debpgiEohwO9tLlVH3/view?usp=drivesdk) — bulk photo upload, photo questions, a shortened processing sequence, and the narrated journey map with moments.
+**Final demo:** [Watch the Automated Vacation Blogger demo](https://drive.google.com/file/d/1Cy7Wm30sdsGMV8debpgiEohwO9tLlVH3/view?usp=drivesdk) — bulk photo upload, photo questions, a shortened processing sequence, and the narrated journey map with moments.
 
 - **Looks like:** A journey map, grouped thumbnails, day stories, and moment details.
 - **Works like:** A local, resumable pipeline turning photos and human context into narrated stories.
