@@ -365,7 +365,9 @@ Here is further summarized feedback gathered:
 -  **Reduce repetitive input:** Replace individual uploads with bulk selection, while retaining optional per-photo details.
 -  **Offer overview before detail:** Add a route map and one narration per day, with clickable moments for deeper exploration.
 
-{Insert new storyboard here}
+Based on the feedback, the following storyboard was made:
+
+![Final storyboard: take vacation photos, bulk upload with optional context before bed, let the Pi create stories and narration overnight, then explore the journey map and listen to day stories or individual photo moments.](./lab5storyboard-final.png)
 
 ## Part G.
 ### Design the interaction before
