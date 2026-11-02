@@ -158,6 +158,10 @@ Based on the feedback, the following storyboard was made:
 
 ![Final storyboard: take vacation photos, bulk upload with optional context before bed, let the Pi create stories and narration overnight, then explore the journey map and listen to day stories or individual photo moments.](./lab5storyboard-final.png)
 
+### Testing with a real user
+
+For the final test, I used photos and descriptions provided by a friend from a vacation that we took together with other friends. The aim was to try the revised design with another person's real memories and context from a shared trip. I used their photos and descriptions as input to the final system; the resulting output is shown in the final demo linked above. This followed the prototype iterations documented here, moving from isolated photo captions to a connected, narrated journey grounded in a trip we actually experienced together.
+
 ## Part G.
 ### Design the interaction before
 
