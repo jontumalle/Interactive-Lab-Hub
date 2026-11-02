@@ -357,20 +357,15 @@ User leaves the pi to process overnight.
 
 ![Prototype's AI Summary](./prototypeQwenOutput.png)
 User gets a story per photo. The initial version making a story for every picture was overkill. It was too much content and the content was just pointing out things in the picture
-which the user can already do.
+which the user can already do. Isolate captions should also become an I/we travel journal using shared trip context. After trying the rewrite (as you'll see in the video below), I preferred it, so connected storytelling became the only final output.
 
-Here is other feedback gathered:
--  **Reduce repetitive input:** Replaced individual uploads with bulk selection, while retaining optional per-photo details.
--  **Make memories feel connected:** Isolated captions became an I/we travel journal using shared trip context. After trying the rewrite, I preferred it, so connected storytelling became the only final output.
--  **Offer overview before detail:** Added a route map and one narration per day, with clickable moments for deeper exploration.
--  **Reduce visual clutter:** Nearby thumbnails now group together and separate as the owner zooms in; identical locations have a photo chooser.
--  **Make failure recoverable:** Clearer phone-upload errors, local voice setup checks, saved progress, and audio-only retry improve confidence in leaving work with the Pi.
+From the feedback and new storyboard, I made the following iteration: [Video of prototype version 2](https://drive.google.com/file/d/1Acz4D_7lAE4wxPGBImO3bAI3G4ywFJnI/view?usp=sharing)
+
+Here is further summarized feedback gathered:
+-  **Reduce repetitive input:** Replace individual uploads with bulk selection, while retaining optional per-photo details.
+-  **Offer overview before detail:** Add a route map and one narration per day, with clickable moments for deeper exploration.
 
 {Insert new storyboard here}
-
-From the feedback and new storyboard, I made the following iteration:
-
-{Insert video here}
 
 ## Part G.
 ### Design the interaction before
