@@ -36,18 +36,64 @@ Choose Host or Join using the joystick and click to confirm. The host receives a
 
 Move in a direction once to select it; returning to center preserves the choice. Changes are allowed until the countdown ends. If no direction was selected, select one when prompted; the result waits for every active player. A disconnect pauses the game; reconnecting restarts the interrupted round. Keep the same process running to preserve player identity. A host failure requires restarting the programs and creating a new room.
 
-Audio uses the system default device. Check it before starting; `--mute` disables sound for diagnostics. The generated WAV tones in `assets/` are original project assets. If joystick axes run opposite to the physical orientation, rotate the joystick or adjust the direction mapping in `hardware.py` after checking all four arrows.
+### Joystick calibration (only if directions are inverted)
 
-For inverted directions, run `python play.py --calibrate` with the joystick
-centered at startup, then follow the screen prompts to hold RIGHT and UP.
-The per-Pi mapping is saved in ignored `joystick.json`; restart the game afterward.
+Keep the joystick centered when starting any game. If a physical direction
+shows the opposite direction on screen, exit the game and run:
 
-Run `python play.py --audio-test` to hear all four tones without starting a room.
-This prints available SDL output devices. Select one with
-`python play.py --audio-test --audio-device 'exact device name'`, then pass
-the same `--audio-device` option to the game. If silent, inspect `aplay -l`
-and your desktop audio output/volume. A successful mixer initialization alone
-does not confirm the selected speaker is audible.
+```bash
+python play.py --calibrate
+```
+
+1. Start with the joystick centered.
+2. Follow the screen prompt to hold **RIGHT**.
+3. Release to center when prompted, then hold **UP**.
+4. After “Calibration saved,” restart with `python play.py`.
+
+Calibration learns both axis orientations and is saved locally in
+`joystick.json`, which Git ignores. Each Pi only needs this once if its
+directions are inverted; repeat if the joystick is rotated or replaced.
+
+### Audio test and silent-speaker troubleshooting
+
+Run the sound test before joining a room:
+
+```bash
+python play.py --audio-test
+```
+
+You should hear the countdown, reveal, elimination, and victory tones in order.
+The command also lists available SDL output devices. To choose a specific device,
+copy its exact name from that list:
+
+```bash
+python play.py --audio-test --audio-device 'UACDemoV1.0 Analog Stereo'
+python play.py --audio-device 'UACDemoV1.0 Analog Stereo'
+```
+
+If the test prints “Playing” but stays silent, check the selected output,
+volume, and mute status. Mixer initialization alone does not confirm that
+the speaker is audible. On the class Pi's PipeWire/PulseAudio setup:
+
+```bash
+pactl get-default-sink
+pactl get-sink-mute @DEFAULT_SINK@
+pactl get-sink-volume @DEFAULT_SINK@
+aplay -l
+```
+
+If muted or at 0%, unmute and set a moderate volume, then rerun the test:
+
+```bash
+pactl set-sink-mute @DEFAULT_SINK@ 0
+pactl set-sink-volume @DEFAULT_SINK@ 40%
+python play.py --audio-test
+```
+
+Also check the speaker connection and any physical volume control. The game
+uses the system default output unless `--audio-device` is supplied; retain
+that option when launching a real or simulated game. `--mute` disables sound
+for diagnostics. The generated WAV tones in `assets/` are original project assets.
 
 To remove, exit and delete this folder, including its `.venv`. Restore the ordinary display with `sudo systemctl start piscreen.service`. The virtual environment can use system-installed Pi hardware libraries but game dependencies are installed locally.
 
