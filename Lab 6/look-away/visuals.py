@@ -102,7 +102,7 @@ def game_frame(state, player, selected, submitted, room, clock, t):
             face(d,34+i*57,65,21,color=YELLOW if i==0 else GREEN if occupied else '#536081',
                  mood='happy' if occupied else 'closed',t=t)
         text(d,(120,100),str(len(state['players']))+' / 4 READY',12,WHITE,'mm')
-        footer(d,'HOST: CLICK TO START' if len(state['players'])==4 else 'INVITE YOUR FRIENDS!')
+        footer(d,'HOST: CLICK TO START')
         return image
     d.rounded_rectangle((5,4,68,23),radius=6,fill=color)
     text(d,(36,14),'SOLO' if solo else 'TEAM' if alive else 'OUT',10,INK,'mm')

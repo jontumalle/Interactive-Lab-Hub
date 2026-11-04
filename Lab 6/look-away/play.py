@@ -187,6 +187,9 @@ def main():
                     game.next_round(now)
                 paused = new_pause
                 if event == 'press' and not paused:
+                    if game.phase == 'lobby' and bots is None:
+                        from bots import Bots
+                        bots = Bots(game)
                     game.start(now)
                 if not paused:
                     if bots:

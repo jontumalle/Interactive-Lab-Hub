@@ -1,6 +1,6 @@
 # Look Away — Lab 6 Part C
 
-Four nearby players, one solo versus three teammates. Secretly select a direction with a Qwiic joystick. Matching the solo player eliminates a teammate. The solo player wins by eliminating everyone; the team wins if anyone survives five rounds. Eliminated players watch until replay. Replay rotates the solo role.
+Four seats, with one solo player versus three teammates. One to four people can play, and AI fills empty seats. Secretly select a direction with a Qwiic joystick. Matching the solo player eliminates a teammate. The solo player wins by eliminating everyone; the team wins if anyone survives five rounds. Eliminated players watch until replay. Replay rotates the solo role.
 
 The MiniPiTFT interface uses original cartoon faces, colorful menu cards,
 direction-following eyes, a countdown, survivor indicators, and animated
@@ -32,7 +32,7 @@ sudo systemctl stop piscreen.service
 python play.py
 ```
 
-Choose Host or Join using the joystick and click to confirm. The host receives a four-digit room code. Joining players select digits with up/down, move with left/right, then click. Host clicks to start once four players appear. Host clicks after the result to replay. Ctrl-C exits. Start only one host per room; choose a different code if using `--host --room 1234` near another group.
+Choose Host or Join using the joystick and click to confirm. The host receives a four-digit room code. Joining players select digits with up/down, move with left/right, then click. Once all human players have joined, the host clicks to start; AI players fill any empty seats. One to four humans can play, including the host. Host clicks after the result to replay. Ctrl-C exits. Start only one host per room; choose a different code if using `--host --room 1234` near another group.
 
 Move in a direction once to select it; returning to center preserves the choice. Changes are allowed until the countdown ends. If no direction was selected, select one when prompted; the result waits for every active player. A disconnect pauses the game; reconnecting restarts the interrupted round. Keep the same process running to preserve player identity. A host failure requires restarting the programs and creating a new room.
 
