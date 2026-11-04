@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "title": "A weekend away",
+  "created_at": "2026-10-30T12:00:00+00:00",
+  "updated_at": "2026-10-30T12:00:00+00:00",
+  "photos": [
+    {
+      "id": "photo-001",
+      "prepared_image_path": "/tmp/vacation-story-fixture/photos/photo-001.jpg",
+      "analysis_image_path": "/tmp/vacation-story-fixture/analysis/photo-001.jpg",
+      "submission_order": 0,
+      "metadata": {
+        "captured_at": null,
+        "latitude": null,
+        "longitude": null,
+        "place_name": "Coast",
+        "embedded_description": null
+      },
+      "user_description": "We stopped by the coast after lunch.",
+      "vibes": [
+        "Relaxed",
+        "Awe-inspiring"
+      ]
+    }
+  ],
+  "checkpoints": [],
+  "story": null,
+  "status": {
+    "state": "collecting",
+    "current_stage": null,
+    "completed": 0,
+    "total": 0,
+    "error": null
+  }
+}

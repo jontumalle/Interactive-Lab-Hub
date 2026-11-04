@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#28594d">
+  <title>Local Vacation Story</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet/leaflet.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <script src="{{ url_for('static', filename='vendor/leaflet/leaflet.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='uploads.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='journal.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='photo-clusters.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header"><a href="#" class="brand">Local Vacation Story</a><span>Made from your moments</span></header>
+  <main>
+    <p id="feedback" class="feedback" role="status" aria-live="polite" hidden></p>
+    <section id="home-view" aria-labelledby="home-title">
+      <p class="eyebrow">A trip worth remembering</p>
+      <h1 id="home-title">Your photos.<br>Your story.</h1>
+      <p class="intro">Gather the moments, add what they meant, and let your trip unfold as a story. Your photos stay on this device.</p>
+      <form id="create-trip" class="panel">
+        <label for="title">Give your trip a title</label>
+        <div class="row"><input id="title" name="title" maxlength="200" required placeholder="A weekend by the coast"><button>Create trip <span aria-hidden="true">→</span></button></div>
+      </form>
+      <div class="section-heading"><h2>Your trips</h2><button id="refresh-trips" class="quiet">Refresh</button></div>
+      <ul id="trips" class="trip-list"></ul>
+    </section>
+
+    <section id="trip-view" hidden aria-labelledby="trip-title">
+      <a href="#" class="back-link">← All trips</a>
+      <p class="eyebrow" id="trip-subtitle">Gather your moments</p>
+      <h1 id="trip-title" tabindex="-1"></h1>
+      <div id="collection">
+        <div id="saved-confirmation" class="confirmation" role="status" hidden>
+          <h2>Photo and answers saved.</h2>
+          <p id="review-status">Another moment to add, or ready to bring it all together?</p>
+          <div class="row"><button id="review-next" hidden>Review next photo</button><button id="add-another">Add more photos</button><button id="finish-saved" class="secondary">Finish and create my story</button></div>
+        </div>
+        <form id="upload-form" class="panel">
+          <h2>Add photos</h2>
+          <p class="muted">Select one photo or a whole batch. JPEG, PNG, WebP, or HEIC/HEIF.</p>
+          <fieldset id="upload-controls" class="upload-controls">
+          <label for="photo-file">Choose photos</label>
+          <input id="photo-file" name="photo" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" required>
+          <button class="upload-button">Upload selected photos</button>
+          <button id="retry-uploads" type="button" class="secondary" hidden>Retry failed photos</button>
+          </fieldset>
+          <p id="upload-status" role="status" class="muted"></p>
+        </form>
+        <section id="upload-results" class="panel" aria-label="Upload results" hidden>
+          <p id="upload-summary" role="status"></p>
+          <ul id="upload-failures"></ul>
+        </section>
+        <section id="photo-editor" class="panel" hidden aria-labelledby="editor-title">
+          <h2 id="editor-title" tabindex="-1">A little about this moment</h2>
+          <img id="editor-image" class="photo-preview" alt="Photo you are adding to your trip">
+          <div id="metadata-summary" class="metadata-summary"></div>
+          <form id="photo-answers">
+            <div id="missing-fields"></div>
+            <details id="metadata-corrections"><summary>Edit photo details</summary><div id="correction-fields"></div></details>
+            <label for="description" id="description-label">What was happening here?</label>
+            <textarea id="description" name="user_description" rows="3" maxlength="4000" placeholder="The people, the occasion, the part only you know…"></textarea>
+            <fieldset class="vibes"><legend>What was the vibe? <span class="muted">Choose any, or skip.</span></legend>
+              <div id="vibe-options" class="vibe-options"></div>
+            </fieldset>
+            <button>Save photo and answers</button>
+          </form>
+        </section>
+        <section id="collected-section" hidden>
+          <div class="section-heading"><h2>Your moments <span id="photo-count" class="count"></span></h2><button id="finish-collection" class="secondary">Finish and create my story</button></div>
+          <ul id="collected-photos" class="photo-grid"></ul>
+        </section>
+      </div>
+
+      <section id="progress-view" class="panel" hidden aria-labelledby="progress-title">
+        <p class="eyebrow">Making room for the memories</p>
+        <h2 id="progress-title">Creating your story</h2>
+        <p id="stage-label" role="status"></p>
+        <progress id="progress-bar" max="1" value="0"></progress>
+        <p id="progress-count" class="muted"></p>
+        <p id="progress-note">You can close this page. Come back to this trip to see how it’s going.</p>
+        <p id="processing-error" class="error" hidden></p>
+        <button id="retry" hidden>Retry from saved progress</button>
+        <button id="check-progress" class="quiet">Check progress</button>
+      </section>
+
+      <section id="story-view" class="journey" hidden aria-label="Your journey by day">
+        <div class="journey-heading"><div><p class="eyebrow">The whole journey</p><h2 id="journey-title"></h2><p id="journey-summary" class="muted"></p></div><button id="listen-journey">Listen to the whole journey</button></div>
+        <div class="journey-map-wrap">
+          <div id="journey-map" aria-label="Photo locations and route in photo order"></div>
+        </div>
+        <p id="map-unavailable" class="map-status" hidden></p>
+        <div class="map-toolbar"><button id="show-whole-route" class="secondary">Show the whole route</button><p class="muted">Arrows connect photo locations in story order. They are not a recorded walking or driving route.</p></div>
+        <section id="map-photo-group" class="map-photo-group panel" hidden aria-labelledby="map-photo-group-title">
+          <div class="section-heading"><h3 id="map-photo-group-title" tabindex="-1"></h3><button id="close-photo-group" class="quiet">Close photo group</button></div>
+          <p class="muted">These photos are too close to separate at this zoom. Choose one to open and hear its moment.</p>
+          <div id="map-photo-group-items" class="moment-strip"></div>
+        </section>
+        <p id="unlocated-note" class="muted" hidden></p>
+        <div class="day-layout">
+          <nav aria-label="Journey days"><h2>Your days</h2><ol id="day-list" class="day-list"></ol></nav>
+          <section id="day-story" class="day-story" aria-labelledby="day-title">
+            <p id="day-date" class="eyebrow"></p><h2 id="day-title" tabindex="-1"></h2><p id="day-narrative" class="journal-prose"></p>
+            <div class="row"><button id="listen-day">Listen to this day</button><button id="focus-day" class="secondary">Focus this day's locations</button></div>
+            <p id="day-audio-error" class="muted" hidden></p>
+            <h3>Explore the moments</h3><p class="muted">Choose a photo for its closer story and narration.</p><div id="day-moments" class="moment-strip"></div>
+          </section>
+        </div>
+        <section id="moment-panel" class="moment-detail panel" hidden aria-labelledby="moment-title">
+          <button id="back-to-day" class="quiet">← Back to the day overview</button><p id="moment-label" class="eyebrow"></p><h2 id="moment-title" tabindex="-1"></h2>
+          <img id="moment-photo" alt=""><p id="moment-itinerary" class="muted"></p><p id="moment-narrative" class="journal-prose"></p>
+          <button id="listen-moment">Listen to this moment</button><p id="moment-audio-error" class="muted" hidden></p>
+        </section>
+        <div id="narration-warning" class="narration-warning" hidden><details><summary>Some narration is missing</summary><p>Your stories are ready to read. Retry missing audio without rewriting them.</p><button id="retry-narration">Retry missing narration</button></details></div>
+        <aside class="journal-player" aria-label="Journey narration">
+          <div class="player-heading"><p id="reader-position" aria-live="polite"></p><progress id="journey-progress" max="1" value="0" aria-label="Journey position"></progress></div>
+          <div class="player-controls"><button id="previous" class="quiet">← Previous day</button><button id="play-trip">Listen to this day</button><button id="pause-trip" class="secondary" hidden>Pause</button><button id="next" class="quiet">Next day →</button></div>
+          <p id="audio-note" class="muted" role="status"></p>
+        </aside>
+        <audio id="narration" preload="none"></audio>
+      </section>
+    </section>
+    <noscript>Please enable JavaScript to collect photos and read your trip.</noscript>
+  </main>
+  <footer>Photos, stories, and narration stay local.</footer>
+</body>
+</html>
