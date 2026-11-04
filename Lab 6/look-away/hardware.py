@@ -13,6 +13,7 @@ class Hardware:
         self.terminal = terminal
         self.previous = None
         self.last_text = None
+        self.last_render = 0
         if terminal:
             return
         import board
@@ -75,14 +76,24 @@ class Hardware:
     def show(self, lines, monospace=False):
         text = '\n'.join(lines)
         frame = (text, monospace)
-        if frame == self.last_text:
+        if frame == self.last_text and (self.terminal or time.monotonic() - self.last_render < 1 / 12):
             return
         self.last_text = frame
         if self.terminal:
             print('\n' + text, flush=True)
         else:
-            self.draw.rectangle((0, 0, 240, 135), fill='black')
-            self.draw.multiline_text((5, 3), text,
-                                     font=self.code_font if monospace else self.font,
-                                     fill='white', spacing=3)
-            self.display.image(self.image)
+            from visuals import menu
+            self.last_render = time.monotonic()
+            self.display.image(menu(lines, self.last_render))
+
+    def show_game(self, state, player, selected, submitted, room, clock, lines):
+        if self.terminal:
+            self.show(lines)
+            return
+        now = time.monotonic()
+        if now - self.last_render < 1 / 12:
+            return
+        from visuals import game_frame
+        self.last_render = now
+        self.last_text = None
+        self.display.image(game_frame(state, player, selected, submitted, room, clock, now))

@@ -10,7 +10,7 @@ import random
 import time
 import uuid
 
-from game import Game, DIRECTIONS
+from game import Game, DIRECTIONS, REVEAL_SECONDS, KNOCKOUT_DELAY
 from hardware import Hardware
 
 
@@ -233,9 +233,9 @@ def main():
             if phase == 'reveal':
                 cues = [(state['deadline'], 'reveal', 'reveal')]
                 if state['eliminated']:
-                    cues.append((state['deadline'] + .35, 'elimination', 'out'))
+                    cues.append((state['deadline'] + KNOCKOUT_DELAY, 'elimination', 'out'))
                 if state['winner']:
-                    cues.append((state['deadline'] + 1, 'victory', 'win'))
+                    cues.append((state['deadline'] + REVEAL_SECONDS, 'victory', 'win'))
             for when, sound, key in cues:
                 if key not in scheduled_keys:
                     scheduled_keys.add(key)
@@ -261,7 +261,15 @@ def main():
                           'Remaining: ' + str(len(state['alive']))]
                 if state['winner']:
                     lines += [state['winner'].upper() + ' WINS!', 'Host click: replay' if phase == 'finished' else '']
-            hw.show(lines)
+            if phase == 'reveal':
+                lines = ['Round ' + str(state['round']) + ': ' + ('READY' if clock < state['deadline'] else 'REVEAL')]
+                for i, seat in enumerate(state['players']):
+                    label = 'P' + str(i + 1) + (' SOLO' if seat == state['solo'] else '')
+                    answer = state['choices'].get(seat, 'OUT').upper()
+                    if clock < state['deadline'] and seat in state['choices']:
+                        answer = 'READY'
+                    lines.append(label + ': ' + answer)
+            hw.show_game(state, player, selected, submitted, room, clock, lines)
             time.sleep(.02)
     finally:
         client.disconnect()

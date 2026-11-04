@@ -1,5 +1,5 @@
 import unittest
-from game import Game
+from game import Game, REVEAL_SECONDS
 
 
 class Rules(unittest.TestCase):
@@ -21,7 +21,7 @@ class Rules(unittest.TestCase):
         self.resolve(g, ['up'] * 4)
         self.assertEqual(g.winner, 'solo')
         self.assertEqual(g.alive, [])
-        g.tick(g.deadline + 3)
+        g.tick(g.deadline + REVEAL_SECONDS)
         self.assertTrue(g.start(20))
         self.assertEqual(g.solo, 'b')
         self.assertEqual(len(g.alive), 3)
@@ -30,7 +30,7 @@ class Rules(unittest.TestCase):
         g = self.game()
         for _ in range(5):
             self.resolve(g, ['up', 'down', 'left', 'right'])
-            g.tick(g.deadline + 3)
+            g.tick(g.deadline + REVEAL_SECONDS)
         self.assertEqual(g.round, 5)
         self.assertEqual(g.winner, 'team')
         self.assertEqual(g.phase, 'finished')
@@ -50,6 +50,18 @@ class Rules(unittest.TestCase):
             g.choose(p, 'left', g.revision)
         g.tick(7)
         self.assertEqual(g.phase, 'reveal')
+
+    def test_reveal_holds_all_choices_for_spectators(self):
+        g = self.game()
+        self.resolve(g, ['up', 'up', 'left', 'right'])
+        self.assertEqual(g.snapshot()['choices'], dict(zip('abcd', ['up', 'up', 'left', 'right'])))
+        self.assertNotIn('b', g.alive)
+        g.tick(g.deadline + REVEAL_SECONDS - .1)
+        self.assertEqual(g.phase, 'reveal')
+        g.tick(g.deadline + REVEAL_SECONDS)
+        self.assertEqual(g.phase, 'choosing')
+        self.assertEqual(g.round, 2)
+        self.assertEqual(g.snapshot()['choices'], {})
 
     def test_need_four(self):
         self.assertFalse(Game('a').start(0))

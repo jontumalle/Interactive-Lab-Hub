@@ -2,6 +2,21 @@
 
 Four nearby players, one solo versus three teammates. Secretly select a direction with a Qwiic joystick. Matching the solo player eliminates a teammate. The solo player wins by eliminating everyone; the team wins if anyone survives five rounds. Eliminated players watch until replay. Replay rotates the solo role.
 
+The MiniPiTFT interface uses original cartoon faces, colorful menu cards,
+direction-following eyes, a countdown, survivor indicators, and animated
+victory confetti. Rendering is capped at 12 frames per second; test actual
+display responsiveness and cue timing on the Pis. Terminal mode retains
+plain text for debugging. Room entry uses fixed digit cells with an aligned caret.
+
+Once all choices lock, every screen shows a four-player answer board during
+the ready-to-reveal sequence. P1–P4 follow lobby join order; SOLO marks the
+current solo player and a white border marks your seat. During READY, faces look straight ahead and choices stay hidden. At the reveal
+cue, pupils animate toward each chosen direction over 0.4 seconds and direction
+labels appear. After 1.4 seconds, matching players switch to X eyes with the
+elimination sound. Players eliminated in previous rounds remain OUT. The board stays visible for
+six seconds after that cue, including on the final round, before advancing
+to the next round or the victory screen.
+
 ## Install and run
 
 Obtain this folder on each Pi. Until merged upstream, fetch the author's branch or copy `Lab 6/look-away/` into your checkout. After upstream merge, pull upstream into your fork. No other project folder is required at runtime.

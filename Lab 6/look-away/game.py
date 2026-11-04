@@ -1,5 +1,8 @@
 """Authoritative, hardware-independent game rules."""
 DIRECTIONS = ('up', 'down', 'left', 'right')
+REVEAL_SECONDS = 6
+LOOK_SECONDS = .4
+KNOCKOUT_DELAY = 1.4
 
 
 class Game:
@@ -59,7 +62,7 @@ class Game:
             self.winner = 'solo' if not self.alive else ('team' if self.round == 5 else None)
             self.phase = 'reveal'
             self.deadline = now + 2  # publish result before synchronized reveal
-        elif self.phase == 'reveal' and now >= self.deadline + 3:
+        elif self.phase == 'reveal' and now >= self.deadline + REVEAL_SECONDS:
             if self.winner:
                 self.phase = 'finished'
             else:
