@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img"><title>Player journey and information dependencies</title>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#667783"/></marker></defs>
+<rect width="1200" height="480" fill="white"/>
+<rect x="30" y="40" width="340" height="125" rx="10" fill="#f1f5f7" stroke="#b9c8cf" stroke-width="2"/>
+<text x="50" y="75.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#117c76" text-anchor="start">01</text>
+<text x="50" y="113.0" font-family="Arial, sans-serif" font-size="29" font-weight="700" fill="#182a37" text-anchor="start">RECOVER</text>
+<text x="50" y="145.0" font-family="Arial, sans-serif" font-size="19" font-weight="400" fill="#182a37" text-anchor="start">Joystick waveform matching</text>
+<rect x="430" y="40" width="340" height="125" rx="10" fill="#f1f5f7" stroke="#b9c8cf" stroke-width="2"/>
+<text x="450" y="75.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#117c76" text-anchor="start">02</text>
+<text x="450" y="113.0" font-family="Arial, sans-serif" font-size="29" font-weight="700" fill="#182a37" text-anchor="start">DECODE</text>
+<text x="450" y="145.0" font-family="Arial, sans-serif" font-size="19" font-weight="400" fill="#182a37" text-anchor="start">Encoder mounted symbol wheel</text>
+<rect x="830" y="40" width="340" height="125" rx="10" fill="#f1f5f7" stroke="#b9c8cf" stroke-width="2"/>
+<text x="850" y="75.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#117c76" text-anchor="start">03</text>
+<text x="850" y="113.0" font-family="Arial, sans-serif" font-size="29" font-weight="700" fill="#182a37" text-anchor="start">RECONNECT</text>
+<text x="850" y="145.0" font-family="Arial, sans-serif" font-size="19" font-weight="400" fill="#182a37" text-anchor="start">Four physical patch cables</text>
+<line x1="374" y1="102" x2="422" y2="102" stroke="#667783" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="774" y1="102" x2="822" y2="102" stroke="#667783" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="30" y="220.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Recovered dispatch</text>
+<text x="30" y="251.05" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Encrypted source requirements</text>
+<text x="430" y="220.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Diagnostic clues</text>
+<text x="430" y="251.05" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Deduce once; decode the dispatch</text>
+<text x="830" y="220.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182a37" text-anchor="start">Decoded requirements</text>
+<text x="830" y="249.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182a37" text-anchor="start">Allocate four compatible ports</text>
+<text x="30" y="340.0" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Receiver supplies ciphertext; two diagnostic records constrain the decoder setting.</text>
+<text x="30" y="371.05" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Successful patching reveals the final message. Audio always has an equivalent text version.</text>
+</svg>

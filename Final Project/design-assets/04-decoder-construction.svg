@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img"><title>Decoder front face and mechanical assembly</title>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#667783"/></marker></defs>
+<rect width="1200" height="660" fill="white"/>
+<circle cx="260" cy="265" r="185" fill="#f5f0e5" stroke="#796c50" stroke-width="3"/>
+<circle cx="260" cy="265" r="140" fill="white" stroke="#255878" stroke-width="3"/>
+<circle cx="260" cy="265" r="14" fill="#d6e4eb" stroke="#255878" stroke-width="3"/>
+<text x="260.0" y="109.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">1</text>
+<text x="260.0" y="163.0" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">TRI</text>
+<text x="375.9655121145938" y="157.03448788540624" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">2</text>
+<text x="336.3675323681471" y="194.63246763185288" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">MOON</text>
+<text x="424.0" y="273.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">3</text>
+<text x="368.0" y="271.0" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">STAR</text>
+<text x="375.9655121145938" y="388.96551211459376" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">4</text>
+<text x="336.3675323681471" y="347.3675323681471" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">SQUARE</text>
+<text x="260.0" y="437.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">5</text>
+<text x="260.0" y="379.0" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">SUN</text>
+<text x="144.03448788540624" y="388.9655121145938" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">6</text>
+<text x="183.63246763185288" y="347.3675323681471" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">WAVE</text>
+<text x="96.0" y="273.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">7</text>
+<text x="152.0" y="271.0" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">CROSS</text>
+<text x="144.03448788540618" y="157.03448788540624" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">8</text>
+<text x="183.63246763185285" y="194.63246763185288" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="middle">HEX</text>
+<text x="260" y="43.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182a37" text-anchor="middle">FRONT AT HOME POSITION</text>
+<text x="260" y="495.0" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="middle">Fixed numbered ring</text>
+<text x="260" y="523.35" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="middle">Rotating symbol disk on encoder shaft</text>
+<text x="825" y="43.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182a37" text-anchor="middle">ASSEMBLY SECTION</text>
+<rect x="600" y="120" width="430" height="22" rx="10" fill="#e5d6ba" stroke="#b9c8cf" stroke-width="2"/>
+<text x="1050" y="140.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#182a37" text-anchor="start">Disk</text>
+<rect x="790" y="153" width="50" height="40" rx="10" fill="#cbd9e1" stroke="#b9c8cf" stroke-width="2"/>
+<text x="860" y="183.0" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="start">Secure hub</text>
+<rect x="600" y="230" width="430" height="24" rx="10" fill="#e5d6ba" stroke="#b9c8cf" stroke-width="2"/>
+<text x="1050" y="250.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#182a37" text-anchor="start">Panel</text>
+<line x1="815" y1="142" x2="815" y2="310" stroke="#182a37" stroke-width="8"/>
+<rect x="740" y="310" width="150" height="60" rx="10" fill="#d8e9df" stroke="#b9c8cf" stroke-width="2"/>
+<text x="815" y="348.0" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#182a37" text-anchor="middle">Encoder PCB</text>
+<line x1="710" y1="254" x2="710" y2="400" stroke="#667783" stroke-width="8"/>
+<line x1="920" y1="254" x2="920" y2="400" stroke="#667783" stroke-width="8"/>
+<rect x="650" y="400" width="330" height="18" rx="10" fill="#dae2e6" stroke="#b9c8cf" stroke-width="2"/>
+<text x="825" y="454.0" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="middle">Bracket and standoffs</text>
+<text x="590" y="515.0" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="start">Provide a rotating clearance gap.</text>
+<text x="590" y="543.35" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="start">Bracket height depends on shaft length.</text>
+<text x="590" y="571.7" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="start">Keep PCB and hub accessible for repair.</text>
+<text x="30" y="617.0" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#667783" text-anchor="start">Illustration is not a cut template. Match symbol sectors to measured encoder positions.</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img"><title>Solved patch panel showing physical cable connections</title>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#667783"/></marker></defs>
+<rect width="1200" height="630" fill="white"/>
+<text x="70" y="50.0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182a37" text-anchor="start">SIGNAL SOURCES</text>
+<text x="960" y="50.0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182a37" text-anchor="middle">TRANSMITTER PORTS</text>
+<text x="60" y="128.0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182a37" text-anchor="start">Voice</text>
+<circle cx="245" cy="120" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<circle cx="825" cy="120" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<text x="865" y="127.0" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#182a37" text-anchor="start">1  Long / delay 3 / encrypted</text>
+<text x="60" y="248.0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182a37" text-anchor="start">Beacon</text>
+<circle cx="245" cy="240" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<circle cx="825" cy="240" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<text x="865" y="247.0" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#182a37" text-anchor="start">2  Short / delay 1 / plain</text>
+<text x="60" y="368.0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182a37" text-anchor="start">Sensor</text>
+<circle cx="245" cy="360" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<circle cx="825" cy="360" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<text x="865" y="367.0" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#182a37" text-anchor="start">3  Long / delay 2 / plain</text>
+<text x="60" y="488.0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182a37" text-anchor="start">Distress</text>
+<circle cx="245" cy="480" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<circle cx="825" cy="480" r="16" fill="white" stroke="#255878" stroke-width="3"/>
+<text x="865" y="487.0" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#182a37" text-anchor="start">4  Short / delay 2 / encrypted</text>
+<path d="M261,120 C420,120 660,240 809,240" fill="none" stroke="#255878" stroke-width="6"/>
+<path d="M261,240 C420,240 660,360 809,360" fill="none" stroke="#117c76" stroke-width="6"/>
+<path d="M261,360 C420,360 660,480 809,480" fill="none" stroke="#9b6d2e" stroke-width="6"/>
+<path d="M261,480 C420,480 660,120 809,120" fill="none" stroke="#8c537d" stroke-width="6"/>
+<rect x="360" y="535" width="400" height="55" rx="10" fill="#edf5f2" stroke="#b9c8cf" stroke-width="2"/>
+<text x="560" y="570.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">CONFIRM / TRANSMIT</text>
+<text x="30" y="620.0" font-family="Arial, sans-serif" font-size="19" font-weight="400" fill="#667783" text-anchor="start">Builder solution shown. Player panel has no preprinted solution cables or matching color hints.</text>
+</svg>
