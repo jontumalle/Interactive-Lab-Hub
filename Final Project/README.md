@@ -6,6 +6,7 @@ The current design combines joystick waveform matching, a directly sensed decode
 
 ## Design documents
 
+- [Printable paper prototype](paper-prototype/README.md) — player templates and a separate facilitator guide for testing the diagnostic clues, decoder, and patch panel.
 - [Current interaction storyboard](receiver-decoder-storyboard.md) — reception of ciphertext, deduction from two diagnostic records, and the final patch puzzle.
 - [Illustrated design specification](design-document.md) — current revision, with setup, interactions, wiring, parts, reset, and validation plans.
 - [Concept and paper test worksheet](01-concept-and-paper-test.md) — earlier planning worksheet, retained as process history.
