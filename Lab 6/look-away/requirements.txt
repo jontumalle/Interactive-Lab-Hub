@@ -1,0 +1,6 @@
+paho-mqtt>=2.0,<3
+sparkfun-qwiic-joystick>=0.9
+adafruit-circuitpython-rgb-display>=3.12
+adafruit-blinka
+Pillow
+pygame>=2
