@@ -2,11 +2,12 @@
 
 Portable escape room in a briefcase by Jonathan Tumalle.
 
-The current design combines joystick waveform matching, a directly sensed decoder wheel, and a physical cable patch panel. Recovering a sender identity and time lets players interpret an operator notebook, configure the decoder, and recover a missing requirement for the final patching puzzle.
+The current design combines joystick waveform matching, a directly sensed decoder wheel, and a physical cable patch panel. Players recover an encrypted dispatch, combine two diagnostic records to deduce the decoder setting, decode the source requirements, and connect the transmitter ports.
 
 ## Design documents
 
 - [Printable paper prototype](paper-prototype/README.md) — player templates and a separate facilitator guide for testing the diagnostic clues, decoder, and patch panel.
+- [Paper prototype feedback](paper-prototype/test-notes.md) — positive initial feedback and the resulting focus on essential clue presentation.
 - [Current interaction storyboard](receiver-decoder-storyboard.md) — reception of ciphertext, deduction from two diagnostic records, and the final patch puzzle.
 - [Illustrated design specification](design-document.md) — current revision, with setup, interactions, wiring, parts, reset, and validation plans.
 - [Concept and paper test worksheet](01-concept-and-paper-test.md) — earlier planning worksheet, retained as process history.
@@ -14,7 +15,7 @@ The current design combines joystick waveform matching, a directly sensed decode
 
 ## Status
 
-Design revision 4, November 16 2026. Hardware construction and user tests remain pending. Diagrams are explanatory, not final fabrication templates. Encoder detents and coupling, waveform readability, and protected patch cable sensing are the first bench checks.
+Design revision 4, with paper test feedback recorded November 18 2026. Jonathan reports that the paper experiment worked and made sense to players. The main feedback is to develop the presentation of essential clues for the final design. Hardware implementation and testing are the next focus. Diagrams are explanatory, not final fabrication templates. Encoder detents and coupling, waveform readability, and patch cable sensing are the first bench checks.
 
 ## Editing and diagram generation
 

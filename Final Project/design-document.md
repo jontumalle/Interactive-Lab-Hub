@@ -14,6 +14,8 @@ Proposed starting scope: one or two players and a 10 to 15 minute session, to be
 
 This is a design specification, not a record of a working build. Encoder resolution, mechanical fit, display readability, cable detection, and puzzle difficulty still require testing. The waveform and patch panel are simulations of radio systems, with real physical controls and connection sensing.
 
+Paper test update reported November 18 2026: Jonathan reports that the experiment worked and received positive feedback that the experience made sense. The main feedback concerns the presentation of essential clues in the final design. Keep the current puzzle logic for the first hardware iteration and test clue presentation alongside it. See the [paper prototype feedback record](paper-prototype/test-notes.md).
+
 ## Briefcase Setup and Component Placement
 
 ![Figure 2  Suggested arrangement with a removable service panel](design-assets/02-briefcase-layout.svg)
@@ -167,6 +169,12 @@ This section defines the required behavior rather than a final circuit. Pin assi
 ### Shared controls
 
 The Qwiic button opens Menu during waveform matching, then becomes Set decoder or Transmit in later stages. Joystick click locks a waveform; in later stages it opens Menu. Inside Menu, joystick directions navigate and click selects Archive, Hints, Set decoder, or Back. Disable puzzle inputs while a menu is open, and consume the opening click before accepting a menu selection. Show button functions on screen.
+
+### Essential clue presentation
+
+Present the diagnostic records, encrypted dispatch, attribute legend, and port specifications as essential information within the case. Make them discoverable and readable, and keep them available for comparison once found. Place the diagnostic records and legend within view of the wheel, keep recovered dispatch fragments accessible on the screen, and place port specifications beside the cable connections. The visual treatment can support the story, while symbol contrast, labels, and placement support use of the physical controls.
+
+Test whether players can find, read, revisit, and combine these clues in the rough enclosure. Optional hints are requested assistance and remain separate from the essential clues.
 
 ### Progress hints and reset
 

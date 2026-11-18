@@ -29,4 +29,4 @@ Keep the fixed base intact. Cut the diagnostic cards apart and place them separa
 
 Run `python3 "Final Project/paper-prototype/build_printables.py"` from the repository root using a Python environment with `reportlab` and `pypdf`. The script embeds DejaVu Sans fonts and defaults to the author's bundled font directory. Set `PAPER_FONT_DIR` to a directory containing `DejaVuSans.ttf` and `DejaVuSans-Bold.ttf` on another machine.
 
-The generator verifies the unique diagnostic and patch solutions, the page counts, and the portrait/landscape page sizes. Both final PDFs were rendered and visually reviewed. Physical assembly and user testing are still pending.
+The generator verifies the unique diagnostic and patch solutions, the page counts, and the portrait/landscape page sizes. Both final PDFs were rendered and visually reviewed. Jonathan subsequently reported a successful paper experiment and positive feedback that the experience made sense; see [test notes and design response](test-notes.md). Hardware testing remains the next focus.
