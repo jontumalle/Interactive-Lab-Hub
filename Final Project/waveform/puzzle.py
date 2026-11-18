@@ -8,11 +8,11 @@ import math
 
 SIGNALS = (
     {"frequency": 3.0, "amplitude": 0.60,
-     "rows": [{"source": "VOICE", "symbols": ["triangle"]},
-              {"source": "BEACON", "symbols": ["cross"]}]},
+     "record": {"title": "TEST RECORD A", "symbol": "triangle",
+                "text": "The triangle produced an odd-numbered code."}},
     {"frequency": 5.0, "amplitude": 0.35,
-     "rows": [{"source": "SENSOR", "symbols": ["hexagon"]},
-              {"source": "DISTRESS", "symbols": ["cross", "moon"]}]},
+     "record": {"title": "TEST RECORD B", "symbol": "moon",
+                "text": "The moon produced a code greater than 3 and less than 6."}},
 )
 
 
@@ -80,11 +80,11 @@ class ReceiverPuzzle:
                 if self.match_time + 1e-9 >= self.ACQUIRE_SECONDS:
                     self.match_time = self.ACQUIRE_SECONDS
                     self.messages.append({"signal_index": self.signal_index,
-                                          "title": "FRAGMENT " + ("A" if self.signal_index == 0 else "B"),
-                                          "rows": deepcopy(SIGNALS[self.signal_index]["rows"])})
+                                          "type": "diagnostic",
+                                          **deepcopy(SIGNALS[self.signal_index]["record"])})
                     self.archive_index = len(self.messages) - 1
                     self.stage = "complete" if self.signal_index == len(SIGNALS) - 1 else "recovered"
-                    self.status = "Transmission recovered" if self.stage == "complete" else "Fragment recovered"
+                    self.status = "Diagnostic records recovered" if self.stage == "complete" else "Test record recovered"
                     # A neutral frame after acquisition must precede navigation.
                     self._nav_armed = False
             else:

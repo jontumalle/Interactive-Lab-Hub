@@ -15,12 +15,12 @@
 <text x="850" y="145.0" font-family="Arial, sans-serif" font-size="19" font-weight="400" fill="#182a37" text-anchor="start">Four physical patch cables</text>
 <line x1="374" y1="102" x2="422" y2="102" stroke="#667783" stroke-width="3" marker-end="url(#arrow)"/>
 <line x1="774" y1="102" x2="822" y2="102" stroke="#667783" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="30" y="220.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Recovered dispatch</text>
-<text x="30" y="251.05" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Encrypted source requirements</text>
-<text x="430" y="220.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Diagnostic clues</text>
-<text x="430" y="251.05" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Deduce once; decode the dispatch</text>
+<text x="30" y="220.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Recovered records</text>
+<text x="30" y="251.05" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Triangle odd / Moon range</text>
+<text x="430" y="220.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Correct wheel setting</text>
+<text x="430" y="251.05" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">Unlock and decode dispatch</text>
 <text x="830" y="220.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182a37" text-anchor="start">Decoded requirements</text>
 <text x="830" y="249.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182a37" text-anchor="start">Allocate four compatible ports</text>
-<text x="30" y="340.0" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Receiver supplies ciphertext; two diagnostic records constrain the decoder setting.</text>
+<text x="30" y="340.0" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Receiver supplies diagnostic records; correct wheel confirmation unlocks encrypted dispatch.</text>
 <text x="30" y="371.05" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Successful patching reveals the final message. Audio always has an equivalent text version.</text>
 </svg>

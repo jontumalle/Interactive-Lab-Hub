@@ -6,7 +6,7 @@
 <text x="90" y="86.0" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#667783" text-anchor="start">LID OR REAR OF BASE</text>
 <rect x="95" y="103" width="280" height="70" rx="10" fill="white" stroke="#b9c8cf" stroke-width="2"/>
 <text x="235" y="145.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="middle">Shared Mini PiTFT</text>
-<text x="415" y="125.0" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Diagnostic records + attribute legend</text>
+<text x="415" y="125.0" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Attribute legend + locked dispatch cards</text>
 <text x="415" y="156.05" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182a37" text-anchor="start">Lid mounting requires a restrained hinge cable loop.</text>
 <rect x="70" y="225" width="250" height="255" rx="10" fill="white" stroke="#b9c8cf" stroke-width="2"/>
 <text x="88" y="261.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182a37" text-anchor="start">1  RECEIVER</text>

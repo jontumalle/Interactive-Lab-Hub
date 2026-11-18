@@ -100,7 +100,8 @@ class ReceiverTests(unittest.TestCase):
         state=self.puzzle.snapshot()
         self.assertEqual(len(state['messages']),2)
         self.assertEqual(state['archive_index'],1)
-        self.assertEqual(state['messages'][1]['rows'][1],{'source':'DISTRESS','symbols':['cross','moon']})
+        self.assertEqual(state['messages'][1]['symbol'],'moon')
+        self.assertEqual(state['messages'][1]['text'],'The moon produced a code greater than 3 and less than 6.')
         self.puzzle.update(.02)
         self.puzzle.update(.02,y=1)
         self.assertEqual(self.puzzle.archive_index,0)
@@ -113,11 +114,22 @@ class ReceiverTests(unittest.TestCase):
         self.assertEqual(self.puzzle.stage,'complete')
         self.assertEqual(len(self.puzzle.messages),2)
 
+    def test_receiver_only_reveals_diagnostic_records(self):
+        self.finish()
+        first, second = self.puzzle.snapshot()['messages']
+        self.assertEqual(first['text'], 'The triangle produced an odd-numbered code.')
+        self.assertEqual([first['title'], second['title']], ['TEST RECORD A', 'TEST RECORD B'])
+        for record in (first, second):
+            self.assertEqual(record['type'], 'diagnostic')
+            self.assertNotIn('rows', record)
+            for hidden in ('VOICE', 'BEACON', 'SENSOR', 'DISTRESS', 'Triangle at 3'):
+                self.assertNotIn(hidden, str(record))
+
     def test_reset_and_snapshot_do_not_leak_mutable_state(self):
         self.finish()
         snap=self.puzzle.snapshot()
-        snap['messages'][0]['rows'][0]['symbols'].append('moon')
-        self.assertEqual(self.puzzle.messages[0]['rows'][0]['symbols'],['triangle'])
+        snap['messages'][0]['symbol']='moon'
+        self.assertEqual(self.puzzle.messages[0]['symbol'],'triangle')
         self.puzzle.reset()
         self.assertEqual(self.puzzle.stage,'tuning')
         self.assertEqual(self.puzzle.messages,[])

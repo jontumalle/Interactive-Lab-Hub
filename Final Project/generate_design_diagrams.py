@@ -35,17 +35,17 @@ s=SVG('Player journey and information dependencies',480)
 for x,n,t,sub in [(30,'01','RECOVER','Joystick waveform matching'),(430,'02','DECODE','Encoder mounted symbol wheel'),(830,'03','RECONNECT','Four physical patch cables')]:
     s.rect(x,40,340,125);s.text(x+20,75,n,22,TEAL,bold=True);s.text(x+20,113,t,29,bold=True);s.text(x+20,145,sub,19)
 for x in [370,770]: s.line(x+4,102,x+52,102,arrow=True)
-s.text(30,220,['Recovered dispatch','Encrypted source requirements'],23,bold=True)
-s.text(430,220,['Diagnostic clues','Deduce once; decode the dispatch'],23,bold=True)
+s.text(30,220,['Recovered records','Triangle odd / Moon range'],23,bold=True)
+s.text(430,220,['Correct wheel setting','Unlock and decode dispatch'],23,bold=True)
 s.text(830,220,['Decoded requirements','Allocate four compatible ports'],22,bold=True)
-s.text(30,340,['Receiver supplies ciphertext; two diagnostic records constrain the decoder setting.','Successful patching reveals the final message. Audio always has an equivalent text version.'],23)
+s.text(30,340,['Receiver supplies diagnostic records; correct wheel confirmation unlocks encrypted dispatch.','Successful patching reveals the final message. Audio always has an equivalent text version.'],23)
 flow=s.save('01-player-journey')
 
 s=SVG('Proposed briefcase layout and service layer',650)
 s.rect(35,20,1130,590,'#faf9f5','#56656b',25)
 s.rect(70,55,1060,145,'#edf3f5');s.text(90,86,'LID OR REAR OF BASE',18,GRAY,bold=True)
 s.rect(95,103,280,70,'white');s.text(235,145,'Shared Mini PiTFT',23,anchor='middle',bold=True)
-s.text(415,125,['Diagnostic records + attribute legend','Lid mounting requires a restrained hinge cable loop.'],23)
+s.text(415,125,['Attribute legend + locked dispatch cards','Lid mounting requires a restrained hinge cable loop.'],23)
 for x,w,title in [(70,250,'1  RECEIVER'),(345,410,'2  DECODER'),(780,350,'3  PATCH PANEL')]:
     s.rect(x,225,w,255,'white');s.text(x+18,261,title,22,bold=True)
 s.circle(195,345,38);s.text(195,410,'Joystick',22,anchor='middle');s.text(195,446,'Frequency / amplitude',17,anchor='middle')
@@ -72,9 +72,9 @@ for freq,amp,color in [(3,80,TEAL),(4.5,48,BLUE)]:
 s.text(55,335,'Target',21,TEAL,bold=True);s.text(185,335,'Player',21,BLUE,bold=True)
 s.circle(960,220,53);s.line(850,220,1065,220,arrow=True);s.line(960,115,960,322,arrow=True)
 s.text(960,85,'JOYSTICK',24,anchor='middle',bold=True);s.text(960,360,'Left / right = frequency',22,anchor='middle');s.text(960,390,'Up / down = amplitude',22,anchor='middle')
-for x,title,body in [(30,'ADJUST','Deflection changes the setting'),(430,'MATCH','Center joystick; hold 1 second'),(830,'ACQUIRE','Release to recover the fragment')]:
+for x,title,body in [(30,'ADJUST','Deflection changes the setting'),(430,'MATCH','Center joystick; hold 1 second'),(830,'ACQUIRE','Release to recover the record')]:
     s.rect(x,450,340,100);s.text(x+15,483,title,23,bold=True);s.text(x+15,520,body,17)
-s.text(30,592,'Recovered fragments remain replayable and readable while players decode the dispatch.',21)
+s.text(30,592,'Diagnostic records remain available while players work out the decoder setting.',21)
 wave=s.save('03-waveform-interaction')
 
 s=SVG('Decoder front face and mechanical assembly',660)

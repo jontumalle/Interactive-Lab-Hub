@@ -32,10 +32,10 @@ Each Pi saves its axis calibration outside Git in its user configuration directo
 
 - Move left or right to change frequency; up or down to change amplitude. Centering retains the chosen values.
 - Match the teal solid Target curve with the pale dashed Signal curve. Release the controls and hold the match for one second to acquire automatically. This replaces the earlier planned click to lock, so browser play needs only arrow keys.
-- The first successful lock reveals Voice = Triangle and Beacon = Cross. Release the controls, then move right or click to continue to the second signal.
-- The second lock reveals Sensor = Hexagon and Distress = Cross plus Moon. Both fragments remain available; move up or down to review them.
+- The first lock reveals Test record A: The triangle produced an odd-numbered code. Release the controls, then move right or click to continue.
+- The second lock reveals Test record B: The moon produced a code greater than 3 and less than 6. Both diagnostic records remain available; move up or down to review them.
 
-Only encrypted requirements are revealed. The receiver never provides the decoder setting, decoded meanings, or target parameter numbers to the player.
+The receiver reveals only the two diagnostic clues. In the full game, solving them establishes the decoder setting, and a correct wheel confirmation unlocks the encrypted dispatch cards. Players then decode those cards for the patch puzzle. Wheel sensing and dispatch unlocking are the next component to implement; this receiver prototype ends with review of the two diagnostic records.
 
 ## Browser simulator on the Pi or laptop
 
@@ -47,7 +47,7 @@ python serve.py --host 0.0.0.0
 
 Open `http://<PI_IP>:8765` on another device on the same trusted network, or `http://localhost:8765` in the Pi browser. Find the Pi address with `hostname -I`. Arrow keys or the on screen directional buttons control the puzzle. The screen image is produced by exactly the same `display.render` function as the physical display; enlargement changes display size only. The 1x option shows its 240 by 135 pixel raster, not a calibrated physical screen size.
 
-This is a separate simulator session and does not operate the physical screen. Use `bash run_pi.sh` for the hardware game. The browser server shares one session across connected tabs; New session resets it for everyone. It has no login and is intended for local testing. Omit `--host 0.0.0.0` for loopback only access on a laptop.
+This is a separate simulator session and does not operate the physical screen. Use `bash run_pi.sh` for the hardware game. The browser server shares one session across connected tabs; Reset resets it for everyone. It has no login and is intended for local testing. Omit `--host 0.0.0.0` for loopback only access on a laptop.
 
 ## Verification and remaining hardware checks
 
@@ -55,6 +55,6 @@ This is a separate simulator session and does not operate the physical screen. U
 python -m unittest -v test_puzzle.py
 ```
 
-Nine behavior tests cover time based controls, limits, noise dead zone, uninterrupted centered acquisition, navigation edges, both captures, archive, reset, and canonical frame dimensions. These tests do not establish GPIO access, physical axis direction, actual screen refresh speed, or joystick responsiveness; check those on the Pi. The runner reuses the existing lab screen configuration, and bus wiring remains a build concern.
+Ten behavior tests cover time based controls, limits, noise dead zone, uninterrupted centered acquisition, navigation edges, both captures, archive, reset, and canonical frame dimensions. These tests do not establish GPIO access, physical axis direction, actual screen refresh speed, or joystick responsiveness; check those on the Pi. The runner reuses the existing lab screen configuration, and bus wiring remains a build concern.
 
 The browser clears held keys on blur and uses a short input timeout to avoid stale controls. Server responses omit numeric targets, although the visible target curve remains intentionally available as the matching reference. There is no audio yet; messages are shown on screen.

@@ -23,7 +23,7 @@ Print single sided on US Letter at **Actual Size or 100%**, with automatic orien
 
 Use scissors, scrap cardboard or cardstock, one paper fastener, four approximately 30 cm strings, low tack tape or clips, and a pencil. Cut the rotor and attach it through the center of the base. Its 124 mm diameter leaves the fixed numbers visible on the 170 mm base. The dimensions are for the paper prototype, not final fabrication.
 
-Keep the fixed base intact. Cut the diagnostic cards apart and place them separately. Set out the legend, blank notes, empty patch panel, and port table. Hold the encrypted fragments until the simulated or working receiver stage is complete. Give players no completed checklist or solution diagram.
+Keep the fixed base intact. Cut the diagnostic cards apart and retain them as receiver rewards: the first signal reveals the Triangle record and the second reveals the Moon record. Set out the legend, blank notes, empty patch panel, and port table. Hold both encrypted dispatch cards until players correctly confirm the wheel setting. Then hand over both for decoding. Give players no completed checklist or solution diagram.
 
 ## Regenerate
 

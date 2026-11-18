@@ -4,7 +4,7 @@
 <body>
 <header><a class="brand" href="/">THE LAST TRANSMISSION</a><span class="edition">RECEIVER PROTOTYPE</span></header>
 <main>
-  <div class="heading"><div><p class="eyebrow">ESTABLISH THE LINK</p><h1>Find the signal.</h1></div><span id="progress">0 / 2 recovered</span></div>
+  <div class="heading"><div><p class="eyebrow">ESTABLISH THE LINK</p><h1>Find the signal.</h1></div><div class="heading-actions"><span id="progress">0 / 2 records</span><button id="reset" class="reset" type="button" aria-label="Reset receiver session">Reset</button></div></div>
   <section class="instrument" aria-label="Mini PiTFT receiver simulation">
     <div class="instrument-top"><span>FIELD RECEIVER</span><span>240 × 135</span></div>
     <div class="screen-area"><canvas id="screen" width="240" height="135" aria-label="Receiver display"></canvas><div id="loading">Connecting to receiver…</div></div>
@@ -14,7 +14,6 @@
   <section class="controls" aria-label="Joystick controls">
     <div class="keypad"><button data-key="ArrowUp" aria-label="Increase amplitude">↑</button><div><button data-key="ArrowLeft" aria-label="Decrease frequency">←</button><button data-key="ArrowDown" aria-label="Decrease amplitude">↓</button><button data-key="ArrowRight" aria-label="Increase frequency or continue">→</button></div></div>
     <div class="legend"><p><strong>Left / right</strong> Frequency</p><p><strong>Up / down</strong> Amplitude</p><p class="quiet">Hold to adjust. Release to keep your setting.</p></div>
-    <button id="reset" class="reset" type="button">New session</button>
   </section>
   <footer>Same puzzle engine and display renderer as the Raspberry Pi version.</footer>
 </main><script src="/app.js"></script>

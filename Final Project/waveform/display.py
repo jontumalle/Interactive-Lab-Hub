@@ -105,16 +105,17 @@ def render(snapshot):
     messages = snapshot['messages']
     archive = min(snapshot.get('archive_index', len(messages)-1), len(messages)-1)
     record = messages[archive]
-    heading = 'SIGNAL RECOVERED' if stage == 'recovered' else 'DISPATCH RECOVERED'
-    text(draw, (8, 4), heading, 11, TEAL, True)
-    text(draw, (217, 4), 'A' if record['signal_index'] == 0 else 'B', 11, TEAL, True)
+    text(draw, (8, 4), record['title'], 11, TEAL, True)
+    text(draw, (210, 4), f"{record['signal_index']+1}/2", 10, TEAL)
     draw.line((8, 25, 231, 25), fill=GRID)
-    for y, row in zip((49, 85), record['rows']):
-        text(draw, (9, y-9), row['source'], 12, WHITE, True)
-        glyph(draw, row['symbols'][0], 143, y, 9)
-        if len(row['symbols']) > 1:
-            text(draw, (165, y-6), 'AND', 8, MUTED)
-            glyph(draw, row['symbols'][1], 213, y, 9)
+    glyph(draw, record['symbol'], 217, 43, 10)
+    # Short lines keep every word visible on the real 240 x 135 display.
+    if record['symbol'] == 'triangle':
+        lines = ['The triangle produced', 'an odd-numbered code.']
+    else:
+        lines = ['The moon produced a code', 'greater than 3 and', 'less than 6.']
+    for i, line in enumerate(lines):
+        text(draw, (9, 34 + i*23), line, 12, WHITE)
     draw.line((8, 108, 231, 108), fill=GRID)
     footer = 'RIGHT: NEXT SIGNAL' if stage == 'recovered' else 'UP/DOWN: REVIEW A / B'
     centered(draw, 117, footer, 10, MUTED)

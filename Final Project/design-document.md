@@ -1,8 +1,8 @@
 # The Last Transmission Design Document
 
-Escape room in a briefcase | Jonathan Tumalle | Revision 4 | November 16 2026
+Escape room in a briefcase | Jonathan Tumalle | Revision 5 | November 18 2026
 
-This design combines waveform matching, an encoder mounted decoder wheel, and a physical cable patch panel. Players recover encrypted source requirements, combine two incomplete diagnostic records to deduce one decoder setting, decode the full dispatch, and reconnect a transmitter to reveal the final message. The document defines the player experience, construction, interfaces, and validation work for this iteration.
+This design combines waveform matching, an encoder mounted decoder wheel, and a physical cable patch panel. Players recover two diagnostic records by matching waveforms, combine them to deduce the decoder setting, and confirm the wheel to unlock encrypted dispatch cards. They decode those cards and reconnect the transmitter to reveal the final message. The document defines the player experience, construction, interfaces, and validation work for this iteration.
 
 See the [current illustrated interaction storyboard](receiver-decoder-storyboard.md) for the complete player walkthrough.
 
@@ -20,7 +20,7 @@ Paper test update reported November 18 2026: Jonathan reports that the experimen
 
 ![Figure 2  Suggested arrangement with a removable service panel](design-assets/02-briefcase-layout.svg)
 
-Place the three interaction areas on a removable base panel. Mount the display in the base if a lid cable proves awkward; the illustrated lid position is optional. Put the diagnostic records and attribute legend where players can read them while using the wheel. Keep patch cords clear of the disk and joystick.
+Place the three interaction areas on a removable base panel. Mount the display in the base if a lid cable proves awkward; the illustrated lid position is optional. Keep the receiver display and attribute legend readable while players use the wheel. Hold the dispatch cards until the decoder is correctly set. Keep patch cords clear of the disk and joystick.
 
 | Component | Setup and player feedback |
 | --- | --- |
@@ -29,7 +29,7 @@ Place the three interaction areas on a removable base panel. Mount the display i
 | Joystick | Mount by PCB holes or a bracket; verify axis direction and center before a session. |
 | Decoder assembly | Fixed number ring, rotating disk, secure shaft hub, encoder bracket, and visible home reference. |
 | Patch sockets and expander | Sockets fasten to a reinforced panel; harness and scanner stay below. Display acknowledges connection count. |
-| Confirm button and clue inserts | One shared Qwiic button changes function by stage; diagnostic records and legend are replaceable printed inserts. |
+| Confirm button and clue inserts | One shared Qwiic button changes function by stage; the attribute legend is a printed insert and dispatch cards are released after decoder confirmation. |
 
 No final enclosure dimensions are assumed. Measure the actual case, shaft reach, socket rear clearance, screen, cooling height, and cable bend space before generating cut files.
 
@@ -43,16 +43,16 @@ The fixed target and adjustable player wave share a phase and baseline. Left or 
 
 | Signal | Target parameters | Recovered information |
 | --- | --- | --- |
-| 1 | 3 cycles across plot; amplitude 0.60 | Voice = Triangle; Beacon = Cross |
-| 2 | 5 cycles across plot; amplitude 0.35 | Sensor = Hexagon; Distress = Cross + Moon |
+| 1 | 3 cycles across plot; amplitude 0.60 | Test record A: Triangle produced an odd-numbered code |
+| 2 | 5 cycles across plot; amplitude 0.35 | Test record B: Moon produced a code greater than 3 and less than 6 |
 
 Start the player wave at visibly different settings and allow a forgiving matching tolerance. Require a brief stable match with the controls centered; the working prototype acquires automatically so browser play needs only arrow keys. Tune the sensitivity, dead zone, and matching tolerance with users during prototyping.
 
-Off-target settings remain available for adjustment. After a successful automatic lock, play and display the fragment, then offer the next signal. Matching both unlocks decoder submissions and stores both fragments in the archive. Colored lines also use labels and distinct solid or dashed styles.
+Off-target settings remain available for adjustment. After a successful automatic lock, display the diagnostic record, then offer the next signal. Both records remain available for review while players solve the decoder. The receiver does not reveal the dispatch cards. Colored lines also use labels and distinct solid or dashed styles.
 
 ## Puzzle Two Decoder Interaction
 
-The receiver supplies encrypted source requirements, not a key or finished instructions. Two physical diagnostic records are placed separately inside the case. Neither provides an exact alignment:
+The receiver supplies two incomplete diagnostic records, one per matched waveform. Players can review them on screen. For paper testing, reveal the corresponding printed card after each simulated signal lock. Neither record provides an exact alignment:
 
 > **Test record A:** The triangle produced an odd-numbered code.
 >
@@ -65,7 +65,7 @@ The first record permits Triangle at 1, 3, 5, or 7. The second permits Moon at 4
 | Moon at 4 | Triangle at 3 | Yes |
 | Moon at 5 | Triangle at 4 | No because Triangle must be odd |
 
-Players rotate the wheel to satisfy both records and press Confirm to record their chosen setting. Leave the wheel in place while decoding every symbol. These are player clues; the solution table above is for the design document only.
+Players rotate the wheel to satisfy both records and press Confirm to record their chosen setting. An incorrect confirmation leaves the decoder puzzle open for revision. Correct confirmation unlocks dispatch cards A and B, containing the encrypted source requirements. In the paper test, the facilitator hands over these cards only after the correct wheel setting. In the full game, the encoder event will trigger the dispatch reveal; its physical or screen presentation is still a build decision. Leave the wheel in place while decoding every symbol. The solution table above is for the design document only.
 
 ![Figure 4  Decoder face at home and proposed assembly section](design-assets/04-decoder-construction.svg)
 
@@ -89,7 +89,7 @@ The fixed ring has numbers 1 through 8 clockwise. The rotating symbols are Trian
 | Sensor = Hexagon | Short range |
 | Distress = Cross + Moon | Long range and encrypted |
 
-The screen acknowledges Decoder set without revealing whether the selected key is correct or automatically displaying the decoded requirements. Players interpret and note all four requirements, then attempt the patch puzzle. Transmit validates both the recorded decoder setting and cable assignment. Players can return to the decoder and record a revised setting if necessary. No three alignment sequence is required.
+The decoder checks the confirmed setting and reveals only encrypted dispatch cards on success, never the decoded requirements. Players interpret and note all four requirements using the wheel and attribute legend, then attempt the patch puzzle. Transmit checks the cable assignment. The working waveform implementation currently ends at diagnostic record review; encoder confirmation and dispatch unlocking are the next component to implement.
 
 ## Decoder Construction and Position Tracking
 
@@ -161,20 +161,20 @@ This section defines the required behavior rather than a final circuit. Pin assi
 | State | Player action | System response and next state |
 | --- | --- | --- |
 | Setup | Operator checks devices, homes wheel, removes cables | Enable Start only after bus, controls, display, and audio checks. |
-| Receiver 1 | Tune and lock first waveform | Save first ciphertext fragment; move to Receiver 2. |
-| Receiver 2 | Tune and lock second waveform | Save remaining ciphertext; enable decoder setting. |
-| Decoder | Combine diagnostic records, set wheel once, and decode all symbols | Record setting without revealing its correctness; players infer requirements. |
-| Patch | Connect all four cords; Transmit | Wrong setting or wiring permits revision. Correct setting and mapping end game. |
+| Receiver 1 | Tune and lock first waveform | Reveal the Triangle diagnostic record; offer Receiver 2. |
+| Receiver 2 | Tune and lock second waveform | Reveal the Moon diagnostic record; keep both available for decoder reasoning. |
+| Decoder | Combine records, set wheel once, and confirm | Wrong setting permits revision. Correct setting unlocks encrypted dispatch cards to decode. |
+| Patch | Decode dispatch, connect all four cords, and Transmit | Wrong wiring permits revision. Correct mapping ends the game. |
 | Complete | Replay final message | Remain complete until deliberate operator reset. |
 | Hardware error | Operator repairs and retries | Show the fault separately from puzzle feedback; do not claim solved state. |
 
 ### Shared controls
 
-The full game plans a Qwiic Menu button during waveform matching, followed by Set decoder or Transmit in later stages. The working receiver prototype automatically locks a stable centered match; after the first fragment, a fresh right movement or joystick click advances. Later full-game menus remain planned. Inside Menu, joystick directions navigate and click selects Archive, Hints, Set decoder, or Back. Disable puzzle inputs while a menu is open, and consume the opening click before accepting a menu selection. Show button functions on screen.
+The full game plans a Qwiic Menu button during waveform matching, followed by Set decoder or Transmit in later stages. The working receiver prototype automatically locks a stable centered match; after the first diagnostic record, a fresh right movement or joystick click advances. Later full-game menus remain planned. Inside Menu, joystick directions navigate and click selects Archive, Hints, Set decoder, or Back. Disable puzzle inputs while a menu is open, and consume the opening click before accepting a menu selection. Show button functions on screen.
 
 ### Essential clue presentation
 
-Present the diagnostic records, encrypted dispatch, attribute legend, and port specifications as essential information within the case. Make them discoverable and readable, and keep them available for comparison once found. Place the diagnostic records and legend within view of the wheel, keep recovered dispatch fragments accessible on the screen, and place port specifications beside the cable connections. The visual treatment can support the story, while symbol contrast, labels, and placement support use of the physical controls.
+Present the diagnostic records, encrypted dispatch, attribute legend, and port specifications as essential information. Reveal the diagnostic records through the receiver, keep them available for comparison, and keep the attribute legend within view of the wheel. Unlock the encrypted dispatch cards only after correct decoder confirmation. Place the port specifications beside the cable connections. The visual treatment can support the story, while symbol contrast, labels, and placement support use of the physical controls.
 
 Test whether players can find, read, revisit, and combine these clues in the rough enclosure. Optional hints are requested assistance and remain separate from the essential clues.
 
@@ -182,7 +182,7 @@ Test whether players can find, read, revisit, and combine these clues in the rou
 
 Use two fixed hints per puzzle, requested explicitly. Receiver hints explain width versus height; the first decoder hint asks players to satisfy both diagnostic records at once; the second notes that Moon can only be at 4 or 5 and Triangle is the previous sector; patch hints remind players that some ports must be reserved for stricter requirements. Record hint requests for testing. Do not impose a countdown in the initial prototype.
 
-Operator reset is an on screen maintenance action with confirmation. Clear fragments, recorded decoder setting, hints, and success state; remove all patch cords; return the wheel to Home; calibrate joystick center; then start a new session. A power failure returns to setup rather than pretending to resume a calibrated game. Archive and hint menus must not expose operator answers.
+Operator reset is an on screen maintenance action with confirmation. Clear diagnostic records, dispatch unlock state, recorded decoder setting, hints, and success state; remove all patch cords; return the wheel to Home; calibrate joystick center; then start a new session. A power failure returns to setup rather than pretending to resume a calibrated game. Archive and hint menus must not expose operator answers.
 
 ## Parts and Fabrication Plan
 
@@ -220,9 +220,9 @@ Measure actual sheet thickness, shaft length, panel depth, and connector rear pr
 
 ### Acceptance checks
 
-- Receiver: confirm center does not drift settings, both targets can be matched, and fragments replay as text and audio. Test tolerance with people unfamiliar with the joystick.
-- Decoder: confirm each diagnostic record alone permits multiple settings and both together permit only Triangle at 3 with Moon at 4. Verify wheel tracking over repeated turns, the recorded calibration setting, incorrect settings, double clicks, and a full restart requiring Home.
-- Patch panel: read every source to every destination individually; test all 24 complete permutations. With the correct decoder setting, exactly one mapping should solve. Verify incorrect decoder settings cannot complete the game. Include missing leads, same side connections, and unplugging during scan.
+- Receiver: confirm center does not drift settings, both targets can be matched, and diagnostic records remain readable for review; verify optional audio if added. Test tolerance with people unfamiliar with the joystick.
+- Decoder: confirm each diagnostic record alone permits multiple settings and both together permit only Triangle at 3 with Moon at 4. Verify wheel tracking over repeated turns, the recorded wheel setting, incorrect confirmation withholding the dispatch, correct confirmation releasing both cards, double clicks, and a full restart requiring Home.
+- Patch panel: read every source to every destination individually; test all 24 complete permutations. With the correct decoder setting, exactly one mapping should solve. Verify incorrect decoder settings cannot unlock the dispatch cards. Include missing leads, same side connections, and unplugging during scan.
 - Integration: prevent early stage submissions from advancing state. Check hints and archive return to the correct stage. Complete three consecutive sessions including reset.
 
 ### Fallback preserving three puzzles
@@ -263,4 +263,4 @@ https://www.adafruit.com/product/3691
 Puzzle box inspiration
 https://puzzlepotato.com/products/tesla-box
 
-The waveform matching direction was proposed by Jonathan with reference to the radio tower interaction in Spider Man on PS4. The laser cut physical puzzle direction was proposed with reference to Tesla Box. The current storyboard supersedes the earlier tracing card, repeated alignments, and explicit calibration card. The two diagnostic records make finding the shared setting part of the puzzle. The designs and diagrams here document subsequent AI assisted development; preserve independently created initial sketches as separate course evidence.
+The waveform matching direction was proposed by Jonathan with reference to the radio tower interaction in Spider Man on PS4. The laser cut physical puzzle direction was proposed with reference to Tesla Box. The current sequence supersedes the earlier tracing card, repeated alignments, explicit calibration card, and receiver release of ciphertext. The receiver now reveals diagnostic clues; correct wheel confirmation unlocks dispatch cards. The two diagnostic records make finding the shared setting part of the puzzle. The designs and diagrams here document subsequent AI assisted development; preserve independently created initial sketches as separate course evidence.

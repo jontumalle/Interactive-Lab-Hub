@@ -24,9 +24,9 @@ async function refresh(){
   const response=await fetch('/api/frame');if(!response.ok)throw new Error('Receiver unavailable');
   const {state,frame}=await response.json();const image=new Image();image.src='data:image/png;base64,'+frame;await image.decode();context.drawImage(image,0,0,240,135);
   document.getElementById('loading').classList.add('hidden');
-  document.getElementById('progress').textContent=state.messages.length+' / 2 recovered';
+  document.getElementById('progress').textContent=state.messages.length+' / 2 records';
   const stage=state.stage;
-  if(stage!==lastStage){document.getElementById('instruction').textContent=stage==='tuning'?'Left/right: frequency. Up/down: amplitude. Release when matched to acquire.':stage==='recovered'?'Fragment A recovered. Release the controls, then press Right for the next signal.':'Both fragments recovered. Use Up / Down to review the dispatch.';lastStage=stage;}
+  if(stage!==lastStage){document.getElementById('instruction').textContent=stage==='tuning'?'Left/right: frequency. Up/down: amplitude. Release when matched to acquire.':stage==='recovered'?'Test record A recovered. Release the controls, then press Right for the Moon record.':'Both diagnostic records recovered. Use Up / Down to review them and solve the decoder.';lastStage=stage;}
  }catch(error){const loading=document.getElementById('loading');loading.textContent='Receiver disconnected. Check that the simulator is running.';loading.classList.remove('hidden');release();}
  if(alive)setTimeout(refresh,85);
 }

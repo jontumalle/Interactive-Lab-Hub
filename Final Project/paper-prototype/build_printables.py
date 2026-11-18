@@ -154,7 +154,7 @@ ruler(c,62,60)
 c.showPage()
 
 # 3. Separate clues: no solved alignment or test answer appears on this sheet.
-page(c,'Diagnostic records','Cut the two cards apart. Their placement can be changed between playtests.',3)
+page(c,'Diagnostic records','Cut the cards apart. Reveal each after its corresponding signal is recovered.',3)
 for y,label,name,lines in [(425,'TEST RECORD A','Triangle',['The triangle produced an','odd-numbered code.']),
                            (175,'TEST RECORD B','Moon',['The moon produced a code','greater than 3 and less than 6.'])]:
     cutrect(c,60,y,492,210)
@@ -163,10 +163,10 @@ for y,label,name,lines in [(425,'TEST RECORD A','Triangle',['The triangle produc
     txt(c,82,y+27,'Receiver maintenance archive',9,color=GRAY)
 c.showPage()
 
-# 4. Ciphertext is released in two chunks to represent two receiver captures.
-page(c,'Recovered dispatch','Two encrypted fragments. Read each symbol using the decoder and attribute legend.',4)
-for bottom,title,rows in [(410,'FRAGMENT A',[('VOICE',['Triangle']),('BEACON',['Cross'])]),
-                          (135,'FRAGMENT B',[('SENSOR',['Hexagon']),('DISTRESS',['Cross','Moon'])])]:
+# 4. Both encrypted dispatch cards are withheld until correct wheel confirmation.
+page(c,'Recovered dispatch','Unlocked after decoder confirmation. Read both cards using the wheel and legend.',4)
+for bottom,title,rows in [(410,'DISPATCH A',[('VOICE',['Triangle']),('BEACON',['Cross'])]),
+                          (135,'DISPATCH B',[('SENSOR',['Hexagon']),('DISTRESS',['Cross','Moon'])])]:
     cutrect(c,60,bottom,492,230);txt(c,82,bottom+196,title,12,True,TEAL)
     for i,(name,syms) in enumerate(rows):
         y=bottom+132-i*77;txt(c,88,y-6,name,18,True)
@@ -221,9 +221,9 @@ y=646
 for heading,text in [
 ('Print and gather','Print the seven player pages single sided on US Letter at Actual Size or 100%, with automatic page orientation. Page 6 is landscape. Turn off Fit to page and duplex printing. Check the 100 mm ruler. Gather scissors, a paper fastener, scrap cardboard, four pieces of string about 30 cm long, low tack tape or clips, and a pencil.'),
 ('Assemble the decoder','Mount page 1 on cardboard. Cut only the outer dashed circle on page 2. Pierce both center marks and attach the rotor over the base with a paper fastener and optional card washer. Keep the fixed numbers visible. Check that every symbol can align with any number. Start with Triangle at 1; that is a reset reference, not the solution.'),
-('Place the artifacts','Cut out the two diagnostic cards and place them separately but visibly around the case or tabletop. Set out the decoder, attribute legend, blank notes, empty patch panel, and port register. Keep dispatch fragments A and B with you until the receiver stage is represented as complete. Do not place a solved checklist or this guide on the player table.'),
-('Represent the receiver stage','This pack tests decoding, patch allocation, and their handoff. It does not test the waveform controls. Use the actual waveform prototype if available, releasing A and B after its two successful locks. Otherwise announce that the receiver recovered the dispatch and hand over both fragments. Record this stage as simulated rather than completed hardware testing.'),
-('Run without teaching the solution','Opening prompt: Recover the dispatch, work out what each source needs, and restore the transmitter connections. Let players explore. When they confirm the wheel, quietly note the number beside Triangle and say Decoder set without giving correctness feedback. At Transmit check that recorded setting and the cable assignment using page 2 of this guide.')]:
+('Place the artifacts','Cut the diagnostic cards apart and retain them as receiver rewards. Set out the decoder, attribute legend, blank notes, patch panel, and port register. Keep both encrypted dispatch cards hidden until players correctly confirm the wheel. Do not put a solved checklist or this guide on the table.'),
+('Represent the receiver stage','Use the working receiver if available. Signal 1 reveals the Triangle record; signal 2 reveals the Moon record. Otherwise hand over the corresponding diagnostic card after each simulated lock. Allow both records to be reviewed while solving the wheel. This pack does not test waveform controls; record any simulated stage honestly.'),
+('Run without teaching the solution','Opening prompt: Recover the diagnostic records, align the decoder to unlock the dispatch, then restore the transmitter. On wheel confirmation, check Triangle at 3 and Moon at 4. If correct say Dispatch unlocked and hand over both encrypted dispatch cards. Otherwise say Decoder not aligned and permit another attempt. Do not decode the cards for players.')]:
     txt(c,42,y,heading,12,True);y-=21
     y=para(c,42,y,text,528,10.4,14.5)-19
 c.showPage()
@@ -234,7 +234,7 @@ y=para(c,42,y,'Triangle must be odd. Moon can only be 4 or 5. Moon is one sector
 table(c,42,y,528,['SOURCE','DECODED REQUIREMENT','PORT'],[
 ('Voice','Triangle = 3 = lowest delay','2'),('Beacon','Cross = 1 = long range','3'),('Sensor','Hexagon = 2 = short range','4'),('Distress','Cross + Moon = long and encrypted','1')],[.17,.68,.15],rowheight=29,fontsize=10)
 y-=29*5+22
-y=para(c,42,y,'Accept only recorded Triangle at 3 plus Voice to 2, Beacon to 3, Sensor to 4, and Distress to 1. If wrong or incomplete, say Transmission not established. Check your setting and connections. Do not identify an individual correct cable. On success reveal: The archive is secure. Delivery confirmed.',528,10.5,14.5)-17
+y=para(c,42,y,'Release both dispatch cards only after correct wheel confirmation. At Transmit accept Voice to 2, Beacon to 3, Sensor to 4, and Distress to 1. If incomplete or wrong, say Transmission not established. Check your connections. Do not identify a correct cable. On success reveal: The archive is secure. Delivery confirmed.',528,10.5,14.5)-17
 txt(c,42,y,'Hints on request',12,True);y-=20
 for t in [
     'Decoder hint 1: Both diagnostic records describe the same wheel setting.',
@@ -243,7 +243,7 @@ for t in [
     'Patching hint 2: Which port is both long range and encrypted? Which has the lowest delay?']:
     y=para(c,42,y,t,528,10,14)-4
 y-=9;txt(c,42,y,'Observe then reset',12,True);y-=20
-y=para(c,42,y,'Record confusion, hints, completion time, accidental wheel movement, and how players interpret crossed patch cords. Reset by removing every cord, clearing notes and the recorded setting, returning Triangle to 1, and collecting the dispatch fragments. Keep the two diagnostic cards separate.',528,10,14)-16
+y=para(c,42,y,'Record confusion, hints, completion time, accidental wheel movement, and how players interpret crossed patch cords. Reset by removing every cord, clearing notes and the recorded setting, returning Triangle to 1, and collecting the dispatch fragments. Collect both diagnostic cards for the next receiver run.',528,10,14)-16
 for label in ['Participants and date','Time and hints','Observed problem and next change']:
     txt(c,42,y,label,9,True);c.setStrokeColor(LIGHT);c.line(205,y-2,570,y-2);y-=24
 c.save()
