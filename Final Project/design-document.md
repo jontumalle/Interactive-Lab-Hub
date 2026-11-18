@@ -35,6 +35,8 @@ No final enclosure dimensions are assumed. Measure the actual case, shaft reach,
 
 ## Puzzle One Waveform Matching
 
+The [working receiver and browser simulator](waveform/README.md) share the same puzzle logic and 240 by 135 display renderer. Physical Pi verification is pending.
+
 ![Figure 3  Waveform display and joystick interaction](design-assets/03-waveform-interaction.svg)
 
 The fixed target and adjustable player wave share a phase and baseline. Left or right joystick deflection changes frequency; up or down changes amplitude. Centering stops adjustment and retains settings. Use a dead zone and time based increments so drift and frame rate do not control difficulty.
@@ -44,9 +46,9 @@ The fixed target and adjustable player wave share a phase and baseline. Left or 
 | 1 | 3 cycles across plot; amplitude 0.60 | Voice = Triangle; Beacon = Cross |
 | 2 | 5 cycles across plot; amplitude 0.35 | Sensor = Hexagon; Distress = Cross + Moon |
 
-Start the player wave at visibly different settings and allow a forgiving matching tolerance. Require a brief stable match before confirming. Tune the sensitivity, dead zone, and matching tolerance with users during prototyping.
+Start the player wave at visibly different settings and allow a forgiving matching tolerance. Require a brief stable match with the controls centered; the working prototype acquires automatically so browser play needs only arrow keys. Tune the sensitivity, dead zone, and matching tolerance with users during prototyping.
 
-An unsuccessful click shows Signal not locked without clearing settings. After a successful lock, play and display the fragment, then offer the next signal. Matching both unlocks decoder submissions and stores both fragments in the archive. Colored lines also use labels and distinct solid or dashed styles.
+Off-target settings remain available for adjustment. After a successful automatic lock, play and display the fragment, then offer the next signal. Matching both unlocks decoder submissions and stores both fragments in the archive. Colored lines also use labels and distinct solid or dashed styles.
 
 ## Puzzle Two Decoder Interaction
 
@@ -168,7 +170,7 @@ This section defines the required behavior rather than a final circuit. Pin assi
 
 ### Shared controls
 
-The Qwiic button opens Menu during waveform matching, then becomes Set decoder or Transmit in later stages. Joystick click locks a waveform; in later stages it opens Menu. Inside Menu, joystick directions navigate and click selects Archive, Hints, Set decoder, or Back. Disable puzzle inputs while a menu is open, and consume the opening click before accepting a menu selection. Show button functions on screen.
+The full game plans a Qwiic Menu button during waveform matching, followed by Set decoder or Transmit in later stages. The working receiver prototype automatically locks a stable centered match; after the first fragment, a fresh right movement or joystick click advances. Later full-game menus remain planned. Inside Menu, joystick directions navigate and click selects Archive, Hints, Set decoder, or Back. Disable puzzle inputs while a menu is open, and consume the opening click before accepting a menu selection. Show button functions on screen.
 
 ### Essential clue presentation
 

@@ -6,6 +6,7 @@ The current design combines joystick waveform matching, a directly sensed decode
 
 ## Design documents
 
+- [Working waveform receiver](waveform/README.md) — Pi joystick implementation and arrow key browser simulator using the same player display.
 - [Printable paper prototype](paper-prototype/README.md) — player templates and a separate facilitator guide for testing the diagnostic clues, decoder, and patch panel.
 - [Paper prototype feedback](paper-prototype/test-notes.md) — positive initial feedback and the resulting focus on essential clue presentation.
 - [Current interaction storyboard](receiver-decoder-storyboard.md) — reception of ciphertext, deduction from two diagnostic records, and the final patch puzzle.

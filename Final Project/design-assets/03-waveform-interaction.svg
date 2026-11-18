@@ -21,7 +21,7 @@
 <text x="445" y="483.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">MATCH</text>
 <text x="445" y="520.0" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="start">Center joystick; hold 1 second</text>
 <rect x="830" y="450" width="340" height="100" rx="10" fill="#f1f5f7" stroke="#b9c8cf" stroke-width="2"/>
-<text x="845" y="483.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">LOCK</text>
-<text x="845" y="520.0" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="start">Click to recover the fragment</text>
+<text x="845" y="483.0" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#182a37" text-anchor="start">ACQUIRE</text>
+<text x="845" y="520.0" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#182a37" text-anchor="start">Release to recover the fragment</text>
 <text x="30" y="592.0" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182a37" text-anchor="start">Recovered fragments remain replayable and readable while players decode the dispatch.</text>
 </svg>

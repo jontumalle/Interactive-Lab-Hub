@@ -72,7 +72,7 @@ for freq,amp,color in [(3,80,TEAL),(4.5,48,BLUE)]:
 s.text(55,335,'Target',21,TEAL,bold=True);s.text(185,335,'Player',21,BLUE,bold=True)
 s.circle(960,220,53);s.line(850,220,1065,220,arrow=True);s.line(960,115,960,322,arrow=True)
 s.text(960,85,'JOYSTICK',24,anchor='middle',bold=True);s.text(960,360,'Left / right = frequency',22,anchor='middle');s.text(960,390,'Up / down = amplitude',22,anchor='middle')
-for x,title,body in [(30,'ADJUST','Deflection changes the setting'),(430,'MATCH','Center joystick; hold 1 second'),(830,'LOCK','Click to recover the fragment')]:
+for x,title,body in [(30,'ADJUST','Deflection changes the setting'),(430,'MATCH','Center joystick; hold 1 second'),(830,'ACQUIRE','Release to recover the fragment')]:
     s.rect(x,450,340,100);s.text(x+15,483,title,23,bold=True);s.text(x+15,520,body,17)
 s.text(30,592,'Recovered fragments remain replayable and readable while players decode the dispatch.',21)
 wave=s.save('03-waveform-interaction')

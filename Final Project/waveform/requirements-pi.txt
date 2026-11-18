@@ -1,0 +1,4 @@
+Pillow>=9.2
+adafruit-blinka
+adafruit-circuitpython-rgb-display
+sparkfun-qwiic-joystick
