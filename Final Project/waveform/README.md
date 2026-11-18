@@ -31,7 +31,7 @@ Each Pi saves its axis calibration outside Git in its user configuration directo
 ## Play
 
 - Move left or right to change frequency; up or down to change amplitude. Centering retains the chosen values.
-- Match the teal solid target curve with the pale dashed player curve. Release the controls and hold the match for one second to acquire automatically. This replaces the earlier planned click to lock, so browser play needs only arrow keys.
+- Match the teal solid Target curve with the pale dashed Signal curve. Release the controls and hold the match for one second to acquire automatically. This replaces the earlier planned click to lock, so browser play needs only arrow keys.
 - The first successful lock reveals Voice = Triangle and Beacon = Cross. Release the controls, then move right or click to continue to the second signal.
 - The second lock reveals Sensor = Hexagon and Distress = Cross plus Moon. Both fragments remain available; move up or down to review them.
 

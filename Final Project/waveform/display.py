@@ -72,7 +72,7 @@ def render(snapshot):
         text(draw, (25, 15), 'TARGET', 10, TEAL)
         draw.line((128, 21, 133, 21), fill=WHITE, width=2)
         draw.line((137, 21, 142, 21), fill=WHITE, width=2)
-        text(draw, (147, 15), 'PLAYER', 10, WHITE)
+        text(draw, (147, 15), 'SIGNAL', 10, WHITE)
         x0, y0, x1, y1 = 8, 33, 231, 94
         for x in range(x0, x1+1, 28):
             draw.line((x, y0, x, y1), fill=GRID)
